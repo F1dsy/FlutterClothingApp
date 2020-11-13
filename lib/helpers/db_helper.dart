@@ -7,15 +7,17 @@ class DBHelper {
     final db = await openDatabase(join(dbPath, 'app.db'),
         onCreate: (db, version) async {
       db.execute(
-          '''CREATE TABLE ItemCategories(id INTEGER PRIMARY KEY, title TEXT);
-           CREATE TABLE Items(id INTEGER PRIMARY KEY, title TEXT);''');
+          'CREATE TABLE ItemCategories(id INTEGER PRIMARY KEY, title TEXT);');
+      db.execute(
+          'CREATE TABLE Items(id INTEGER PRIMARY KEY, category TEXT, imageURL TEXT);');
     }, version: 1);
     return db;
   }
 
-  static Future<void> insert(String table, Map<String, dynamic> values) async {
+  static Future<int> insert(String table, Map<String, dynamic> values) async {
     final Database db = await DBHelper._database();
-    db.insert(table, values);
+    int result = await db.insert(table, values);
+    return result;
   }
 
   static Future<List<Map<String, dynamic>>> query(String table) async {

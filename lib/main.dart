@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import './screens/main_screen.dart';
 import './providers/item_categories.dart';
-import './screens/add_item_category_screen.dart';
+import './providers/items.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,19 +12,24 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => ItemCategories(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => ItemCategories(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => Items(),
+        ),
+      ],
       child: MaterialApp(
         title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
           accentColor: Colors.deepPurple,
         ),
         home: MainScreen(),
-        routes: {
-          AddItemCategoryScreen.routeName: (context) => AddItemCategoryScreen(),
-        },
       ),
     );
   }

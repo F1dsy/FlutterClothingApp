@@ -4,25 +4,33 @@ import '../helpers/db_helper.dart';
 import '../models/item.dart';
 
 class Items with ChangeNotifier {
-  List<Item> _items = [];
+  List<Item> _items = [Item(id: null, category: null)];
 
   List<Item> get items {
     return [..._items];
   }
 
+  List<Item> itemsOfCategory(String category) {
+    return _items.where((element) => element.category == category).toList();
+  }
+
   Future<void> fetchAndSetItems() async {
     final result = await DBHelper.query('Items');
     _items = result
-        .map((e) => Item(
-              title: e['title'],
-              id: e['id'],
-              category: e['category'],
-            ))
+        .map(
+          (e) => Item(
+            id: e['id'],
+            category: e['category'],
+            imageURL: e['imageURL'],
+          ),
+        )
         .toList();
     notifyListeners();
   }
 
-  void insertItem(String title) {
-    DBHelper.insert('Items', {'title': title});
+  Future<void> insertItem(String category, String imageURL) async {
+    final id = await DBHelper.insert(
+        'Items', {'category': category, 'imageURL': imageURL});
+    _items.insert(0, Item(id: id, category: category, imageURL: imageURL));
   }
 }
