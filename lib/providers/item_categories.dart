@@ -1,9 +1,10 @@
 import 'package:flutter/foundation.dart';
 
-import '../models/item_category.dart';
-import '../helpers/db_helper.dart';
+import '../models/categories.dart';
+import '../helpers/db_helper.dart' as DBHelper;
+import 'base_provider.dart';
 
-class ItemCategories with ChangeNotifier {
+class ItemCategories extends BaseCategoryProvider with ChangeNotifier {
   List<ItemCategory> _categories = [];
 
   List<ItemCategory> get categories {
@@ -11,12 +12,15 @@ class ItemCategories with ChangeNotifier {
   }
 
   Future<void> fetchAndSetCategories() async {
-    final result = await DBHelper.query('ItemCategories');
-    _categories = result.map((e) => ItemCategory(e['title'])).toList();
+    final result = await DBHelper.query(DBHelper.Tables.ItemCategories);
+    _categories = result.map((e) => ItemCategory(e['id'], e['title'])).toList();
     notifyListeners();
   }
 
-  void insertCategory(String title) {
-    DBHelper.insert('ItemCategories', {'title': title});
+  Future<void> insertCategory(String title) async {
+    final id =
+        await DBHelper.insert(DBHelper.Tables.ItemCategories, {'title': title});
+    _categories.add(ItemCategory(id, title));
+    notifyListeners();
   }
 }

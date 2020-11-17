@@ -1,24 +1,19 @@
+import 'package:FlutterClothingApp/screens/outfits_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/item_categories.dart';
-import '../providers/items.dart';
 import '../widgets/drawer.dart';
 import '../widgets/popup_add_category.dart';
+import '../providers/outfit_categories.dart';
+import '../providers/outfits.dart';
 
-// class ItemsCategoriesScreen extends StatefulWidget {
-//   @override
-//   _ItemsCategoriesScreenState createState() => _ItemsCategoriesScreenState();
-// }
-
-class ItemsCategoriesScreen extends StatelessWidget {
+class OutfitsCategoriesScreen extends StatelessWidget {
   static const routeName = '/';
   void _addNewCategory(BuildContext context, String name) {
     if (name.isEmpty) {
       return;
     }
-    Provider.of<ItemCategories>(context, listen: false).insertCategory(name);
-    // Provider.of<ItemCategories>(context, listen: false).fetchAndSetCategories();
+    Provider.of<OutfitCategories>(context, listen: false).insertCategory(name);
     Navigator.of(context, rootNavigator: true).pop();
   }
 
@@ -27,46 +22,41 @@ class ItemsCategoriesScreen extends StatelessWidget {
     return Scaffold(
       drawer: DrawerWidget(),
       appBar: AppBar(
-        title: const Text('Items'),
-        actions: [
-          PopUpAddCategory(_addNewCategory),
-        ],
+        title: Text('Outfits'),
+        actions: [PopUpAddCategory(_addNewCategory)],
       ),
       body: FutureBuilder(
-        future: Provider.of<ItemCategories>(context, listen: false)
+        future: Provider.of<OutfitCategories>(context, listen: false)
             .fetchAndSetCategories(),
-        builder: (context, snapshot) => Consumer<ItemCategories>(
+        builder: (context, snapshot) => Consumer<OutfitCategories>(
           builder: (context, data, child) => ListView.builder(
             itemBuilder: (context, i) => ChangeNotifierProvider(
-              create: (context) => Items(),
-              child: ItemCategoryItem(data.categories[i].title),
+              create: (context) => Outfits(),
+              child: OutfitCategoryItem(data.categories[i].title),
             ),
             itemCount: data.categories.length,
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).pushNamed('/newItem');
-        },
+        onPressed: () {},
         child: Icon(Icons.add),
-        elevation: 4,
       ),
     );
   }
 }
 
-// Single Category Item
-class ItemCategoryItem extends StatelessWidget {
+class OutfitCategoryItem extends StatelessWidget {
   final String title;
 
-  ItemCategoryItem(this.title);
+  OutfitCategoryItem(this.title);
   @override
   Widget build(BuildContext context) {
     return Card(
       child: InkWell(
         onTap: () {
-          Navigator.of(context).pushNamed('/item', arguments: title);
+          Navigator.of(context)
+              .pushNamed(OutfitsScreen.routeName, arguments: title);
         },
         child: ListTile(
           title: Text(title),

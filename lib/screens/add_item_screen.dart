@@ -6,6 +6,7 @@ import '../providers/items.dart';
 import '../helpers/image_input.dart';
 
 class AddItemScreen extends StatefulWidget {
+  static const routeName = 'addItem';
   @override
   _AddItemScreenState createState() => _AddItemScreenState();
 }

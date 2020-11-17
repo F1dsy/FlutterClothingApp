@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'items_category_screen.dart';
-import 'outfits_screen.dart';
-import 'item_screen.dart';
+import 'outfits_category_screen.dart';
+import 'items_screen.dart';
 import 'add_item_screen.dart';
+import 'outfits_screen.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -11,18 +12,6 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  // List<Widget> _pages = [
-  //   BuildNavigator({
-  //     '/': (context) => OutfitsScreen(),
-  //   }),
-  //   BuildNavigator({
-  //     '/': (context) => ItemsCategoriesScreen(),
-  //     '/item': (context) => ItemsScreen(),
-  //     '/newCategory': (context) => AddItemCategoryScreen(),
-  //     '/newItem': (context) => AddItemScreen()
-  //   }),
-  // ];
-
   List<GlobalKey<NavigatorState>> _keys = [
     GlobalKey<NavigatorState>(),
     GlobalKey<NavigatorState>(),
@@ -32,14 +21,13 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    //Tells which Navigator is active and should react on Back button
     return WillPopScope(
       onWillPop: () async {
         final result = await _keys[_selectedIndex].currentState.maybePop();
         return !result;
       },
       child: Scaffold(
-
-          // appBar: _pageAppbars[_selectedIndex],
           bottomNavigationBar: BottomNavigationBar(
             items: const [
               BottomNavigationBarItem(
@@ -58,17 +46,25 @@ class _MainScreenState extends State<MainScreen> {
             },
             currentIndex: _selectedIndex,
           ),
-          body: IndexedStack(
-            index: _selectedIndex,
+          body: Stack(
             children: [
-              BuildNavigator({
-                '/': (context) => OutfitsScreen(),
-              }, _keys[0]),
-              BuildNavigator({
-                '/': (context) => ItemsCategoriesScreen(),
-                '/item': (context) => ItemsScreen(),
-                '/newItem': (context) => AddItemScreen()
-              }, _keys[1]),
+              Offstage(
+                offstage: _selectedIndex != 0,
+                child: BuildNavigator({
+                  OutfitsCategoriesScreen.routeName: (context) =>
+                      OutfitsCategoriesScreen(),
+                  OutfitsScreen.routeName: (context) => OutfitsScreen(),
+                }, _keys[0]),
+              ),
+              Offstage(
+                offstage: _selectedIndex != 1,
+                child: BuildNavigator({
+                  ItemsCategoriesScreen.routeName: (context) =>
+                      ItemsCategoriesScreen(),
+                  ItemsScreen.routeName: (context) => ItemsScreen(),
+                  AddItemScreen.routeName: (context) => AddItemScreen()
+                }, _keys[1]),
+              ),
             ],
           )),
     );

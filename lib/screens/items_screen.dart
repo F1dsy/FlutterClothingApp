@@ -9,6 +9,7 @@ import '../providers/items.dart';
 // import '../screens/add_item_screen.dart';
 
 class ItemsScreen extends StatelessWidget {
+  static const routeName = '/item';
   void _addNewItem(BuildContext context, String name) {
     Navigator.pushNamed(context, '/newItem', arguments: name);
   }
