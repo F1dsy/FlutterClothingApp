@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/item_categories.dart';
-import '../providers/items.dart';
-import '../widgets/drawer.dart';
-import '../widgets/popup_add_category.dart';
+import '../../providers/item_categories.dart';
+import '../../providers/items.dart';
+import '../../widgets/drawer.dart';
+import '../../widgets/popup_add_category.dart';
 
 // class ItemsCategoriesScreen extends StatefulWidget {
 //   @override
@@ -50,7 +50,6 @@ class ItemsCategoriesScreen extends StatelessWidget {
           Navigator.of(context).pushNamed('/newItem');
         },
         child: Icon(Icons.add),
-        elevation: 4,
       ),
     );
   }

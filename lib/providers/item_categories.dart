@@ -2,9 +2,8 @@ import 'package:flutter/foundation.dart';
 
 import '../models/categories.dart';
 import '../helpers/db_helper.dart' as DBHelper;
-import 'base_provider.dart';
 
-class ItemCategories extends BaseCategoryProvider with ChangeNotifier {
+class ItemCategories with ChangeNotifier {
   List<ItemCategory> _categories = [];
 
   List<ItemCategory> get categories {

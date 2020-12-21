@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-import '../widgets/drawer.dart';
-import '../providers/items.dart';
-// import '../screens/add_item_screen.dart';
+import '../../widgets/drawer.dart';
+import '../../providers/items.dart';
+import 'add_item_screen.dart';
 
 class ItemsScreen extends StatelessWidget {
   static const routeName = '/item';
   void _addNewItem(BuildContext context, String name) {
-    Navigator.pushNamed(context, '/newItem', arguments: name);
+    Navigator.pushNamed(context, AddItemScreen.routeName, arguments: name);
   }
 
   @override

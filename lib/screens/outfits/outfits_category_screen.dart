@@ -1,11 +1,11 @@
-import 'package:FlutterClothingApp/screens/outfits_screen.dart';
+import 'package:FlutterClothingApp/screens/outfits/outfits_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../widgets/drawer.dart';
-import '../widgets/popup_add_category.dart';
-import '../providers/outfit_categories.dart';
-import '../providers/outfits.dart';
+import '../../widgets/drawer.dart';
+import '../../widgets/popup_add_category.dart';
+import '../../providers/outfit_categories.dart';
+import '../../providers/outfits.dart';
 
 class OutfitsCategoriesScreen extends StatelessWidget {
   static const routeName = '/';

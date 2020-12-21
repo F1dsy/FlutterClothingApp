@@ -1,10 +1,11 @@
+import 'package:FlutterClothingApp/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 
-import 'items_category_screen.dart';
-import 'outfits_category_screen.dart';
-import 'items_screen.dart';
-import 'add_item_screen.dart';
-import 'outfits_screen.dart';
+import 'items/items_category_screen.dart';
+import 'outfits/outfits_category_screen.dart';
+import 'items/items_screen.dart';
+import 'items/add_item_screen.dart';
+import 'outfits/outfits_screen.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -28,6 +29,10 @@ class _MainScreenState extends State<MainScreen> {
         return !result;
       },
       child: Scaffold(
+          // drawer: SafeArea(
+          //   child: DrawerWidget(),
+          // ),
+          // appBar: AppBar(),
           bottomNavigationBar: BottomNavigationBar(
             items: const [
               BottomNavigationBarItem(

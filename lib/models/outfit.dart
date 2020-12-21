@@ -10,7 +10,7 @@ class Outfit {
   Outfit({
     @required this.id,
     @required this.categories,
-    this.items,
+    @required this.items,
     // this.imageURL,
   });
 }

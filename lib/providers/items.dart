@@ -14,6 +14,14 @@ class Items with ChangeNotifier {
     return _items.where((element) => element.category == category).toList();
   }
 
+  List<Item> itemsOnlyOfId(List<int> ids) {
+    List<Item> filtered = [];
+    ids.forEach((id) {
+      filtered.addAll(_items.where((item) => item.id == id));
+    });
+    return filtered;
+  }
+
   Future<void> fetchAndSetItems() async {
     final result = await DBHelper.query(DBHelper.Tables.Items);
     _items = result

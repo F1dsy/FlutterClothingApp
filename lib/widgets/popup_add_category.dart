@@ -33,7 +33,6 @@ class PopUpAddCategory extends StatelessWidget {
                         decoration: InputDecoration(labelText: 'Name'),
                         onChanged: (value) {
                           state(() {
-                            print(value);
                             if (value != '') {
                               isEnabled = true;
                             } else {

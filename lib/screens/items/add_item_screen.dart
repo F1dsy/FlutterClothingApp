@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/item_categories.dart';
-import '../providers/items.dart';
-import '../helpers/image_input.dart';
+import '../../providers/item_categories.dart';
+import '../../providers/items.dart';
+import '../../helpers/image_input.dart';
 
 class AddItemScreen extends StatefulWidget {
   static const routeName = 'addItem';
@@ -48,7 +48,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
           children: [
             Container(
               width: double.infinity,
-              // height: 300,
+              height: 300,
               child: imageInput.image == null
                   ? null
                   : Image.file(imageInput.image),
@@ -82,7 +82,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                 Provider.of<Items>(context, listen: false)
                     .insertItem(value, imageInput.image.path);
               },
-            )
+            ),
           ],
         ),
       ),
