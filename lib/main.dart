@@ -6,6 +6,7 @@ import './providers/item_categories.dart';
 import './providers/items.dart';
 import './providers/outfits.dart';
 import './providers/outfit_categories.dart';
+import 'screens/outfits/outfit_builder.dart';
 
 void main() {
   runApp(MyApp());
@@ -30,6 +31,9 @@ class MyApp extends StatelessWidget {
           accentColor: Colors.deepPurple,
         ),
         home: MainScreen(),
+        routes: {
+          OutfitBuilder.routeName: (context) => OutfitBuilder(),
+        },
       ),
     );
   }
