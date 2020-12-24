@@ -1,10 +1,11 @@
-import 'package:FlutterClothingApp/widgets/drawer.dart';
+// import 'package:FlutterClothingApp/widgets/drawer.dart';
+import '../widgets/drawer.dart';
 import 'package:flutter/material.dart';
 
 import 'items/items_category_screen.dart';
 import 'outfits/outfits_category_screen.dart';
 import 'items/items_screen.dart';
-import 'items/add_item_screen.dart';
+
 import 'outfits/outfits_screen.dart';
 
 class MainScreen extends StatefulWidget {
@@ -19,6 +20,15 @@ class _MainScreenState extends State<MainScreen> {
   ];
 
   var _selectedIndex = 1;
+
+  openBottomNav(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return DrawerWidget();
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,14 +52,31 @@ class _MainScreenState extends State<MainScreen> {
               BottomNavigationBarItem(
                 icon: Icon(Icons.subscriptions),
                 label: 'Items',
-              )
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.calendar_today),
+                label: 'Calendar',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.menu),
+                label: 'Menu',
+              ),
             ],
             onTap: (i) {
               setState(() {
-                _selectedIndex = i;
+                if (i == 4) {
+                  openBottomNav(context);
+                } else {
+                  _selectedIndex = i;
+                }
               });
             },
             currentIndex: _selectedIndex,
+            type: BottomNavigationBarType.fixed,
           ),
           body: Stack(
             children: [
@@ -67,7 +94,6 @@ class _MainScreenState extends State<MainScreen> {
                   ItemsCategoriesScreen.routeName: (context) =>
                       ItemsCategoriesScreen(),
                   ItemsScreen.routeName: (context) => ItemsScreen(),
-                  AddItemScreen.routeName: (context) => AddItemScreen()
                 }, _keys[1]),
               ),
             ],

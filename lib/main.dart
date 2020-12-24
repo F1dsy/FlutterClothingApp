@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import './screens/wash/wash_basket_screen.dart';
 import './screens/main_screen.dart';
 import './providers/item_categories.dart';
 import './providers/items.dart';
 import './providers/outfits.dart';
 import './providers/outfit_categories.dart';
 import 'screens/outfits/outfit_builder.dart';
+import 'screens/items/add_item_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -33,6 +35,8 @@ class MyApp extends StatelessWidget {
         home: MainScreen(),
         routes: {
           OutfitBuilder.routeName: (context) => OutfitBuilder(),
+          AddItemScreen.routeName: (context) => AddItemScreen(),
+          WashBasketScreen.routeName: (context) => WashBasketScreen(),
         },
       ),
     );

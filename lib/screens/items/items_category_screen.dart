@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../providers/item_categories.dart';
 import '../../providers/items.dart';
-import '../../widgets/drawer.dart';
+// import '../../widgets/drawer.dart';
 import '../../widgets/popup_add_category.dart';
 
 // class ItemsCategoriesScreen extends StatefulWidget {
@@ -25,7 +25,7 @@ class ItemsCategoriesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: DrawerWidget(),
+      // drawer: DrawerWidget(),
       appBar: AppBar(
         title: const Text('Items'),
         actions: [

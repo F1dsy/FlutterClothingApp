@@ -2,7 +2,7 @@ import 'package:FlutterClothingApp/screens/outfits/outfits_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../widgets/drawer.dart';
+// import '../../widgets/drawer.dart';
 import '../../widgets/popup_add_category.dart';
 import '../../providers/outfit_categories.dart';
 import '../../providers/outfits.dart';
@@ -20,7 +20,7 @@ class OutfitsCategoriesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: DrawerWidget(),
+      // drawer: DrawerWidget(),
       appBar: AppBar(
         title: Text('Outfits'),
         actions: [PopUpAddCategory(_addNewCategory)],

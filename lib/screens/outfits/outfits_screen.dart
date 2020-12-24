@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import 'outfit_builder.dart';
-import '../../widgets/drawer.dart';
+// import '../../widgets/drawer.dart';
 import '../../providers/outfits.dart';
 // import '../providers/items.dart';
 import '../../models/outfit.dart';
@@ -24,7 +24,7 @@ class OutfitsScreen extends StatelessWidget {
     final String name = ModalRoute.of(context).settings.arguments;
     Provider.of<Outfits>(context, listen: false).fetchAndSetOutfits();
     return Scaffold(
-      drawer: DrawerWidget(),
+      // drawer: DrawerWidget(),
       appBar: AppBar(
         title: Text(name),
         actions: [
@@ -72,9 +72,7 @@ class OutfitWidget extends StatelessWidget {
   OutfitWidget(this.title, this.items);
   @override
   Widget build(BuildContext context) {
-    // print(items);
     return Container(
-      // height: 300,
       child: Card(
           child: Column(
         children: [

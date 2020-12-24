@@ -14,7 +14,7 @@ Future<Database> _database() async {
     db.execute(
         'CREATE TABLE ItemCategories(id INTEGER PRIMARY KEY, title TEXT);');
     db.execute(
-        'CREATE TABLE Items(id INTEGER PRIMARY KEY, category TEXT, imageURL TEXT);');
+        'CREATE TABLE Items(id INTEGER PRIMARY KEY, category TEXT, imageURL TEXT, isInWash INTEGER, timeOfWash INTEGER);');
     db.execute(
         'CREATE TABLE OutfitCategories(id INTEGER PRIMARY KEY, title TEXT);');
     db.execute(

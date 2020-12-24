@@ -41,4 +41,11 @@ class Items with ChangeNotifier {
         DBHelper.Tables.Items, {'category': category, 'imageURL': imageURL});
     _items.insert(0, Item(id: id, category: category, imageURL: imageURL));
   }
+
+  // Future<void> deleteItem() {}
+
+  // void addToWashBasket(int index) {
+  //   _items[index].isInWash = true;
+  //   _items[index].timeOfWash = DateTime.now();
+  // }
 }
