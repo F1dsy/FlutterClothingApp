@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../screens/wash/wash_basket_screen.dart';
 
@@ -27,7 +28,7 @@ class DrawerWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(Icons.shopping_basket),
-                      Text('Wash'),
+                      Text(AppLocalizations.of(context).washBasket),
                     ],
                   ),
                 ),
@@ -41,7 +42,7 @@ class DrawerWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(Icons.settings),
-                      Text('Settings'),
+                      Text(AppLocalizations.of(context).settings),
                     ],
                   ),
                 ),
@@ -55,7 +56,7 @@ class DrawerWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(Icons.bar_chart),
-                      Text('Statistics'),
+                      Text(AppLocalizations.of(context).statistics),
                     ],
                   ),
                 ),

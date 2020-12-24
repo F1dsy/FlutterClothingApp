@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../providers/item_categories.dart';
 import '../../providers/items.dart';
@@ -13,7 +14,7 @@ class WashBasketScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Wash Basket'),
+        title: Text(AppLocalizations.of(context).washBasket),
       ),
       body: Container(
         child: FutureBuilder(

@@ -1,0 +1,35 @@
+{
+    "home": "Home",
+    "@home": {
+
+    },
+    "calendar": "Calendar",
+    "@calendar": {
+        
+    },
+    "itemsTab": "Clothes",
+    "@itemsTab": {
+
+    },
+    "outfitsTab": "Outfits",
+    "@outfitsTab": {
+
+    },
+    "settings": "Settings",
+    "@settings": {
+
+    },
+    "statistics": "Statistics",
+    "@statistics": {
+
+    },
+    "washBasket": "Wash Basket",
+    "@washBasket": {
+        
+    },
+    "newCategory": "New Category",
+    "@newCategory": {
+        
+    }
+
+}

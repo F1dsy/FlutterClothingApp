@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import '../../providers/item_categories.dart';
 import '../../providers/items.dart';
-// import '../../widgets/drawer.dart';
-import '../../widgets/popup_add_category.dart';
 
-// class ItemsCategoriesScreen extends StatefulWidget {
-//   @override
-//   _ItemsCategoriesScreenState createState() => _ItemsCategoriesScreenState();
-// }
+import '../../widgets/popup_add_category.dart';
 
 class ItemsCategoriesScreen extends StatelessWidget {
   static const routeName = '/';
@@ -27,7 +24,7 @@ class ItemsCategoriesScreen extends StatelessWidget {
     return Scaffold(
       // drawer: DrawerWidget(),
       appBar: AppBar(
-        title: const Text('Items'),
+        title: Text(AppLocalizations.of(context).itemsTab),
         actions: [
           PopUpAddCategory(_addNewCategory),
         ],

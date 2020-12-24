@@ -1,6 +1,7 @@
 // import 'package:FlutterClothingApp/widgets/drawer.dart';
 import '../widgets/drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'items/items_category_screen.dart';
 import 'outfits/outfits_category_screen.dart';
@@ -44,22 +45,22 @@ class _MainScreenState extends State<MainScreen> {
           // ),
           // appBar: AppBar(),
           bottomNavigationBar: BottomNavigationBar(
-            items: const [
+            items: [
               BottomNavigationBarItem(
                 icon: Icon(Icons.all_inbox),
-                label: 'Outfits',
+                label: AppLocalizations.of(context).outfitsTab,
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.subscriptions),
-                label: 'Items',
+                label: AppLocalizations.of(context).itemsTab,
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
-                label: 'Home',
+                label: AppLocalizations.of(context).home,
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.calendar_today),
-                label: 'Calendar',
+                label: AppLocalizations.of(context).calendar,
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.menu),

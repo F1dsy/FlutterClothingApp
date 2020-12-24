@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum Popup { NewCategory }
 
@@ -12,7 +13,7 @@ class PopUpAddCategory extends StatelessWidget {
     return PopupMenuButton(
       itemBuilder: (context) => [
         PopupMenuItem(
-          child: Text('New Category'),
+          child: Text(AppLocalizations.of(context).newCategory),
           value: Popup.NewCategory,
         ),
       ],
@@ -26,7 +27,7 @@ class PopUpAddCategory extends StatelessWidget {
                   bool isEnabled = false;
                   return StatefulBuilder(
                     builder: (context, state) => AlertDialog(
-                      title: Text('New Category'),
+                      title: Text(AppLocalizations.of(context).newCategory),
                       content: TextField(
                         controller: controller,
                         autofocus: true,
