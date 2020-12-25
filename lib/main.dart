@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'l10n/app_localizations.dart';
+import './screens/settings/settings_screen.dart';
 import './screens/wash/wash_basket_screen.dart';
 import './screens/main_screen.dart';
 import './providers/item_categories.dart';
@@ -16,7 +18,25 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  // Locale _locale = Locale('de');
+  @override
+  // void didChangeDependencies() {
+  //   SharedPreferences.getInstance().then((pref) {
+  //     String string = pref.getString('language');
+  //     setState(() {
+  //       _locale = Locale(string);
+  //       _locale = Provider.of<LangProvider>(context).locale;
+  //     });
+  //   });
+  //   super.didChangeDependencies();
+  // }
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -25,8 +45,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => Items()),
         ChangeNotifierProvider(create: (context) => OutfitCategories()),
         ChangeNotifierProvider(create: (context) => Outfits()),
+        ChangeNotifierProvider(create: (context) => LangProvider()),
       ],
-      child: MaterialApp(
+      builder: (context, _) => MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
@@ -46,13 +67,34 @@ class MyApp extends StatelessWidget {
           const Locale('de'),
           const Locale('da'),
         ],
-        locale: Locale('da'),
+        locale: Provider.of<LangProvider>(context).locale,
         routes: {
           OutfitBuilder.routeName: (context) => OutfitBuilder(),
           AddItemScreen.routeName: (context) => AddItemScreen(),
           WashBasketScreen.routeName: (context) => WashBasketScreen(),
+          SettingsScreen.routeName: (context) => SettingsScreen(),
         },
       ),
     );
+  }
+}
+
+class LangProvider extends ChangeNotifier {
+  Locale locale = Locale('en');
+
+  LangProvider() {
+    SharedPreferences.getInstance().then((pref) {
+      String string = pref.getString('language');
+
+      locale = Locale(string);
+      notifyListeners();
+    });
+  }
+
+  void changeLocale(Locale local) async {
+    locale = local;
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setString('language', local.countryCode);
+    notifyListeners();
   }
 }

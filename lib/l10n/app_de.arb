@@ -6,5 +6,7 @@
     "outfitsTab": "Outfits",
     "settings": "Einstellungen",
     "washBasket": "Wäschekorb",
-    "newCategory": "Neue Kategorie"
+    "newCategory": "Neue Kategorie",
+    "select": "Auswählen",
+    "selectLang": "Sprache Wählen"
 }

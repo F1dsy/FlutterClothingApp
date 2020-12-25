@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../l10n/app_localizations.dart';
 import '../screens/wash/wash_basket_screen.dart';
+import '../screens/settings/settings_screen.dart';
 
 class DrawerWidget extends StatelessWidget {
   void navigate(BuildContext context, String route) {
@@ -37,7 +38,7 @@ class DrawerWidget extends StatelessWidget {
                 height: 100,
                 width: MediaQuery.of(context).size.width / 3,
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () => navigate(context, SettingsScreen.routeName),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

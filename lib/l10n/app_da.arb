@@ -6,5 +6,7 @@
     "outfitsTab": "Outfits",
     "settings": "Indstillinger",
     "washBasket": "Vaske Kurv",
-    "newCategory": "Ny Kategori"
+    "newCategory": "Ny Kategori",
+    "select": "Vælg",
+    "selectLang": "Vælg Sprog"
 }

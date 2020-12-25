@@ -4,18 +4,12 @@ import 'package:flutter/material.dart';
 
 import '../../models/item.dart';
 
-class ItemWidget extends StatefulWidget {
+class ItemWidget extends StatelessWidget {
   final Item item;
   final bool selectable;
   final Function toggleSelected;
-  ItemWidget(this.item, this.selectable, this.toggleSelected);
-
-  @override
-  _ItemWidgetState createState() => _ItemWidgetState();
-}
-
-class _ItemWidgetState extends State<ItemWidget> {
-  bool isSelected = false;
+  final List list;
+  ItemWidget(this.item, this.selectable, this.toggleSelected, this.list);
 
   void showImage(BuildContext context) {
     showDialog(
@@ -24,35 +18,29 @@ class _ItemWidgetState extends State<ItemWidget> {
               child: Container(
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(4),
-                  child: Image.file(File(widget.item.imageURL)),
+                  child: Image.file(File(item.imageURL)),
                 ),
               ),
             ));
   }
 
-  void toggleSelected() {
-    widget.toggleSelected(widget.item);
-    setState(() {
-      isSelected = !isSelected;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    bool isSelected = list.contains(item);
     return Container(
       child: InkWell(
         onTap: () {
-          !widget.selectable ? showImage(context) : toggleSelected();
+          !selectable ? showImage(context) : toggleSelected(item);
         },
-        onLongPress: toggleSelected,
+        onLongPress: () => toggleSelected(item),
         child: Card(
           child: Stack(
             children: [
               Image.file(
-                File(widget.item.imageURL),
+                File(item.imageURL),
               ),
               Offstage(
-                offstage: !widget.selectable,
+                offstage: !selectable,
                 child: Checkbox(
                   value: isSelected,
                   onChanged: null,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
+import '../../l10n/app_localizations.dart';
 import 'item_widget.dart';
 import '../../providers/items.dart';
 import 'add_item_screen.dart';
@@ -51,12 +52,7 @@ class _ItemsScreenState extends State<ItemsScreen> {
     super.didChangeDependencies();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final String name = ModalRoute.of(context).settings.arguments;
-
-    return Scaffold(
-      appBar: AppBar(
+  Widget _buildNormalAppBar(name) => AppBar(
         title: Text(name),
         actions: [
           IconButton(
@@ -64,7 +60,33 @@ class _ItemsScreenState extends State<ItemsScreen> {
             onPressed: () => _addNewItem(context, name),
           ),
         ],
-      ),
+      );
+
+  Widget _buildSelectAppBar() => AppBar(
+        title: Text(AppLocalizations.of(context).select),
+        leading: IconButton(
+          icon: Icon(Icons.close),
+          onPressed: () {
+            setState(() {
+              _selected = [];
+              _selectable = false;
+            });
+          },
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.delete),
+            onPressed: () {},
+          )
+        ],
+      );
+
+  @override
+  Widget build(BuildContext context) {
+    final String name = ModalRoute.of(context).settings.arguments;
+
+    return Scaffold(
+      appBar: _selectable ? _buildSelectAppBar() : _buildNormalAppBar(name),
       body: Consumer<Items>(
         builder: (context, data, child) {
           var items = data.itemsOfCategory(name);
@@ -76,7 +98,8 @@ class _ItemsScreenState extends State<ItemsScreen> {
                   crossAxisCount: 3,
                   itemBuilder: (context, i) {
                     // print('before ' + items[i].hashCode.toString());
-                    return ItemWidget(items[i], _selectable, toggleSelection);
+                    return ItemWidget(
+                        items[i], _selectable, toggleSelection, _selected);
                   },
                   itemCount: items.length,
                   staggeredTileBuilder: (_) => StaggeredTile.fit(1),

@@ -1,13 +1,11 @@
-// import 'package:FlutterClothingApp/widgets/drawer.dart';
-import '../widgets/drawer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'items/items_category_screen.dart';
+import '../widgets/drawer.dart';
+import '../l10n/app_localizations.dart';
 import 'outfits/outfits_category_screen.dart';
-import 'items/items_screen.dart';
-
 import 'outfits/outfits_screen.dart';
+import 'items/items_category_screen.dart';
+import 'items/items_screen.dart';
 
 class MainScreen extends StatefulWidget {
   @override
