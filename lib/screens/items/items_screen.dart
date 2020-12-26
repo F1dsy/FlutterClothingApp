@@ -16,6 +16,13 @@ class ItemsScreen extends StatefulWidget {
 }
 
 class _ItemsScreenState extends State<ItemsScreen> {
+  @override
+  void didChangeDependencies() {
+    // print('ChangeDep');
+    Provider.of<Items>(context, listen: false).fetchAndSetItems();
+    super.didChangeDependencies();
+  }
+
   void _addNewItem(BuildContext context, String name) {
     Navigator.of(context, rootNavigator: true)
         .pushNamed(AddItemScreen.routeName, arguments: name);
@@ -36,20 +43,41 @@ class _ItemsScreenState extends State<ItemsScreen> {
       } else {
         _selected.add(item);
       }
-
-      print(_selected);
     });
   }
 
   bool _selectable = false;
 
-  List _selected = [];
+  List<Item> _selected = [];
 
-  @override
-  void didChangeDependencies() {
-    // print('ChangeDep');
-    Provider.of<Items>(context, listen: false).fetchAndSetItems();
-    super.didChangeDependencies();
+  void _deleteItems(List<Item> items) {
+    for (var item in items) {
+      Provider.of<Items>(context, listen: false).deleteItem(item);
+    }
+    setState(() {
+      _selected = [];
+      _selectable = false;
+    });
+  }
+
+  void _addToBasket(List<Item> items) {
+    for (var item in items) {
+      Provider.of<Items>(context, listen: false).addToWashBasket(item);
+    }
+    setState(() {
+      _selected = [];
+      _selectable = false;
+    });
+  }
+
+  void _removeFromBasket(List<Item> items) {
+    for (var item in items) {
+      Provider.of<Items>(context, listen: false).removeFromWashBasket(item);
+    }
+    setState(() {
+      _selected = [];
+      _selectable = false;
+    });
   }
 
   Widget _buildNormalAppBar(name) => AppBar(
@@ -75,9 +103,18 @@ class _ItemsScreenState extends State<ItemsScreen> {
         ),
         actions: [
           IconButton(
+              icon: Icon(Icons.shopping_basket),
+              onPressed: () => _addToBasket(_selected)),
+          IconButton(
+              icon: Icon(
+                Icons.shopping_basket,
+                color: Colors.black,
+              ),
+              onPressed: () => _removeFromBasket(_selected)),
+          IconButton(
             icon: Icon(Icons.delete),
-            onPressed: () {},
-          )
+            onPressed: () => _deleteItems(_selected),
+          ),
         ],
       );
 

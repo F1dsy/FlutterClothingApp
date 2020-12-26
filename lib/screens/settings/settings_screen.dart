@@ -1,18 +1,37 @@
+import 'package:FlutterClothingApp/main.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 import '../../l10n/app_localizations.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
-import '../../main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+// import '../../main.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
   static const routeName = '/settings';
 
-  selectDialog(BuildContext context) {
-    Locale language = Provider.of<LangProvider>(context, listen: false).locale;
+  @override
+  _SettingsScreenState createState() => _SettingsScreenState();
+}
 
-    void _select(value) {
+class _SettingsScreenState extends State<SettingsScreen> {
+  Locale language;
+
+  @override
+  void didChangeDependencies() {
+    SharedPreferences.getInstance().then((preferences) {
+      String string = preferences.getString('language');
+      setState(() {
+        language = Locale(string);
+      });
+    });
+    super.didChangeDependencies();
+  }
+
+  selectDialog(BuildContext context) {
+    void _select(Locale value) async {
       language = value;
-      Provider.of<LangProvider>(context, listen: false).changeLocale(value);
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      preferences.setString('language', value.languageCode);
+      MyApp.setLocale(context, value);
       Navigator.of(context).pop();
     }
 
@@ -67,7 +86,10 @@ class SettingsScreen extends StatelessWidget {
       body: Column(
         children: [
           RaisedButton(
-              onPressed: () => selectDialog(context), child: Text('Language'))
+              onPressed: () {
+                return selectDialog(context);
+              },
+              child: Text('Language'))
         ],
       ),
     );

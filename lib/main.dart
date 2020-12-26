@@ -19,23 +19,38 @@ void main() {
 }
 
 class MyApp extends StatefulWidget {
+  static void setLocale(BuildContext context, Locale newLocale) {
+    var state = context.findAncestorStateOfType<_MyAppState>();
+    state.setLocale(newLocale);
+  }
+
   @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  // Locale _locale = Locale('de');
+  Locale _locale;
+
+  setLocale(Locale local) {
+    setState(() {
+      _locale = local;
+    });
+  }
+
   @override
-  // void didChangeDependencies() {
-  //   SharedPreferences.getInstance().then((pref) {
-  //     String string = pref.getString('language');
-  //     setState(() {
-  //       _locale = Locale(string);
-  //       _locale = Provider.of<LangProvider>(context).locale;
-  //     });
-  //   });
-  //   super.didChangeDependencies();
-  // }
+  void didChangeDependencies() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String string = preferences.getString('language');
+    print(string);
+    if (string == null) {
+      _locale = Locale('en');
+      preferences.setString('language', 'en');
+    } else {
+      _locale = Locale(string);
+    }
+    setState(() {});
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +60,6 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => Items()),
         ChangeNotifierProvider(create: (context) => OutfitCategories()),
         ChangeNotifierProvider(create: (context) => Outfits()),
-        ChangeNotifierProvider(create: (context) => LangProvider()),
       ],
       builder: (context, _) => MaterialApp(
         title: 'Flutter Demo',
@@ -67,7 +81,7 @@ class _MyAppState extends State<MyApp> {
           const Locale('de'),
           const Locale('da'),
         ],
-        locale: Provider.of<LangProvider>(context).locale,
+        locale: _locale,
         routes: {
           OutfitBuilder.routeName: (context) => OutfitBuilder(),
           AddItemScreen.routeName: (context) => AddItemScreen(),
@@ -76,25 +90,5 @@ class _MyAppState extends State<MyApp> {
         },
       ),
     );
-  }
-}
-
-class LangProvider extends ChangeNotifier {
-  Locale locale = Locale('en');
-
-  LangProvider() {
-    SharedPreferences.getInstance().then((pref) {
-      String string = pref.getString('language');
-
-      locale = Locale(string);
-      notifyListeners();
-    });
-  }
-
-  void changeLocale(Locale local) async {
-    locale = local;
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setString('language', local.countryCode);
-    notifyListeners();
   }
 }

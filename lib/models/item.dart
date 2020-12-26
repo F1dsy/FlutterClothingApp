@@ -7,9 +7,10 @@ class Item {
   bool isInWash = false;
   DateTime timeOfWash;
 
-  Item({
-    @required this.id,
-    @required this.category,
-    this.imageURL,
-  });
+  Item(
+      {@required this.id,
+      @required this.category,
+      this.imageURL,
+      this.isInWash,
+      this.timeOfWash});
 }

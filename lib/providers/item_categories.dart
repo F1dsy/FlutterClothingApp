@@ -22,4 +22,10 @@ class ItemCategories with ChangeNotifier {
     _categories.add(ItemCategory(id, title));
     notifyListeners();
   }
+
+  void deleteCategory(ItemCategory category) {
+    DBHelper.delete(DBHelper.Tables.ItemCategories, category.id);
+    _categories.remove(category);
+    notifyListeners();
+  }
 }

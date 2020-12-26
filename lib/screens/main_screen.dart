@@ -1,3 +1,4 @@
+import 'package:FlutterClothingApp/screens/calendar/calendar_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/drawer.dart';
@@ -16,9 +17,11 @@ class _MainScreenState extends State<MainScreen> {
   List<GlobalKey<NavigatorState>> _keys = [
     GlobalKey<NavigatorState>(),
     GlobalKey<NavigatorState>(),
+    GlobalKey<NavigatorState>(),
+    GlobalKey<NavigatorState>(),
   ];
 
-  var _selectedIndex = 1;
+  var _selectedIndex = 2;
 
   openBottomNav(BuildContext context) {
     showModalBottomSheet(
@@ -94,6 +97,12 @@ class _MainScreenState extends State<MainScreen> {
                       ItemsCategoriesScreen(),
                   ItemsScreen.routeName: (context) => ItemsScreen(),
                 }, _keys[1]),
+              ),
+              Offstage(
+                offstage: _selectedIndex != 3,
+                child: BuildNavigator({
+                  CalendarScreen.routeName: (context) => CalendarScreen(),
+                }, _keys[3]),
               ),
             ],
           )),
