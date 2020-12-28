@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 
 import '../../models/item.dart';
@@ -18,7 +16,7 @@ class ItemWidget extends StatelessWidget {
               child: Container(
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(4),
-                  child: Image.file(File(item.imageURL)),
+                  child: Image.file(item.image),
                 ),
               ),
             ));
@@ -37,8 +35,10 @@ class ItemWidget extends StatelessWidget {
           child: Stack(
             children: [
               Image.file(
-                File(item.imageURL),
+                item.image,
+                cacheWidth: 520,
               ),
+              // Text(item.image.path),
               Offstage(
                 offstage: !selectable,
                 child: Checkbox(

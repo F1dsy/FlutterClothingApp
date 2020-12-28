@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import '../models/outfit.dart';
 import '../models/item.dart';
 import 'items.dart';
@@ -25,19 +27,18 @@ class Outfits with ChangeNotifier {
         .toList();
   }
 
-  Future<void> fetchAndSetOutfits() async {
+  Future<void> fetchAndSetOutfits(BuildContext context) async {
     final outfits = await DBHelper.query(DBHelper.Tables.Outfits);
     final itemsOfOutfit = await DBHelper.query(DBHelper.Tables.OutfitItems);
-    Items items = Items();
-    await items.fetchAndSetItems();
-    List<Item> itemList = [];
+    List<Item> items = Provider.of<Items>(context, listen: false).items;
     _outfits = outfits.map((outfit) {
+      List<Item> itemList = [];
       for (var item in itemsOfOutfit) {
         if (item['outfit_id'] == outfit['id']) {
-          itemList.add(items.items
-              .firstWhere((element) => element.id == item['item_id']));
+          itemList.add(items.firstWhere((e) => e.id == item['item_id']));
         }
       }
+
       return Outfit(
         id: outfit['id'],
         categories: stringToList(outfit['categories']),

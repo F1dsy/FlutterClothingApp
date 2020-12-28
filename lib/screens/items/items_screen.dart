@@ -18,7 +18,7 @@ class ItemsScreen extends StatefulWidget {
 class _ItemsScreenState extends State<ItemsScreen> {
   @override
   void didChangeDependencies() {
-    // print('ChangeDep');
+    print('ChangeDep');
     Provider.of<Items>(context, listen: false).fetchAndSetItems();
     super.didChangeDependencies();
   }
@@ -132,6 +132,7 @@ class _ItemsScreenState extends State<ItemsScreen> {
                   child: Text('No Items'),
                 )
               : StaggeredGridView.countBuilder(
+                  scrollDirection: Axis.vertical,
                   crossAxisCount: 3,
                   itemBuilder: (context, i) {
                     // print('before ' + items[i].hashCode.toString());

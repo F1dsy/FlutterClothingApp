@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -7,7 +5,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'outfit_builder.dart';
 // import '../../widgets/drawer.dart';
 import '../../providers/outfits.dart';
-// import '../providers/items.dart';
+import '../../providers/items.dart';
 import '../../models/outfit.dart';
 import '../../models/item.dart';
 // import '../screens/add_item_screen.dart';
@@ -22,7 +20,8 @@ class OutfitsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String name = ModalRoute.of(context).settings.arguments;
-    Provider.of<Outfits>(context, listen: false).fetchAndSetOutfits();
+    Provider.of<Items>(context, listen: false).fetchAndSetItems();
+    Provider.of<Outfits>(context, listen: false).fetchAndSetOutfits(context);
     return Scaffold(
       // drawer: DrawerWidget(),
       appBar: AppBar(
@@ -36,11 +35,8 @@ class OutfitsScreen extends StatelessWidget {
       ),
       body: Consumer<Outfits>(
         builder: (context, data, child) {
+          // gets list of outfits in the selected category
           List<Outfit> outfits = data.outfitsOfCategory(name);
-          // List<Item> items = Provider.of<Items>(context)
-          //     .itemsOnlyOfId([...outfits.map((outfit) => outfit.id)]);
-          //     Provider.of<Items>(context)
-          //     .itemsOnlyOfId([...outfits[0].items.map((item) => item.id)]);
 
           return outfits.isEmpty
               ? Center(
@@ -70,34 +66,60 @@ class OutfitWidget extends StatelessWidget {
   final List<Item> items;
 
   OutfitWidget(this.title, this.items);
+  Widget _build() {
+    switch (items.length) {
+      case 1:
+        return Expanded(child: Image.file(items[0].image));
+        break;
+      case 2:
+        return Row(
+          children: [
+            Expanded(child: Image.file(items[0].image)),
+            Expanded(child: Image.file(items[1].image)),
+          ],
+        );
+        break;
+      case 3:
+        return Column(
+          children: [
+            Row(
+              children: [
+                Expanded(child: Image.file(items[0].image)),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(child: Image.file(items[1].image)),
+                Expanded(child: Image.file(items[2].image)),
+              ],
+            )
+          ],
+        );
+        break;
+      default:
+        return Column(
+          children: [
+            Row(
+              children: [
+                Expanded(child: Image.file(items[0].image)),
+                Expanded(child: Image.file(items[1].image)),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(child: Image.file(items[2].image)),
+                Expanded(child: Image.file(items[3].image)),
+              ],
+            )
+          ],
+        );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Card(
-          child: Column(
-        children: [
-          Row(
-            children: [
-              Expanded(
-                  child: Image.file(
-                File(items[0].imageURL),
-                fit: BoxFit.cover,
-              )),
-              Expanded(
-                  child: Image.file(
-                File(items[1].imageURL),
-                fit: BoxFit.cover,
-              )),
-            ],
-          ),
-          Row(
-            children: [
-              Expanded(child: Image.file(File(items[2].imageURL))),
-              Expanded(child: Image.file(File(items[3].imageURL))),
-            ],
-          )
-        ],
-      )),
+      child: Card(child: _build()),
     );
   }
 }

@@ -1,16 +1,17 @@
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 
 class Item {
   final int id;
   String category;
-  String imageURL;
+  File image;
   bool isInWash = false;
   DateTime timeOfWash;
 
   Item(
       {@required this.id,
       @required this.category,
-      this.imageURL,
+      this.image,
       this.isInWash,
       this.timeOfWash});
 }

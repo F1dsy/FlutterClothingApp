@@ -80,7 +80,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
               onChanged: (_) {},
               onSaved: (value) {
                 Provider.of<Items>(context, listen: false)
-                    .insertItem(value, imageInput.image.path);
+                    .insertItem(value, imageInput.image);
               },
             ),
           ],

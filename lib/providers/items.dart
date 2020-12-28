@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 
 import '../helpers/db_helper.dart' as DBHelper;
 import '../models/item.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Items with ChangeNotifier {
+  int _washThreshold;
   List<Item> _items = [];
 
   List<Item> get items {
@@ -24,21 +28,28 @@ class Items with ChangeNotifier {
 
   Future<void> fetchAndSetItems() async {
     final result = await DBHelper.query(DBHelper.Tables.Items);
-    _items = result
-        .map((e) => Item(
-              id: e['id'],
-              category: e['category'],
-              imageURL: e['imageURL'],
-              isInWash: e['isInWash'] == 1,
-            ))
-        .toList();
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    _washThreshold = preferences.getInt('washThreshold');
+    _items = result.map((e) {
+      Item item = Item(
+        id: e['id'],
+        category: e['category'],
+        image: File(e['imageURL']),
+        isInWash: e['isInWash'] == 1,
+        timeOfWash:
+            e['timeOfWash'] != null ? DateTime.tryParse(e['timeOfWash']) : null,
+      );
+
+      _timeSinceInWash(item);
+      return item;
+    }).toList();
     notifyListeners();
   }
 
-  Future<void> insertItem(String category, String imageURL) async {
+  Future<void> insertItem(String category, File image) async {
     final id = await DBHelper.insert(DBHelper.Tables.Items,
-        {'category': category, 'imageURL': imageURL, 'isInWash': 0});
-    _items.insert(0, Item(id: id, category: category, imageURL: imageURL));
+        {'category': category, 'imageURL': image.path, 'isInWash': 0});
+    _items.insert(0, Item(id: id, category: category, image: image));
   }
 
   void deleteItem(Item item) {
@@ -61,5 +72,18 @@ class Items with ChangeNotifier {
       'isInWash': 0,
       'timeOfWash': null,
     });
+  }
+
+  Item _timeSinceInWash(Item item) {
+    DateTime time = item.timeOfWash;
+
+    if (time == null) return item;
+    Duration dif = DateTime.now().difference(time);
+
+    if (dif.inDays > _washThreshold) {
+      item.isInWash = false;
+      item.timeOfWash = null;
+    }
+    return item;
   }
 }

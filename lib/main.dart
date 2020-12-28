@@ -39,14 +39,19 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void didChangeDependencies() async {
+    // initialize all shared preferences. If first time, set standart values
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String string = preferences.getString('language');
-    print(string);
+    int washThreshold = preferences.getInt('washThreshold');
     if (string == null) {
       _locale = Locale('en');
       preferences.setString('language', 'en');
     } else {
       _locale = Locale(string);
+    }
+    if (washThreshold == null) {
+      preferences.setInt('washThreshold', 3);
+      print('setWash');
     }
     setState(() {});
     super.didChangeDependencies();

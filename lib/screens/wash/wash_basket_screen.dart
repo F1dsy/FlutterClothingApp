@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../l10n/app_localizations.dart';
@@ -21,8 +19,9 @@ class WashBasketScreen extends StatelessWidget {
         child: FutureBuilder(
           future: Future.wait(
             {
-              Provider.of<ItemCategories>(context).fetchAndSetCategories(),
-              Provider.of<Items>(context).fetchAndSetItems(),
+              Provider.of<ItemCategories>(context, listen: false)
+                  .fetchAndSetCategories(),
+              Provider.of<Items>(context, listen: false).fetchAndSetItems(),
             },
           ),
           builder: (context, snapshot) => Consumer2<ItemCategories, Items>(
@@ -43,7 +42,7 @@ class WashBasketScreen extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, j) => Card(
                           child: Image.file(
-                            File(inWashItems[j].imageURL),
+                            inWashItems[j].image,
                           ),
                         ),
                         itemCount: inWashItems.length,
