@@ -27,6 +27,7 @@ class Items with ChangeNotifier {
   }
 
   Future<void> fetchAndSetItems() async {
+    print('fetching items');
     final result = await DBHelper.query(DBHelper.Tables.Items);
     SharedPreferences preferences = await SharedPreferences.getInstance();
     _washThreshold = preferences.getInt('washThreshold');
@@ -34,7 +35,7 @@ class Items with ChangeNotifier {
       Item item = Item(
         id: e['id'],
         category: e['category'],
-        image: File(e['imageURL']),
+        image: e['imageURL'],
         isInWash: e['isInWash'] == 1,
         timeOfWash:
             e['timeOfWash'] != null ? DateTime.tryParse(e['timeOfWash']) : null,
@@ -46,9 +47,9 @@ class Items with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> insertItem(String category, File image) async {
+  Future<void> insertItem(String category, String image) async {
     final id = await DBHelper.insert(DBHelper.Tables.Items,
-        {'category': category, 'imageURL': image.path, 'isInWash': 0});
+        {'category': category, 'imageURL': image, 'isInWash': 0});
     _items.insert(0, Item(id: id, category: category, image: image));
   }
 

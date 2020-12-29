@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -69,13 +71,13 @@ class OutfitWidget extends StatelessWidget {
   Widget _build() {
     switch (items.length) {
       case 1:
-        return Expanded(child: Image.file(items[0].image));
+        return Expanded(child: Image.file(File(items[0].image)));
         break;
       case 2:
         return Row(
           children: [
-            Expanded(child: Image.file(items[0].image)),
-            Expanded(child: Image.file(items[1].image)),
+            Expanded(child: Image.file(File(items[0].image))),
+            Expanded(child: Image.file(File(items[1].image))),
           ],
         );
         break;
@@ -84,13 +86,13 @@ class OutfitWidget extends StatelessWidget {
           children: [
             Row(
               children: [
-                Expanded(child: Image.file(items[0].image)),
+                Expanded(child: Image.file(File(items[0].image))),
               ],
             ),
             Row(
               children: [
-                Expanded(child: Image.file(items[1].image)),
-                Expanded(child: Image.file(items[2].image)),
+                Expanded(child: Image.file(File(items[1].image))),
+                Expanded(child: Image.file(File(items[2].image))),
               ],
             )
           ],
@@ -101,14 +103,14 @@ class OutfitWidget extends StatelessWidget {
           children: [
             Row(
               children: [
-                Expanded(child: Image.file(items[0].image)),
-                Expanded(child: Image.file(items[1].image)),
+                Expanded(child: Image.file(File(items[0].image))),
+                Expanded(child: Image.file(File(items[1].image))),
               ],
             ),
             Row(
               children: [
-                Expanded(child: Image.file(items[2].image)),
-                Expanded(child: Image.file(items[3].image)),
+                Expanded(child: Image.file(File(items[2].image))),
+                Expanded(child: Image.file(File(items[3].image))),
               ],
             )
           ],

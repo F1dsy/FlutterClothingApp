@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import '../../models/item.dart';
@@ -16,7 +18,7 @@ class ItemWidget extends StatelessWidget {
               child: Container(
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(4),
-                  child: Image.file(item.image),
+                  child: Image.file(File(item.image)),
                 ),
               ),
             ));
@@ -25,6 +27,7 @@ class ItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isSelected = list.contains(item);
+
     return Container(
       child: InkWell(
         onTap: () {
@@ -35,7 +38,7 @@ class ItemWidget extends StatelessWidget {
           child: Stack(
             children: [
               Image.file(
-                item.image,
+                File(item.image),
                 cacheWidth: 520,
               ),
               // Text(item.image.path),

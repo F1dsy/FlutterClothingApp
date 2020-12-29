@@ -61,10 +61,13 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => ItemCategories()),
+        ChangeNotifierProvider(
+            create: (context) => ItemCategories()..fetchAndSetCategories()),
         ChangeNotifierProvider(create: (context) => Items()),
-        ChangeNotifierProvider(create: (context) => OutfitCategories()),
-        ChangeNotifierProvider(create: (context) => Outfits()),
+        ChangeNotifierProvider(
+            create: (context) => OutfitCategories()..fetchAndSetCategories()),
+        ChangeNotifierProvider(
+            create: (context) => Outfits()..fetchAndSetOutfits(context)),
       ],
       builder: (context, _) => MaterialApp(
         title: 'Flutter Demo',

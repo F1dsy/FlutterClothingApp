@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../l10n/app_localizations.dart';
@@ -42,7 +44,7 @@ class WashBasketScreen extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, j) => Card(
                           child: Image.file(
-                            inWashItems[j].image,
+                            File(inWashItems[j].image),
                           ),
                         ),
                         itemCount: inWashItems.length,

@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 class Item {
   final int id;
   String category;
-  File image;
+  String image;
   bool isInWash = false;
   DateTime timeOfWash;
 

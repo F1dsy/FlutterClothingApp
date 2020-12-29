@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -58,7 +60,7 @@ class _OutfitBuilderState extends State<OutfitBuilder> {
                         crossAxisCount: 3,
                         itemBuilder: (context, i) => Card(
                           child: Image.file(
-                            _selectedItems[i].image,
+                            File(_selectedItems[i].image),
                           ),
                         ),
                         itemCount: _selectedItems.length,
@@ -77,7 +79,7 @@ class _OutfitBuilderState extends State<OutfitBuilder> {
                                     elevation: 2,
                                     child: Container(
                                       child: Image.file(
-                                        _items[_currentIndex].image,
+                                        File(_items[_currentIndex].image),
                                       ),
                                     ),
                                   ),

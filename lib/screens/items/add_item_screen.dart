@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -80,7 +82,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
               onChanged: (_) {},
               onSaved: (value) {
                 Provider.of<Items>(context, listen: false)
-                    .insertItem(value, imageInput.image);
+                    .insertItem(value, imageInput.image.path);
               },
             ),
           ],

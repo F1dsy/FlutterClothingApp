@@ -1,5 +1,7 @@
+import 'package:FlutterClothingApp/providers/items.dart';
 import 'package:FlutterClothingApp/screens/calendar/calendar_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/drawer.dart';
 import '../l10n/app_localizations.dart';
@@ -30,6 +32,12 @@ class _MainScreenState extends State<MainScreen> {
         return DrawerWidget();
       },
     );
+  }
+
+  @override
+  void didChangeDependencies() {
+    Provider.of<Items>(context, listen: false).fetchAndSetItems();
+    super.didChangeDependencies();
   }
 
   @override
