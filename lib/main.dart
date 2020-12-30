@@ -58,12 +58,19 @@ class _MyAppState extends State<MyApp> {
   }
 
   @override
+  void dispose() {
+    print('Disposed Main');
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
             create: (context) => ItemCategories()..fetchAndSetCategories()),
-        ChangeNotifierProvider(create: (context) => Items()),
+        ChangeNotifierProvider(
+            create: (context) => Items()..fetchAndSetItems()),
         ChangeNotifierProvider(
             create: (context) => OutfitCategories()..fetchAndSetCategories()),
         ChangeNotifierProvider(

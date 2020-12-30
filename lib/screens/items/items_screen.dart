@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-import 'dart:io';
+// import 'dart:io';
 
 import '../../l10n/app_localizations.dart';
 import 'item_widget.dart';
@@ -18,13 +18,6 @@ class ItemsScreen extends StatefulWidget {
 }
 
 class _ItemsScreenState extends State<ItemsScreen> {
-  @override
-  void didChangeDependencies() {
-    print('ChangeDep');
-    // Provider.of<Items>(context, listen: false).fetchAndSetItems();
-    super.didChangeDependencies();
-  }
-
   void _addNewItem(BuildContext context, String name) {
     Navigator.of(context, rootNavigator: true)
         .pushNamed(AddItemScreen.routeName, arguments: name);
@@ -123,9 +116,7 @@ class _ItemsScreenState extends State<ItemsScreen> {
   @override
   Widget build(BuildContext context) {
     final String name = ModalRoute.of(context).settings.arguments;
-    //testing purpose
-    // Provider.of<Items>(context, listen: false).fetchAndSetItems();
-    print('building ICS');
+
     return Scaffold(
       appBar: _selectable ? _buildSelectAppBar() : _buildNormalAppBar(name),
       body: Consumer<Items>(
@@ -139,13 +130,12 @@ class _ItemsScreenState extends State<ItemsScreen> {
                   scrollDirection: Axis.vertical,
                   crossAxisCount: 3,
                   itemBuilder: (context, i) {
-                    // print('before ' + items[i].hashCode.toString());
-                    // return ItemWidget(
-                    // items[i], _selectable, toggleSelection, _selected);
-                    return Container(
-                      height: 100,
-                      child: const Text('hiii'),
-                    );
+                    return ItemWidget(
+                        items[i], _selectable, toggleSelection, _selected);
+                    // return Container(
+                    //   height: 100,
+                    //   child: const Text('hiii'),
+                    // );
                   },
                   itemCount: items.length,
                   staggeredTileBuilder: (_) => StaggeredTile.fit(1),

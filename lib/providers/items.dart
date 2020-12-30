@@ -35,7 +35,7 @@ class Items with ChangeNotifier {
       Item item = Item(
         id: e['id'],
         category: e['category'],
-        image: e['imageURL'],
+        image: File(e['imageURL']),
         isInWash: e['isInWash'] == 1,
         timeOfWash:
             e['timeOfWash'] != null ? DateTime.tryParse(e['timeOfWash']) : null,
@@ -47,10 +47,11 @@ class Items with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> insertItem(String category, String image) async {
+  Future<void> insertItem(String category, File image) async {
     final id = await DBHelper.insert(DBHelper.Tables.Items,
-        {'category': category, 'imageURL': image, 'isInWash': 0});
+        {'category': category, 'imageURL': image.path, 'isInWash': 0});
     _items.insert(0, Item(id: id, category: category, image: image));
+    notifyListeners();
   }
 
   void deleteItem(Item item) {

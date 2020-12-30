@@ -1,6 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 import '../../models/item.dart';
 
@@ -18,7 +17,7 @@ class ItemWidget extends StatelessWidget {
               child: Container(
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(4),
-                  child: Image.file(File(item.image)),
+                  child: Image.file(item.image),
                 ),
               ),
             ));
@@ -29,30 +28,35 @@ class ItemWidget extends StatelessWidget {
     bool isSelected = list.contains(item);
 
     return Container(
-      child: InkWell(
-        onTap: () {
-          !selectable ? showImage(context) : toggleSelected(item);
-        },
-        onLongPress: () => toggleSelected(item),
         child: Card(
-          child: Stack(
-            children: [
-              Image.file(
-                File(item.image),
-                cacheWidth: 520,
-              ),
-              // Text(item.image.path),
-              Offstage(
-                offstage: !selectable,
-                child: Checkbox(
-                  value: isSelected,
-                  onChanged: null,
-                ),
-              ),
-            ],
+      child: Stack(
+        children: [
+          ClipRRect(
+            child: Image.file(
+              item.image,
+              cacheWidth: 360,
+            ),
+            borderRadius: BorderRadius.circular(5),
           ),
-        ),
+          Positioned.fill(
+            child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () {
+                    !selectable ? showImage(context) : toggleSelected(item);
+                  },
+                  onLongPress: () => toggleSelected(item),
+                )),
+          ),
+          Offstage(
+            offstage: !selectable,
+            child: Checkbox(
+              value: isSelected,
+              onChanged: null,
+            ),
+          ),
+        ],
       ),
-    );
+    ));
   }
 }
