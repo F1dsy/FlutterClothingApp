@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-// import 'dart:io';
-
 import '../../l10n/app_localizations.dart';
 import 'item_widget.dart';
 import '../../providers/items.dart';
 import 'add_item_screen.dart';
 import '../../models/item.dart';
+import './items_category_screen.dart';
 
 class ItemsScreen extends StatefulWidget {
   static const routeName = '/item';
@@ -75,6 +74,15 @@ class _ItemsScreenState extends State<ItemsScreen> {
     });
   }
 
+  void moveToCategory() {
+    Navigator.of(context)
+        .pushNamed(ItemsCategoriesScreen.routeName, arguments: true)
+        .then((value) => {
+              Provider.of<Items>(context, listen: false)
+                  .moveToCategory(_selected, value),
+            });
+  }
+
   Widget _buildNormalAppBar(name) => AppBar(
         title: Text(name),
         actions: [
@@ -97,6 +105,10 @@ class _ItemsScreenState extends State<ItemsScreen> {
           },
         ),
         actions: [
+          IconButton(
+            icon: Icon(Icons.drive_file_move_outline),
+            onPressed: () => moveToCategory(),
+          ),
           IconButton(
               icon: Icon(Icons.shopping_basket),
               onPressed: () => _addToBasket(_selected)),

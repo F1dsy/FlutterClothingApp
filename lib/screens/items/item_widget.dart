@@ -36,7 +36,7 @@ class ItemWidget extends StatelessWidget {
               item.image,
               cacheWidth: 360,
             ),
-            borderRadius: BorderRadius.circular(5),
+            borderRadius: BorderRadius.circular(3),
           ),
           Positioned.fill(
             child: Material(

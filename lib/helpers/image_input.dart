@@ -27,7 +27,7 @@ class ImageInput {
     final fileName = path.basename(image.path);
 
     _image = await File(image.path).copy('${appDir.path}/$fileName');
-    // File(image.path).delete();
+    File(image.path).delete();
   }
 
   Future<void> pickFromGallery() async {

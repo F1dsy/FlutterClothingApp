@@ -57,6 +57,7 @@ class Items with ChangeNotifier {
   void deleteItem(Item item) {
     DBHelper.delete(DBHelper.Tables.Items, item.id);
     _items.remove(item);
+    item.image.deleteSync();
     notifyListeners();
   }
 
@@ -87,5 +88,12 @@ class Items with ChangeNotifier {
       item.timeOfWash = null;
     }
     return item;
+  }
+
+  void moveToCategory(List<Item> items, String newCategory) {
+    for (var item in items) {
+      item.category = newCategory;
+    }
+    notifyListeners();
   }
 }

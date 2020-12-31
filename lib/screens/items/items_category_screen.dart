@@ -10,43 +10,20 @@ import '../../widgets/popup_add_category.dart';
 
 class ItemsCategoriesScreen extends StatelessWidget {
   static const routeName = '/';
-  void _addNewCategory(BuildContext context, String name) {
-    if (name.isEmpty) {
-      return;
-    }
-    Provider.of<ItemCategories>(context, listen: false).insertCategory(name);
-    // Provider.of<ItemCategories>(context, listen: false).fetchAndSetCategories();
-    Navigator.of(context, rootNavigator: true).pop();
-  }
 
   @override
   Widget build(BuildContext context) {
+    final _selectCategory = ModalRoute.of(context).settings.arguments;
     return Scaffold(
-      // drawer: DrawerWidget(),
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context).itemsTab),
-        actions: [
-          PopUpAddCategory(_addNewCategory),
-        ],
-      ),
-      body: FutureBuilder(
-        future: Provider.of<ItemCategories>(context, listen: false)
-            .fetchAndSetCategories(),
-        builder: (context, snapshot) => Consumer<ItemCategories>(
-          builder: (context, data, child) => ListView.builder(
-            itemBuilder: (context, i) => ChangeNotifierProvider(
-              create: (context) => Items(),
-              child: ItemCategoryItem(data.categories[i].title),
-            ),
-            itemCount: data.categories.length,
+      appBar: _selectCategory == null ? NormalAppBar() : SelectAppBar(),
+      body: Consumer<ItemCategories>(
+        builder: (context, data, child) => ListView.builder(
+          itemBuilder: (context, i) => ChangeNotifierProvider(
+            create: (context) => Items(),
+            child: ItemCategoryItem(data.categories[i].title, _selectCategory),
           ),
+          itemCount: data.categories.length,
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).pushNamed('/newItem');
-        },
-        child: Icon(Icons.add),
       ),
     );
   }
@@ -55,19 +32,81 @@ class ItemsCategoriesScreen extends StatelessWidget {
 // Single Category Item
 class ItemCategoryItem extends StatelessWidget {
   final String title;
+  final bool select;
 
-  ItemCategoryItem(this.title);
+  ItemCategoryItem(this.title, this.select);
+
+  void onTap(BuildContext context) {
+    if (select == true) {
+      Navigator.of(context).pop(title);
+    } else {
+      Navigator.of(context).pushNamed('/item', arguments: title);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
       child: InkWell(
-        onTap: () {
-          Navigator.of(context).pushNamed('/item', arguments: title);
-        },
+        onTap: () => onTap(context),
         child: ListTile(
           title: Text(title),
         ),
       ),
+    );
+  }
+}
+
+class NormalAppBar extends StatelessWidget implements PreferredSizeWidget {
+  void _addNewCategory(BuildContext context, String name) {
+    if (name.isEmpty) {
+      return;
+    }
+    Provider.of<ItemCategories>(context, listen: false).insertCategory(name);
+
+    Navigator.of(context, rootNavigator: true).pop();
+  }
+
+  @override
+  get preferredSize => new Size.fromHeight(kToolbarHeight);
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      title: Text(AppLocalizations.of(context).itemsTab),
+      actions: [
+        PopUpAddCategory(_addNewCategory),
+      ],
+    );
+  }
+}
+
+class SelectAppBar extends StatelessWidget implements PreferredSizeWidget {
+  void _addNewCategory(BuildContext context, String name) {
+    if (name.isEmpty) {
+      return;
+    }
+    Provider.of<ItemCategories>(context, listen: false).insertCategory(name);
+
+    Navigator.of(context, rootNavigator: true).pop();
+  }
+
+  @override
+  get preferredSize => new Size.fromHeight(kToolbarHeight);
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      title: Text('Select'),
+      leading: IconButton(
+        icon: Icon(Icons.close),
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+      ),
+      actions: [
+        PopUpAddCategory(_addNewCategory),
+      ],
     );
   }
 }

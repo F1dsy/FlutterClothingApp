@@ -151,6 +151,7 @@ class BuildNavigator extends StatelessWidget {
   // final GlobalKey<NavigatorState> _key = GlobalKey<NavigatorState>();
   final GlobalKey<NavigatorState> _key;
   final Map<String, WidgetBuilder> _routes;
+
   BuildNavigator(this._routes, this._key);
   @override
   Widget build(BuildContext context) {
