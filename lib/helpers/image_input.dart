@@ -11,7 +11,7 @@ class ImageInput {
     return _image;
   }
 
-  Future<void> takePicture() async {
+  Future<bool> takePicture() async {
     final image = await ImagePicker().getImage(
       source: ImageSource.camera,
       imageQuality: 70,
@@ -20,7 +20,7 @@ class ImageInput {
     );
 
     if (image == null) {
-      return;
+      return false;
     }
 
     final appDir = await syspath.getApplicationDocumentsDirectory();
@@ -28,6 +28,7 @@ class ImageInput {
 
     _image = await File(image.path).copy('${appDir.path}/$fileName');
     File(image.path).delete();
+    return true;
   }
 
   Future<void> pickFromGallery() async {

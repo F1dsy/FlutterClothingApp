@@ -77,10 +77,14 @@ class _ItemsScreenState extends State<ItemsScreen> {
   void moveToCategory() {
     Navigator.of(context)
         .pushNamed(ItemsCategoriesScreen.routeName, arguments: true)
-        .then((value) => {
-              Provider.of<Items>(context, listen: false)
-                  .moveToCategory(_selected, value),
-            });
+        .then((value) {
+      Provider.of<Items>(context, listen: false)
+          .moveToCategory(_selected, value);
+      setState(() {
+        _selected = [];
+        _selectable = false;
+      });
+    });
   }
 
   Widget _buildNormalAppBar(name) => AppBar(

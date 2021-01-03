@@ -1,5 +1,3 @@
-// import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,6 +12,12 @@ class AddItemScreen extends StatefulWidget {
 }
 
 class _AddItemScreenState extends State<AddItemScreen> {
+  @override
+  void initState() {
+    _takePicture();
+    super.initState();
+  }
+
   final _formKey = GlobalKey<FormState>();
 
   final imageInput = ImageInput();
@@ -21,21 +25,25 @@ class _AddItemScreenState extends State<AddItemScreen> {
   void _save() async {
     _formKey.currentState.save();
 
-    Provider.of<Items>(context, listen: false).fetchAndSetItems();
+    // Provider.of<Items>(context, listen: false).fetchAndSetItems();
     Navigator.of(context).pop();
   }
 
   void _takePicture() async {
     imageInput.takePicture().then((value) {
-      setState(() {});
+      if (!value) {
+        Navigator.of(context).pop();
+      } else {
+        setState(() {});
+      }
     });
   }
 
-  void _pickFromGallery() {
-    imageInput.pickFromGallery().then((value) {
-      setState(() {});
-    });
-  }
+  // void _pickFromGallery() {
+  //   imageInput.pickFromGallery().then((value) {
+  //     setState(() {});
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -55,21 +63,21 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   ? null
                   : Image.file(imageInput.image),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                FlatButton.icon(
-                  label: Text('Camera'),
-                  icon: Icon(Icons.camera_alt),
-                  onPressed: _takePicture,
-                ),
-                FlatButton.icon(
-                  label: Text('Gallery'),
-                  icon: Icon(Icons.image),
-                  onPressed: _pickFromGallery,
-                )
-              ],
-            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: [
+            //     FlatButton.icon(
+            //       label: Text('Camera'),
+            //       icon: Icon(Icons.camera_alt),
+            //       onPressed: _takePicture,
+            //     ),
+            //     FlatButton.icon(
+            //       label: Text('Gallery'),
+            //       icon: Icon(Icons.image),
+            //       onPressed: _pickFromGallery,
+            //     )
+            //   ],
+            // ),
             DropdownButtonFormField(
               items: Provider.of<ItemCategories>(context)
                   .categories

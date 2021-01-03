@@ -27,8 +27,8 @@ class Items with ChangeNotifier {
   }
 
   Future<void> fetchAndSetItems() async {
-    print('fetching items');
-    final result = await DBHelper.query(DBHelper.Tables.Items);
+    List<Map<String, dynamic>> result =
+        await DBHelper.query(DBHelper.Tables.Items);
     SharedPreferences preferences = await SharedPreferences.getInstance();
     _washThreshold = preferences.getInt('washThreshold');
     _items = result.map((e) {
