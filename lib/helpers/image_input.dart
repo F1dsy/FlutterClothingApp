@@ -31,13 +31,13 @@ class ImageInput {
     return true;
   }
 
-  Future<void> pickFromGallery() async {
-    final image = await ImagePicker().getImage(source: ImageSource.gallery);
-    if (image == null) {
-      return;
-    }
-    final appDir = await syspath.getApplicationDocumentsDirectory();
-    final fileName = path.basename(image.path);
-    _image = await File(image.path).copy('${appDir.path}/$fileName');
-  }
+  // Future<void> pickFromGallery() async {
+  //   final image = await ImagePicker().getImage(source: ImageSource.gallery);
+  //   if (image == null) {
+  //     return;
+  //   }
+  //   final appDir = await syspath.getApplicationDocumentsDirectory();
+  //   final fileName = path.basename(image.path);
+  //   _image = await File(image.path).copy('${appDir.path}/$fileName');
+  // }
 }

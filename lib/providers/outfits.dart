@@ -28,9 +28,13 @@ class Outfits with ChangeNotifier {
   }
 
   Future<void> fetchAndSetOutfits(BuildContext context) async {
+    print('outfits');
     final outfits = await DBHelper.query(DBHelper.Tables.Outfits);
+    // print('Outfits' + outfits.toString());
     final itemsOfOutfit = await DBHelper.query(DBHelper.Tables.OutfitItems);
+    // print('ItemsOfOutfit' + itemsOfOutfit.toString());
     List<Item> items = Provider.of<Items>(context, listen: false).items;
+    print('items' + items.toString());
     _outfits = outfits.map((outfit) {
       List<Item> itemList = [];
       for (var item in itemsOfOutfit) {
@@ -45,6 +49,7 @@ class Outfits with ChangeNotifier {
         items: itemList,
       );
     }).toList();
+
     notifyListeners();
   }
 

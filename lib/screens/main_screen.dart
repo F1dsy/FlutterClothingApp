@@ -21,7 +21,7 @@ class _MainScreenState extends State<MainScreen> {
     GlobalKey<NavigatorState>(),
   ];
 
-  var _selectedIndex = 2;
+  var _selectedIndex = 1;
 
   openBottomNav(BuildContext context) {
     showModalBottomSheet(
@@ -34,7 +34,7 @@ class _MainScreenState extends State<MainScreen> {
 
   void _selectTab(i) {
     setState(() {
-      if (i == 4) {
+      if (i == 3) {
         openBottomNav(context);
       } else {
         _selectedIndex = i;
@@ -45,7 +45,6 @@ class _MainScreenState extends State<MainScreen> {
   BuildNavigator outfitsNav;
   BuildNavigator itemsNav;
   BuildNavigator calendarNav;
-  BuildNavigator calendarNav2;
 
   @override
   void dispose() {
@@ -68,9 +67,9 @@ class _MainScreenState extends State<MainScreen> {
     calendarNav = BuildNavigator({
       CalendarScreen.routeName: (context) => CalendarScreen(),
     }, _keys[2]);
-    calendarNav2 = BuildNavigator({
-      CalendarScreen.routeName: (context) => CalendarScreen(),
-    }, _keys[3]);
+    // calendarNav2 = BuildNavigator({
+    //   CalendarScreen.routeName: (context) => CalendarScreen(),
+    // }, _keys[3]);
 
     super.didChangeDependencies();
   }
@@ -100,10 +99,10 @@ class _MainScreenState extends State<MainScreen> {
                 icon: const Icon(Icons.subscriptions),
                 label: AppLocalizations.of(context).itemsTab,
               ),
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.home),
-                label: AppLocalizations.of(context).home,
-              ),
+              // BottomNavigationBarItem(
+              //   icon: const Icon(Icons.home),
+              //   label: AppLocalizations.of(context).home,
+              // ),
               BottomNavigationBarItem(
                 icon: const Icon(Icons.calendar_today),
                 label: AppLocalizations.of(context).calendar,
@@ -122,8 +121,8 @@ class _MainScreenState extends State<MainScreen> {
             children: [
               outfitsNav,
               itemsNav,
+              // calendarNav,
               calendarNav,
-              calendarNav2,
               // BuildNavigator({
               //   OutfitsCategoriesScreen.routeName: (context) =>
               //       OutfitsCategoriesScreen(),

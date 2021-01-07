@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -11,8 +13,10 @@ import './providers/item_categories.dart';
 import './providers/items.dart';
 import './providers/outfits.dart';
 import './providers/outfit_categories.dart';
+import './providers/events.dart';
 import 'screens/outfits/outfit_builder.dart';
 import 'screens/items/add_item_screen.dart';
+import 'screens/calendar/add_event_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -58,23 +62,33 @@ class _MyAppState extends State<MyApp> {
   }
 
   @override
-  void dispose() {
-    print('Disposed Main');
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-            create: (context) => ItemCategories()..fetchAndSetCategories()),
+          create: (context) => ItemCategories()..fetchAndSetCategories(),
+          lazy: false,
+        ),
         ChangeNotifierProvider(
-            create: (context) => Items()..fetchAndSetItems()),
+          create: (context) => Items()..fetchAndSetItems(),
+          lazy: false,
+        ),
         ChangeNotifierProvider(
-            create: (context) => OutfitCategories()..fetchAndSetCategories()),
+          create: (context) => OutfitCategories()..fetchAndSetCategories(),
+          lazy: false,
+        ),
         ChangeNotifierProvider(
-            create: (context) => Outfits()..fetchAndSetOutfits(context)),
+          create: (context) => Outfits()..fetchAndSetOutfits(context),
+          lazy: false,
+        ),
+        // ChangeNotifierProvider(
+        //   create: (context) => Events()..fetchAndSetEvents(context),
+        //   lazy: false,
+        // ),
+        ChangeNotifierProxyProvider<Outfits, Events>(
+          create: (context) => Events()..fetchAndSetEvents(context),
+          update: (context, outfit, event) => Events(),
+        ),
       ],
       builder: (context, _) => MaterialApp(
         title: 'Flutter Demo',
@@ -100,6 +114,7 @@ class _MyAppState extends State<MyApp> {
         routes: {
           OutfitBuilder.routeName: (context) => OutfitBuilder(),
           AddItemScreen.routeName: (context) => AddItemScreen(),
+          AddEventScreen.routeName: (context) => AddEventScreen(),
           WashBasketScreen.routeName: (context) => WashBasketScreen(),
           SettingsScreen.routeName: (context) => SettingsScreen(),
         },

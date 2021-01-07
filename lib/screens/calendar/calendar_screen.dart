@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:provider/provider.dart';
+
+import '../../screens/calendar/add_event_screen.dart';
+import '../../providers/events.dart';
 
 class CalendarScreen extends StatefulWidget {
   static const routeName = '/';
@@ -9,21 +13,16 @@ class CalendarScreen extends StatefulWidget {
 }
 
 class _CalendarScreenState extends State<CalendarScreen> {
-  CalendarController _calendarController;
-  Map<DateTime, List<dynamic>> _events;
-  List _selectedEvents;
+  CalendarController _calendarController = CalendarController();
+  Map<DateTime, List<dynamic>> _events = {};
+  List _selectedEvents = [];
 
   @override
-  void initState() {
-    _calendarController = CalendarController();
-    final DateTime day = DateTime.now();
-    _events = {
-      day: ['Test', 'Test1', 'Test2', 'Test3'],
-      day.add(Duration(days: 1)): ['Test on day later']
-    };
-    _selectedEvents = _events[day];
-
-    super.initState();
+  void didChangeDependencies() {
+    // _events = Provider.of<Events>(context, listen: false).events;
+    // print(_events);
+    // _selectedEvents = _events[DateTime.now()];
+    super.didChangeDependencies();
   }
 
   @override
@@ -34,6 +33,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // _events = Provider.of<Events>(context, listen: false).events;
+    // print(_events);
+    // _selectedEvents = _events[DateTime.now()];
     return Scaffold(
       appBar: AppBar(
         title: Text('Calendar'),
@@ -59,23 +61,34 @@ class _CalendarScreenState extends State<CalendarScreen> {
               availableGestures: AvailableGestures.horizontalSwipe,
             ),
             Column(
-              children: _selectedEvents
-                  .map(
-                    (e) => Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(width: 1),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                      child: ListTile(
-                        title: Text(e),
-                      ),
-                    ),
-                  )
-                  .toList(),
+              children: _selectedEvents == null
+                  ? []
+                  : _selectedEvents
+                      .map(
+                        (e) => Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(width: 1),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          margin:
+                              EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                          child: ListTile(
+                            title: Text(e),
+                          ),
+                        ),
+                      )
+                      .toList(),
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context, rootNavigator: true)
+              .pushNamed(AddEventScreen.routeName);
+        },
+        child: Icon(Icons.add),
+        heroTag: null,
       ),
     );
   }

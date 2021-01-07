@@ -67,52 +67,25 @@ class OutfitWidget extends StatelessWidget {
 
   OutfitWidget(this.title, this.items);
   Widget _build() {
-    switch (items.length) {
-      case 1:
-        return Expanded(child: Image.file(items[0].image));
-        break;
-      case 2:
-        return Row(
-          children: [
-            Expanded(child: Image.file(items[0].image)),
-            Expanded(child: Image.file(items[1].image)),
-          ],
-        );
-        break;
-      case 3:
-        return Column(
-          children: [
-            Row(
-              children: [
-                Expanded(child: Image.file(items[0].image)),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(child: Image.file(items[1].image)),
-                Expanded(child: Image.file(items[2].image)),
-              ],
-            )
-          ],
-        );
-        break;
-      default:
-        return Column(
-          children: [
-            Row(
-              children: [
-                Expanded(child: Image.file(items[0].image)),
-                Expanded(child: Image.file(items[1].image)),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(child: Image.file(items[2].image)),
-                Expanded(child: Image.file(items[3].image)),
-              ],
-            )
-          ],
-        );
+    if (items.length >= 4) {
+      return Column(
+        children: [
+          Row(
+            children: [
+              Expanded(child: Image.file(items[0].image)),
+              Expanded(child: Image.file(items[1].image)),
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(child: Image.file(items[2].image)),
+              Expanded(child: Image.file(items[3].image)),
+            ],
+          )
+        ],
+      );
+    } else {
+      return Image.file(items[0].image);
     }
   }
 
