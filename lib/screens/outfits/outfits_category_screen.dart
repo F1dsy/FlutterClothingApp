@@ -5,7 +5,7 @@ import '../../l10n/app_localizations.dart';
 import '../../screens/outfits/outfits_screen.dart';
 import '../../widgets/popup_add_category.dart';
 import '../../providers/outfit_categories.dart';
-import '../../providers/outfits.dart';
+// import '../../providers/outfits.dart';
 
 class OutfitsCategoriesScreen extends StatelessWidget {
   static const routeName = '/';
@@ -24,17 +24,11 @@ class OutfitsCategoriesScreen extends StatelessWidget {
         title: Text(AppLocalizations.of(context).outfitsTab),
         actions: [PopUpAddCategory(_addNewCategory)],
       ),
-      body: FutureBuilder(
-        future: Provider.of<OutfitCategories>(context, listen: false)
-            .fetchAndSetCategories(),
-        builder: (context, snapshot) => Consumer<OutfitCategories>(
-          builder: (context, data, child) => ListView.builder(
-            itemBuilder: (context, i) => ChangeNotifierProvider(
-              create: (context) => Outfits(),
-              child: OutfitCategoryItem(data.categories[i].title),
-            ),
-            itemCount: data.categories.length,
-          ),
+      body: Consumer<OutfitCategories>(
+        builder: (context, data, child) => ListView.builder(
+          itemBuilder: (context, i) =>
+              OutfitCategoryItem(data.categories[i].title),
+          itemCount: data.categories.length,
         ),
       ),
       floatingActionButton: FloatingActionButton(

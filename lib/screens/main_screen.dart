@@ -47,12 +47,6 @@ class _MainScreenState extends State<MainScreen> {
   BuildNavigator calendarNav;
 
   @override
-  void dispose() {
-    print('Disposed MainScreen');
-    super.dispose();
-  }
-
-  @override
   void didChangeDependencies() {
     // Provider.of<Items>(context, listen: false).fetchAndSetItems();
 

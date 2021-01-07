@@ -21,7 +21,7 @@ class OutfitsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final String name = ModalRoute.of(context).settings.arguments;
     Provider.of<Items>(context, listen: false).fetchAndSetItems();
-    Provider.of<Outfits>(context, listen: false).fetchAndSetOutfits(context);
+    // Provider.of<Outfits>(context, listen: false).fetchAndSetOutfits(context);
     return Scaffold(
       // drawer: DrawerWidget(),
       appBar: AppBar(

@@ -14,14 +14,16 @@ class CalendarScreen extends StatefulWidget {
 
 class _CalendarScreenState extends State<CalendarScreen> {
   CalendarController _calendarController = CalendarController();
-  Map<DateTime, List<dynamic>> _events = {};
+  // Map<DateTime, List<dynamic>> _events = {};
   List _selectedEvents = [];
 
   @override
   void didChangeDependencies() {
-    // _events = Provider.of<Events>(context, listen: false).events;
+    // setState(() {
+    //   _events = Provider.of<Events>(context, listen: false).events;
+    //   _selectedEvents = _events[DateTime.now()];
+    // });
     // print(_events);
-    // _selectedEvents = _events[DateTime.now()];
     super.didChangeDependencies();
   }
 
@@ -33,53 +35,56 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // _events = Provider.of<Events>(context, listen: false).events;
-    // print(_events);
-    // _selectedEvents = _events[DateTime.now()];
+    //   _events = Provider.of<Events>(context, listen: false).events;
+    //   _selectedEvents = _events[DateTime.now()];
+
+    // print('Events: ' + _events.toString());
     return Scaffold(
       appBar: AppBar(
         title: Text('Calendar'),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            TableCalendar(
-              calendarController: _calendarController,
-              startingDayOfWeek: StartingDayOfWeek.monday,
-              weekendDays: [],
-              events: _events,
-              initialCalendarFormat: CalendarFormat.month,
-              headerStyle: HeaderStyle(
-                centerHeaderTitle: true,
-                formatButtonVisible: false,
+        child: Consumer<Events>(
+          builder: (context, data, child) => Column(
+            children: [
+              TableCalendar(
+                calendarController: _calendarController,
+                startingDayOfWeek: StartingDayOfWeek.monday,
+                weekendDays: [],
+                events: data.events,
+                initialCalendarFormat: CalendarFormat.month,
+                headerStyle: HeaderStyle(
+                  centerHeaderTitle: true,
+                  formatButtonVisible: false,
+                ),
+                onDaySelected: (day, events, holidays) {
+                  setState(() {
+                    _selectedEvents = events;
+                  });
+                },
+                availableGestures: AvailableGestures.horizontalSwipe,
               ),
-              onDaySelected: (day, events, holidays) {
-                setState(() {
-                  _selectedEvents = events;
-                });
-              },
-              availableGestures: AvailableGestures.horizontalSwipe,
-            ),
-            Column(
-              children: _selectedEvents == null
-                  ? []
-                  : _selectedEvents
-                      .map(
-                        (e) => Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(width: 1),
-                            borderRadius: BorderRadius.circular(5),
+              Column(
+                children: _selectedEvents == null
+                    ? []
+                    : _selectedEvents
+                        .map(
+                          (e) => Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(width: 1),
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 5),
+                            child: ListTile(
+                              title: Text('hi'),
+                            ),
                           ),
-                          margin:
-                              EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                          child: ListTile(
-                            title: Text(e),
-                          ),
-                        ),
-                      )
-                      .toList(),
-            ),
-          ],
+                        )
+                        .toList(),
+              ),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(

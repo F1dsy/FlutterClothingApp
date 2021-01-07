@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -77,17 +75,23 @@ class _MyAppState extends State<MyApp> {
           create: (context) => OutfitCategories()..fetchAndSetCategories(),
           lazy: false,
         ),
-        ChangeNotifierProvider(
-          create: (context) => Outfits()..fetchAndSetOutfits(context),
-          lazy: false,
-        ),
+        // ChangeNotifierProvider(
+        //   create: (context) => Outfits(),
+        //   lazy: false,
+        // ),
         // ChangeNotifierProvider(
         //   create: (context) => Events()..fetchAndSetEvents(context),
         //   lazy: false,
         // ),
+        ChangeNotifierProxyProvider<Items, Outfits>(
+          create: (context) => Outfits(),
+          update: (context, items, outfits) => outfits..update = items.items,
+        ),
         ChangeNotifierProxyProvider<Outfits, Events>(
-          create: (context) => Events()..fetchAndSetEvents(context),
-          update: (context, outfit, event) => Events(),
+          create: (context) => Events(),
+          update: (context, outfits, events) =>
+              events..update = outfits.outfits,
+          lazy: false,
         ),
       ],
       builder: (context, _) => MaterialApp(
