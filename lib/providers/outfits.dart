@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-// import 'package:provider/provider.dart';
 
+import '../helpers/db_helper.dart' as DBHelper;
 import '../models/outfit.dart';
 import '../models/item.dart';
-// import 'items.dart';
-import '../helpers/db_helper.dart' as DBHelper;
 
 class Outfits with ChangeNotifier {
   set update(List value) {

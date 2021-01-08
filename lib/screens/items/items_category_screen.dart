@@ -71,7 +71,7 @@ class NormalAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  get preferredSize => new Size.fromHeight(kToolbarHeight);
+  get preferredSize => Size.fromHeight(kToolbarHeight);
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +95,7 @@ class SelectAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  get preferredSize => new Size.fromHeight(kToolbarHeight);
+  get preferredSize => Size.fromHeight(kToolbarHeight);
 
   @override
   Widget build(BuildContext context) {

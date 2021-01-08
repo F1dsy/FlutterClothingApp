@@ -1,9 +1,7 @@
 import 'package:FlutterClothingApp/main.dart';
 import 'package:flutter/material.dart';
-// import 'package:provider/provider.dart';
 import '../../l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-// import '../../main.dart';
 
 class SettingsScreen extends StatefulWidget {
   static const routeName = '/settings';

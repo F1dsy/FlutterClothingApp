@@ -17,6 +17,9 @@ class ItemsScreen extends StatefulWidget {
 }
 
 class _ItemsScreenState extends State<ItemsScreen> {
+  bool _selectable = false;
+  List<Item> _selected = [];
+
   void _addNewItem(BuildContext context, String name) {
     Navigator.of(context, rootNavigator: true)
         .pushNamed(AddItemScreen.routeName, arguments: name);
@@ -39,10 +42,6 @@ class _ItemsScreenState extends State<ItemsScreen> {
       }
     });
   }
-
-  bool _selectable = false;
-
-  List<Item> _selected = [];
 
   void _deleteItems(List<Item> items) {
     for (var item in items) {

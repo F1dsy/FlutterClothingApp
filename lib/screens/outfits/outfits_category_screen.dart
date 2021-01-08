@@ -5,7 +5,6 @@ import '../../l10n/app_localizations.dart';
 import '../../screens/outfits/outfits_screen.dart';
 import '../../widgets/popup_add_category.dart';
 import '../../providers/outfit_categories.dart';
-// import '../../providers/outfits.dart';
 
 class OutfitsCategoriesScreen extends StatelessWidget {
   static const routeName = '/';

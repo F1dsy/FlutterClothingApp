@@ -3,12 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import 'outfit_builder.dart';
-// import '../../widgets/drawer.dart';
 import '../../providers/outfits.dart';
-// import '../../providers/items.dart';
 import '../../models/outfit.dart';
 import '../../models/item.dart';
-// import '../screens/add_item_screen.dart';
 
 class OutfitsScreen extends StatelessWidget {
   static const routeName = '/outfit';

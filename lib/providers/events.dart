@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+
 import '../helpers/db_helper.dart' as DBHelper;
-// import 'package:provider/provider.dart';
-// import '../providers/outfits.dart';
 import '../models/outfit.dart';
 import '../models/event.dart';
 

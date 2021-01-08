@@ -4,7 +4,6 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import '../../providers/items.dart';
 import '../../providers/outfits.dart';
-// import '../providers/item_categories.dart';
 import '../../models/item.dart';
 
 class OutfitBuilder extends StatefulWidget {

@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 
 import '../../screens/calendar/add_event_screen.dart';
 import '../../providers/events.dart';
-// import '../../models/outfit.dart';
 
 class CalendarScreen extends StatefulWidget {
   static const routeName = '/';
