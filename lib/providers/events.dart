@@ -3,15 +3,17 @@ import '../helpers/db_helper.dart' as DBHelper;
 // import 'package:provider/provider.dart';
 // import '../providers/outfits.dart';
 import '../models/outfit.dart';
+import '../models/event.dart';
 
 class Events with ChangeNotifier {
-  set update(value) {
+  set update(List<Outfit> value) {
+    if (value.isEmpty) return;
     fetchAndSetEvents(value);
   }
 
-  Map<DateTime, List> _events = {};
+  Map<DateTime, List<Event>> _events = {};
 
-  Map<DateTime, List> get events {
+  Map<DateTime, List<Event>> get events {
     return {..._events};
   }
 
@@ -21,21 +23,30 @@ class Events with ChangeNotifier {
     // print('result' + result.toString());
     // print('Outfits events' + outfits.toString());
     for (var event in result) {
-      final outfit = outfits.where(
+      final outfit = outfits.firstWhere(
         (element) => element.id == event['outfit_id'],
       );
       // print('outfits: ' + outfit.toString());
-      _events[DateTime.parse(event['date'])] = [...outfit];
+      _events[DateTime.parse(event['date'])] = [
+        Event(
+          id: event['event_id'],
+          date: DateTime.parse(event['date']),
+          title: event['title'],
+          outfit: outfit,
+        )
+      ];
     }
     notifyListeners();
   }
 
-  void addEvent(DateTime date, Outfit outfit) {
+  void addEvent(Event event) {
+    print(event.date);
     DBHelper.insert(DBHelper.Tables.Events, {
-      'date': date.toIso8601String(),
-      'outfit_id': outfit.id,
+      'date': event.date.toIso8601String(),
+      'outfit_id': event.outfit.id,
+      'title': event.title,
     });
-    _events[date] = [outfit];
+    _events[event.date] = [event];
     notifyListeners();
   }
 }

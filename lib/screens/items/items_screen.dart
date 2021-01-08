@@ -78,6 +78,7 @@ class _ItemsScreenState extends State<ItemsScreen> {
     Navigator.of(context)
         .pushNamed(ItemsCategoriesScreen.routeName, arguments: true)
         .then((value) {
+      if (value == null) return;
       Provider.of<Items>(context, listen: false)
           .moveToCategory(_selected, value);
       setState(() {
@@ -161,7 +162,6 @@ class _ItemsScreenState extends State<ItemsScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () => _addNewItem(context, name),
         child: Icon(Icons.add),
-        elevation: 4,
         heroTag: null,
       ),
     );

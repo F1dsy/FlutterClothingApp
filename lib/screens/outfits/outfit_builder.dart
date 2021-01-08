@@ -44,85 +44,80 @@ class _OutfitBuilderState extends State<OutfitBuilder> {
       body: Container(
         height:
             MediaQuery.of(context).size.height - AppBar().preferredSize.height,
-        child: FutureBuilder(
-          future: Provider.of<Items>(context, listen: false).fetchAndSetItems(),
-          builder: (context, snapshot) => Consumer<Items>(
-            builder: (context, data, _) {
-              final _items = data.items;
+        child: Consumer<Items>(
+          builder: (context, data, _) {
+            final _items = data.items;
 
-              return Column(
-                children: [
-                  Expanded(
-                    child: Container(
-                      child: StaggeredGridView.countBuilder(
-                        crossAxisCount: 3,
-                        itemBuilder: (context, i) => Card(
-                          child: Image.file(
-                            _selectedItems[i].image,
-                          ),
+            return Column(
+              children: [
+                Expanded(
+                  child: Container(
+                    child: StaggeredGridView.countBuilder(
+                      crossAxisCount: 3,
+                      itemBuilder: (context, i) => Card(
+                        child: Image.file(
+                          _selectedItems[i].image,
                         ),
-                        itemCount: _selectedItems.length,
-                        staggeredTileBuilder: (_) => StaggeredTile.fit(1),
                       ),
+                      itemCount: _selectedItems.length,
+                      staggeredTileBuilder: (_) => StaggeredTile.fit(1),
                     ),
                   ),
-                  Expanded(
-                    child: _currentIndex < _items.length
-                        ? Stack(
-                            children: [
-                              Align(
-                                child: Transform.translate(
-                                  offset: frontCardOffset,
-                                  child: Card(
-                                    elevation: 2,
-                                    child: Container(
-                                      child: Image.file(
-                                        _items[_currentIndex].image,
-                                      ),
+                ),
+                Expanded(
+                  child: _currentIndex < _items.length
+                      ? Stack(
+                          children: [
+                            Align(
+                              child: Transform.translate(
+                                offset: frontCardOffset,
+                                child: Card(
+                                  elevation: 2,
+                                  child: Container(
+                                    child: Image.file(
+                                      _items[_currentIndex].image,
                                     ),
                                   ),
                                 ),
                               ),
-                              GestureDetector(
-                                onPanUpdate: (DragUpdateDetails details) {
-                                  setState(
-                                    () {
-                                      frontCardOffset = Offset(
-                                          frontCardOffset.dx + details.delta.dx,
-                                          frontCardOffset.dy +
-                                              details.delta.dy);
-                                    },
-                                  );
-                                },
-                                onPanEnd: (DragEndDetails details) {
-                                  setState(
-                                    () {
-                                      if (frontCardOffset.dx > 150) {
-                                        _selectedItems
-                                            .add(_items[_currentIndex]);
-                                        _currentIndex = _currentIndex + 1;
-                                        print(_currentIndex);
-                                        print(_selectedItems);
-                                      } else if (frontCardOffset.dx < -150) {
-                                        _currentIndex = _currentIndex + 1;
-                                      } else {
-                                        print(false);
-                                      }
-                                      frontCardOffset = Offset(0, 0);
-                                    },
-                                  );
-                                },
-                              ),
-                            ],
-                          )
-                        : Center(
-                            child: Text('Empty'),
-                          ),
-                  ),
-                ],
-              );
-            },
-          ),
+                            ),
+                            GestureDetector(
+                              onPanUpdate: (DragUpdateDetails details) {
+                                setState(
+                                  () {
+                                    frontCardOffset = Offset(
+                                        frontCardOffset.dx + details.delta.dx,
+                                        frontCardOffset.dy + details.delta.dy);
+                                  },
+                                );
+                              },
+                              onPanEnd: (DragEndDetails details) {
+                                setState(
+                                  () {
+                                    if (frontCardOffset.dx > 150) {
+                                      _selectedItems.add(_items[_currentIndex]);
+                                      _currentIndex = _currentIndex + 1;
+                                      print(_currentIndex);
+                                      print(_selectedItems);
+                                    } else if (frontCardOffset.dx < -150) {
+                                      _currentIndex = _currentIndex + 1;
+                                    } else {
+                                      print(false);
+                                    }
+                                    frontCardOffset = Offset(0, 0);
+                                  },
+                                );
+                              },
+                            ),
+                          ],
+                        )
+                      : Center(
+                          child: Text('Empty'),
+                        ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );

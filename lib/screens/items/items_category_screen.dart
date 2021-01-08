@@ -17,13 +17,18 @@ class ItemsCategoriesScreen extends StatelessWidget {
     return Scaffold(
       appBar: _selectCategory == null ? NormalAppBar() : SelectAppBar(),
       body: Consumer<ItemCategories>(
-        builder: (context, data, child) => ListView.builder(
-          itemBuilder: (context, i) => ChangeNotifierProvider(
-            create: (context) => Items(),
-            child: ItemCategoryItem(data.categories[i].title, _selectCategory),
-          ),
-          itemCount: data.categories.length,
-        ),
+        builder: (context, data, child) => data.categories.isEmpty
+            ? Center(
+                child: Text('Add Category First'),
+              )
+            : ListView.builder(
+                itemBuilder: (context, i) => ChangeNotifierProvider(
+                  create: (context) => Items(),
+                  child: ItemCategoryItem(
+                      data.categories[i].title, _selectCategory),
+                ),
+                itemCount: data.categories.length,
+              ),
       ),
     );
   }
@@ -49,6 +54,7 @@ class ItemCategoryItem extends StatelessWidget {
     return Card(
       child: InkWell(
         onTap: () => onTap(context),
+        onLongPress: () {},
         child: ListTile(
           title: Text(title),
         ),
@@ -97,9 +103,9 @@ class SelectAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text('Select'),
+      title: const Text('Select'),
       leading: IconButton(
-        icon: Icon(Icons.close),
+        icon: const Icon(Icons.close),
         onPressed: () {
           Navigator.of(context).pop();
         },

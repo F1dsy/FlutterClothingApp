@@ -65,7 +65,7 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider(
           create: (context) => ItemCategories()..fetchAndSetCategories(),
-          lazy: false,
+          // lazy: false,
         ),
         ChangeNotifierProvider(
           create: (context) => Items()..fetchAndSetItems(),
@@ -73,34 +73,28 @@ class _MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProvider(
           create: (context) => OutfitCategories()..fetchAndSetCategories(),
-          lazy: false,
+          // lazy: false,
         ),
-        // ChangeNotifierProvider(
-        //   create: (context) => Outfits(),
-        //   lazy: false,
-        // ),
-        // ChangeNotifierProvider(
-        //   create: (context) => Events()..fetchAndSetEvents(context),
-        //   lazy: false,
-        // ),
         ChangeNotifierProxyProvider<Items, Outfits>(
           create: (context) => Outfits(),
           update: (context, items, outfits) => outfits..update = items.items,
+          // lazy: false,
         ),
         ChangeNotifierProxyProvider<Outfits, Events>(
           create: (context) => Events(),
           update: (context, outfits, events) =>
               events..update = outfits.outfits,
-          lazy: false,
+          // lazy: false,
         ),
       ],
       builder: (context, _) => MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.teal,
           visualDensity: VisualDensity.adaptivePlatformDensity,
-          accentColor: Colors.deepPurple,
+          accentColor: Colors.tealAccent,
+          // brightness: Brightness.dark,
         ),
         home: MainScreen(),
         localizationsDelegates: [

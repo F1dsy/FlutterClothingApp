@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../screens/calendar/add_event_screen.dart';
 import '../../providers/events.dart';
+// import '../../models/outfit.dart';
 
 class CalendarScreen extends StatefulWidget {
   static const routeName = '/';
@@ -15,7 +16,7 @@ class CalendarScreen extends StatefulWidget {
 class _CalendarScreenState extends State<CalendarScreen> {
   CalendarController _calendarController = CalendarController();
   // Map<DateTime, List<dynamic>> _events = {};
-  List _selectedEvents = [];
+  List<dynamic> _selectedEvents = [];
 
   @override
   void didChangeDependencies() {
@@ -51,6 +52,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 calendarController: _calendarController,
                 startingDayOfWeek: StartingDayOfWeek.monday,
                 weekendDays: [],
+                // calendarStyle: CalendarStyle(),
                 events: data.events,
                 initialCalendarFormat: CalendarFormat.month,
                 headerStyle: HeaderStyle(
@@ -67,21 +69,18 @@ class _CalendarScreenState extends State<CalendarScreen> {
               Column(
                 children: _selectedEvents == null
                     ? []
-                    : _selectedEvents
-                        .map(
-                          (e) => Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(width: 1),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            margin: EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            child: ListTile(
-                              title: Text('hi'),
-                            ),
+                    : _selectedEvents.map((event) {
+                        print(event.title);
+                        return Container(
+                          width: double.infinity,
+                          height: 60,
+                          // margin: EdgeInsets.all(5),
+                          child: Card(
+                            margin: EdgeInsets.all(5),
+                            child: Center(child: Text('event')),
                           ),
-                        )
-                        .toList(),
+                        );
+                      }).toList(),
               ),
             ],
           ),

@@ -25,15 +25,17 @@ class OutfitsCategoriesScreen extends StatelessWidget {
         actions: [PopUpAddCategory(_addNewCategory)],
       ),
       body: Consumer<OutfitCategories>(
-        builder: (context, data, child) => ListView.builder(
-          itemBuilder: (context, i) =>
-              OutfitCategoryItem(data.categories[i].title),
-          itemCount: data.categories.length,
-        ),
+        builder: (context, data, child) => data.categories.isEmpty
+            ? Center(child: Text('Add Category First'))
+            : ListView.builder(
+                itemBuilder: (context, i) =>
+                    OutfitCategoryItem(data.categories[i].title),
+                itemCount: data.categories.length,
+              ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

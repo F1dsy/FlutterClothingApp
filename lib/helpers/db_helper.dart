@@ -30,7 +30,7 @@ Future<Database> _database() async {
       db.execute(
           'CREATE TABLE OutfitItems(outfit_id INTEGER, item_id INTEGER, FOREIGN KEY(outfit_id) REFERENCES Outfits(id) ON DELETE CASCADE, FOREIGN KEY(item_id) REFERENCES Items(id) ON DELETE CASCADE);'),
       db.execute(
-          'CREATE TABLE Events(event_id INTEGER PRIMARY KEY, date TEXT, outfit_id INTEGER);'),
+          'CREATE TABLE Events(event_id INTEGER PRIMARY KEY, title TEXT, date TEXT, outfit_id INTEGER);'),
     ]);
   }, version: 1);
   return db;
