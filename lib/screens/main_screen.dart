@@ -24,19 +24,10 @@ class _MainScreenState extends State<MainScreen> {
 
   var _selectedIndex = 1;
 
-  openBottomNav(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return DrawerWidget();
-      },
-    );
-  }
-
   void _selectTab(i) {
     setState(() {
       if (i == 3) {
-        openBottomNav(context);
+        showDrawer(context);
       } else {
         _selectedIndex = i;
       }

@@ -26,7 +26,7 @@ Future<Database> _database() async {
       db.execute(
           'CREATE TABLE OutfitCategories(id INTEGER PRIMARY KEY, title TEXT);'),
       db.execute(
-          'CREATE TABLE Outfits(id INTEGER PRIMARY KEY, categories TEXT);'),
+          'CREATE TABLE Outfits(id INTEGER PRIMARY KEY, category TEXT);'),
       db.execute(
           'CREATE TABLE OutfitItems(outfit_id INTEGER, item_id INTEGER, FOREIGN KEY(outfit_id) REFERENCES Outfits(id) ON DELETE CASCADE, FOREIGN KEY(item_id) REFERENCES Items(id) ON DELETE CASCADE);'),
       db.execute(

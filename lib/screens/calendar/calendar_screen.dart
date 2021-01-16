@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../screens/calendar/add_event_screen.dart';
 import '../../providers/events.dart';
+import '../../models/event.dart';
 
 class CalendarScreen extends StatefulWidget {
   static const routeName = '/';
@@ -15,17 +16,7 @@ class CalendarScreen extends StatefulWidget {
 class _CalendarScreenState extends State<CalendarScreen> {
   CalendarController _calendarController = CalendarController();
   // Map<DateTime, List<dynamic>> _events = {};
-  List<dynamic> _selectedEvents = [];
-
-  @override
-  void didChangeDependencies() {
-    // setState(() {
-    //   _events = Provider.of<Events>(context, listen: false).events;
-    //   _selectedEvents = _events[DateTime.now()];
-    // });
-    // print(_events);
-    super.didChangeDependencies();
-  }
+  List<Event> _selectedEvents = [];
 
   @override
   void dispose() {
@@ -35,10 +26,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //   _events = Provider.of<Events>(context, listen: false).events;
-    //   _selectedEvents = _events[DateTime.now()];
-
-    // print('Events: ' + _events.toString());
     return Scaffold(
       appBar: AppBar(
         title: Text('Calendar'),
@@ -60,7 +47,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 ),
                 onDaySelected: (day, events, holidays) {
                   setState(() {
-                    _selectedEvents = events;
+                    _selectedEvents = (events is List<Event>) ? events : null;
                   });
                 },
                 availableGestures: AvailableGestures.horizontalSwipe,
@@ -69,14 +56,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 children: _selectedEvents == null
                     ? []
                     : _selectedEvents.map((event) {
-                        print(event.title);
                         return Container(
                           width: double.infinity,
                           height: 60,
                           // margin: EdgeInsets.all(5),
                           child: Card(
                             margin: EdgeInsets.all(5),
-                            child: Center(child: Text('event')),
+                            child: Center(child: Text(event.title)),
                           ),
                         );
                       }).toList(),

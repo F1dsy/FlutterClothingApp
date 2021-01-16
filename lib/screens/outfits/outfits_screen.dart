@@ -3,9 +3,11 @@ import 'package:provider/provider.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import 'outfit_builder.dart';
+import '../../l10n/app_localizations.dart';
 import '../../providers/outfits.dart';
 import '../../models/outfit.dart';
 import './outfit_widget.dart';
+import 'select_outfit_popup.dart';
 
 class OutfitsScreen extends StatefulWidget {
   static const routeName = '/outfit';
@@ -16,7 +18,7 @@ class OutfitsScreen extends StatefulWidget {
 
 class _OutfitsScreenState extends State<OutfitsScreen> {
   bool _selectable = false;
-  List _selected = [];
+  List<Outfit> _selected = [];
 
   void _toggleSelection(Outfit category) {
     setState(() {
@@ -39,22 +41,32 @@ class _OutfitsScreenState extends State<OutfitsScreen> {
         .pushNamed(OutfitBuilder.routeName, arguments: name);
   }
 
+  void _deleteItems(List<Outfit> outfits) {
+    for (var outfit in outfits) {
+      Provider.of<Outfits>(context, listen: false).deleteOutfit(outfit);
+    }
+    setState(() {
+      _selected = [];
+      _selectable = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final String name = ModalRoute.of(context).settings.arguments;
-    // Provider.of<Items>(context, listen: false).fetchAndSetItems();
-    // Provider.of<Outfits>(context, listen: false).fetchAndSetOutfits(context);
+
     return Scaffold(
-      // drawer: DrawerWidget(),
-      appBar: AppBar(
-        title: Text(name),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () => _addNewOutfit(context, name),
-          ),
-        ],
-      ),
+      appBar: !_selectable
+          ? NormalAppBar(name)
+          : SelectAppBar(
+              () {
+                setState(() {
+                  _selectable = false;
+                  _selected = [];
+                });
+              },
+              () => _deleteItems(_selected),
+            ),
       body: Consumer<Outfits>(
         builder: (context, data, child) {
           // gets list of outfits in the selected category
@@ -83,6 +95,55 @@ class _OutfitsScreenState extends State<OutfitsScreen> {
         child: Icon(Icons.add),
         elevation: 4,
       ),
+    );
+  }
+}
+
+class NormalAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final String name;
+  NormalAppBar(this.name);
+  void _addNewOutfit(BuildContext context, String name) {
+    Navigator.of(context, rootNavigator: true)
+        .pushNamed(OutfitBuilder.routeName, arguments: name);
+  }
+
+  @override
+  get preferredSize => Size.fromHeight(kToolbarHeight);
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      title: Text(name),
+      actions: [
+        IconButton(
+          icon: Icon(Icons.add),
+          onPressed: () => _addNewOutfit(context, name),
+        ),
+      ],
+    );
+  }
+}
+
+class SelectAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final Function close;
+  final Function delete;
+  SelectAppBar(this.close, this.delete);
+
+  @override
+  get preferredSize => Size.fromHeight(kToolbarHeight);
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      title: Text(AppLocalizations.of(context).select),
+      leading: IconButton(
+        icon: const Icon(Icons.close),
+        onPressed: close,
+      ),
+      actions: [
+        SelectOutfitPopup(
+          delete: delete,
+        ),
+      ],
     );
   }
 }

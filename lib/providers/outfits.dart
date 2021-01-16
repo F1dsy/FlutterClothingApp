@@ -15,18 +15,16 @@ class Outfits with ChangeNotifier {
     return [..._outfits];
   }
 
-  List<String> stringToList(String categories) {
-    return categories.split(';');
-  }
+  // List<String> stringToList(String categories) {
+  //   return categories.split(';');
+  // }
 
-  String listToString(List<String> list) {
-    return list.join(';');
-  }
+  // String listToString(List<String> list) {
+  //   return list.join(';');
+  // }
 
   List<Outfit> outfitsOfCategory(String category) {
-    return _outfits
-        .where((outfit) => outfit.categories.contains(category))
-        .toList();
+    return _outfits.where((outfit) => outfit.category == category).toList();
   }
 
   Future<void> fetchAndSetOutfits(List<Item> items) async {
@@ -48,7 +46,7 @@ class Outfits with ChangeNotifier {
 
       return Outfit(
         id: outfit['id'],
-        categories: stringToList(outfit['categories']),
+        category: outfit['category'],
         items: itemList,
       );
     }).toList();
@@ -56,14 +54,27 @@ class Outfits with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> insertOutfit(List<String> categories, List<Item> items) async {
-    final id = await DBHelper.insert(
-        DBHelper.Tables.Outfits, {'categories': listToString(categories)});
+  Future<void> insertOutfit(String category, List<Item> items) async {
+    final id =
+        await DBHelper.insert(DBHelper.Tables.Outfits, {'category': category});
     for (var item in items) {
       DBHelper.insert(
           DBHelper.Tables.OutfitItems, {'outfit_id': id, 'item_id': item.id});
     }
+    _outfits.insert(0, Outfit(id: id, category: category, items: items));
+    notifyListeners();
+  }
 
-    _outfits.insert(0, Outfit(id: id, categories: categories, items: items));
+  void deleteOutfit(Outfit outfit) {
+    DBHelper.delete(DBHelper.Tables.Outfits, outfit.id);
+    _outfits.remove(outfit);
+    notifyListeners();
+  }
+
+  void moveToCategory(List<Outfit> outfits, String newCategory) {
+    for (var outfit in outfits) {
+      outfit.category = newCategory;
+    }
+    notifyListeners();
   }
 }

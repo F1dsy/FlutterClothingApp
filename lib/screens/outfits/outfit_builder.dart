@@ -22,7 +22,8 @@ class _OutfitBuilderState extends State<OutfitBuilder> {
   void _saveOutfit(List<Item> items) {
     String category = ModalRoute.of(context).settings.arguments;
     Provider.of<Outfits>(context, listen: false)
-        .insertOutfit([category], items);
+        .insertOutfit(category, items)
+        .then(Navigator.of(context).pop);
   }
 
   @override
@@ -54,8 +55,11 @@ class _OutfitBuilderState extends State<OutfitBuilder> {
                     child: StaggeredGridView.countBuilder(
                       crossAxisCount: 3,
                       itemBuilder: (context, i) => Card(
-                        child: Image.file(
-                          _selectedItems[i].image,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(4),
+                          child: Image.file(
+                            _selectedItems[i].image,
+                          ),
                         ),
                       ),
                       itemCount: _selectedItems.length,
@@ -73,8 +77,11 @@ class _OutfitBuilderState extends State<OutfitBuilder> {
                                 child: Card(
                                   elevation: 2,
                                   child: Container(
-                                    child: Image.file(
-                                      _items[_currentIndex].image,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(4),
+                                      child: Image.file(
+                                        _items[_currentIndex].image,
+                                      ),
                                     ),
                                   ),
                                 ),

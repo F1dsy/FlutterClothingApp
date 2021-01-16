@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/outfit.dart';
+import '../../widgets/show_image_dialog.dart';
 
 class OutfitWidget extends StatelessWidget {
   final Outfit outfit;
@@ -9,26 +10,6 @@ class OutfitWidget extends StatelessWidget {
   final List list;
 
   OutfitWidget(this.outfit, this.selectable, this.toggleSelected, this.list);
-
-  void showImage(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (context) => Dialog(
-              child: Container(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(4),
-                  child: ListView(
-                    children: outfit.items
-                        .map(
-                          (item) => Image.file(item.image),
-                        )
-                        .toList(),
-                    shrinkWrap: true,
-                  ),
-                ),
-              ),
-            ));
-  }
 
   Widget _build() {
     if (outfit.items.length >= 4) {
@@ -68,16 +49,21 @@ class OutfitWidget extends StatelessWidget {
                   color: Colors.transparent,
                   child: InkWell(
                     onTap: () {
-                      !selectable ? showImage(context) : toggleSelected(outfit);
+                      !selectable
+                          ? showImageDialog(context,
+                              outfit.items.map((e) => e.image).toList())
+                          : toggleSelected(outfit);
                     },
                     onLongPress: () => toggleSelected(outfit),
                   )),
             ),
             Offstage(
               offstage: !selectable,
-              child: Checkbox(
-                value: isSelected,
-                onChanged: null,
+              child: IgnorePointer(
+                child: Checkbox(
+                  value: isSelected,
+                  onChanged: null,
+                ),
               ),
             ),
           ],

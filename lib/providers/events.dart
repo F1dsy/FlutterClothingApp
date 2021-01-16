@@ -19,13 +19,12 @@ class Events with ChangeNotifier {
   void fetchAndSetEvents(List<Outfit> outfits) async {
     final List<Map<String, dynamic>> result =
         await DBHelper.query(DBHelper.Tables.Events);
-    // print('result' + result.toString());
-    // print('Outfits events' + outfits.toString());
+
     for (var event in result) {
       final outfit = outfits.firstWhere(
         (element) => element.id == event['outfit_id'],
       );
-      // print('outfits: ' + outfit.toString());
+
       _events[DateTime.parse(event['date'])] = [
         Event(
           id: event['event_id'],
@@ -39,7 +38,6 @@ class Events with ChangeNotifier {
   }
 
   void addEvent(Event event) {
-    print(event.date);
     DBHelper.insert(DBHelper.Tables.Events, {
       'date': event.date.toIso8601String(),
       'outfit_id': event.outfit.id,

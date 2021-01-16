@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 import '../../models/item.dart';
+import '../../widgets/show_image_dialog.dart';
 
 class ItemWidget extends StatelessWidget {
   final Item item;
@@ -36,14 +36,16 @@ class ItemWidget extends StatelessWidget {
               item.image,
               cacheWidth: 360,
             ),
-            borderRadius: BorderRadius.circular(3),
+            borderRadius: BorderRadius.circular(4),
           ),
           Positioned.fill(
             child: Material(
                 color: Colors.transparent,
                 child: InkWell(
                   onTap: () {
-                    !selectable ? showImage(context) : toggleSelected(item);
+                    !selectable
+                        ? showImageDialog(context, [item.image])
+                        : toggleSelected(item);
                   },
                   onLongPress: () => toggleSelected(item),
                 )),
