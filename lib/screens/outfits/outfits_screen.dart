@@ -7,8 +7,33 @@ import '../../providers/outfits.dart';
 import '../../models/outfit.dart';
 import './outfit_widget.dart';
 
-class OutfitsScreen extends StatelessWidget {
+class OutfitsScreen extends StatefulWidget {
   static const routeName = '/outfit';
+
+  @override
+  _OutfitsScreenState createState() => _OutfitsScreenState();
+}
+
+class _OutfitsScreenState extends State<OutfitsScreen> {
+  bool _selectable = false;
+  List _selected = [];
+
+  void _toggleSelection(Outfit category) {
+    setState(() {
+      if (!_selectable) {
+        _selectable = true;
+      }
+      if (_selected.contains(category)) {
+        _selected.remove(category);
+        if (_selected.isEmpty) {
+          _selectable = false;
+        }
+      } else {
+        _selected.add(category);
+      }
+    });
+  }
+
   void _addNewOutfit(BuildContext context, String name) {
     Navigator.of(context, rootNavigator: true)
         .pushNamed(OutfitBuilder.routeName, arguments: name);
@@ -41,8 +66,12 @@ class OutfitsScreen extends StatelessWidget {
                 )
               : StaggeredGridView.countBuilder(
                   crossAxisCount: 3,
-                  itemBuilder: (context, i) =>
-                      OutfitWidget(outfits[i].categories, outfits[i].items),
+                  itemBuilder: (context, i) => OutfitWidget(
+                    outfits[i],
+                    _selectable,
+                    _toggleSelection,
+                    _selected,
+                  ),
                   itemCount: outfits.length,
                   staggeredTileBuilder: (_) => StaggeredTile.fit(1),
                 );

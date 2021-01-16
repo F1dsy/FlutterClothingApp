@@ -36,14 +36,6 @@ class _OutfitsCategoriesScreenState extends State<OutfitsCategoriesScreen> {
     });
   }
 
-  void _addNewCategory(BuildContext context, String name) {
-    if (name.isEmpty) {
-      return;
-    }
-    Provider.of<OutfitCategories>(context, listen: false).insertCategory(name);
-    Navigator.of(context, rootNavigator: true).pop();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
