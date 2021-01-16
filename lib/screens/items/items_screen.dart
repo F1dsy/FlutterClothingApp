@@ -7,7 +7,8 @@ import 'item_widget.dart';
 import '../../providers/items.dart';
 import 'add_item_screen.dart';
 import '../../models/item.dart';
-import './items_category_screen.dart';
+import '../../screens/items/move_item.dart';
+import './select_items_popup.dart';
 
 class ItemsScreen extends StatefulWidget {
   static const routeName = '/item';
@@ -73,10 +74,8 @@ class _ItemsScreenState extends State<ItemsScreen> {
     });
   }
 
-  void moveToCategory() {
-    Navigator.of(context)
-        .pushNamed(ItemsCategoriesScreen.routeName, arguments: true)
-        .then((value) {
+  void _moveToCategory() {
+    Navigator.of(context).pushNamed(MoveItem.routeName).then((value) {
       if (value == null) return;
       Provider.of<Items>(context, listen: false)
           .moveToCategory(_selected, value);
@@ -109,22 +108,11 @@ class _ItemsScreenState extends State<ItemsScreen> {
           },
         ),
         actions: [
-          IconButton(
-            icon: Icon(Icons.drive_file_move_outline),
-            onPressed: () => moveToCategory(),
-          ),
-          IconButton(
-              icon: Icon(Icons.shopping_basket),
-              onPressed: () => _addToBasket(_selected)),
-          IconButton(
-              icon: Icon(
-                Icons.shopping_basket,
-                color: Colors.black,
-              ),
-              onPressed: () => _removeFromBasket(_selected)),
-          IconButton(
-            icon: Icon(Icons.delete),
-            onPressed: () => _deleteItems(_selected),
+          SelectItemsPopup(
+            delete: () => _deleteItems(_selected),
+            move: _moveToCategory,
+            addToBasket: () => _addToBasket(_selected),
+            removeFromBasket: () => _removeFromBasket(_selected),
           ),
         ],
       );

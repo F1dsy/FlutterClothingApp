@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../../models/categories.dart';
 
-class ItemCategoryWidget extends StatelessWidget {
-  final ItemCategory category;
+class OutfitCategoryWidget extends StatelessWidget {
+  final OutfitCategory category;
   // final bool selectCategory;
   final bool selected;
   final Function toggle;
   final List list;
 
-  ItemCategoryWidget(
+  OutfitCategoryWidget(
     this.category,
     // this.selectCategory,
     this.selected,

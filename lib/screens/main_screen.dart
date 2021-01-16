@@ -1,4 +1,3 @@
-import 'package:FlutterClothingApp/screens/calendar/calendar_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/drawer.dart';
@@ -7,6 +6,8 @@ import 'outfits/outfits_category_screen.dart';
 import 'outfits/outfits_screen.dart';
 import 'items/items_category_screen.dart';
 import 'items/items_screen.dart';
+import '../screens/items/move_item.dart';
+import '../screens/calendar/calendar_screen.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -57,6 +58,7 @@ class _MainScreenState extends State<MainScreen> {
     itemsNav = BuildNavigator({
       ItemsCategoriesScreen.routeName: (context) => ItemsCategoriesScreen(),
       ItemsScreen.routeName: (context) => ItemsScreen(),
+      MoveItem.routeName: (context) => MoveItem(),
     }, _keys[1]);
     calendarNav = BuildNavigator({
       CalendarScreen.routeName: (context) => CalendarScreen(),

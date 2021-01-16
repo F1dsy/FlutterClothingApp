@@ -5,7 +5,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'outfit_builder.dart';
 import '../../providers/outfits.dart';
 import '../../models/outfit.dart';
-import '../../models/item.dart';
+import './outfit_widget.dart';
 
 class OutfitsScreen extends StatelessWidget {
   static const routeName = '/outfit';
@@ -54,42 +54,6 @@ class OutfitsScreen extends StatelessWidget {
         child: Icon(Icons.add),
         elevation: 4,
       ),
-    );
-  }
-}
-
-class OutfitWidget extends StatelessWidget {
-  final List<String> title;
-  final List<Item> items;
-
-  OutfitWidget(this.title, this.items);
-  Widget _build() {
-    if (items.length >= 4) {
-      return Column(
-        children: [
-          Row(
-            children: [
-              Expanded(child: Image.file(items[0].image)),
-              Expanded(child: Image.file(items[1].image)),
-            ],
-          ),
-          Row(
-            children: [
-              Expanded(child: Image.file(items[2].image)),
-              Expanded(child: Image.file(items[3].image)),
-            ],
-          )
-        ],
-      );
-    } else {
-      return Image.file(items[0].image);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Card(child: _build()),
     );
   }
 }

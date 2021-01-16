@@ -6,6 +6,7 @@ import '../../l10n/app_localizations.dart';
 import '../../providers/item_categories.dart';
 import '../../models/categories.dart';
 import '../../widgets/popup_add_category.dart';
+import './select_category_popup.dart';
 import './item_category_widget.dart';
 
 class ItemsCategoriesScreen extends StatefulWidget {
@@ -37,18 +38,23 @@ class _ItemsCategoriesScreenState extends State<ItemsCategoriesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final _selectCategory = ModalRoute.of(context).settings.arguments;
     return Scaffold(
-      appBar: _selectCategory == null ? NormalAppBar() : SelectAppBar(),
+      appBar: !_selectable
+          ? NormalAppBar()
+          : SelectAppBar(() {
+              setState(() {
+                _selectable = false;
+                _selected = [];
+              });
+            }),
       body: Consumer<ItemCategories>(
         builder: (context, data, child) => data.categories.isEmpty
             ? Center(
                 child: Text('Add Category First'),
               )
             : ListView.builder(
-                itemBuilder: (context, i) => ItemCategoryItem(
+                itemBuilder: (context, i) => ItemCategoryWidget(
                   data.categories[i],
-                  _selectCategory,
                   _selectable,
                   _toggleSelection,
                   _selected,
@@ -85,14 +91,17 @@ class NormalAppBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 class SelectAppBar extends StatelessWidget implements PreferredSizeWidget {
-  void _addNewCategory(BuildContext context, String name) {
-    if (name.isEmpty) {
-      return;
-    }
-    Provider.of<ItemCategories>(context, listen: false).insertCategory(name);
+  final Function close;
+  SelectAppBar(this.close);
 
-    Navigator.of(context, rootNavigator: true).pop();
-  }
+  // void _addNewCategory(BuildContext context, String name) {
+  //   if (name.isEmpty) {
+  //     return;
+  //   }
+  //   Provider.of<ItemCategories>(context, listen: false).insertCategory(name);
+
+  //   Navigator.of(context, rootNavigator: true).pop();
+  // }
 
   @override
   get preferredSize => Size.fromHeight(kToolbarHeight);
@@ -103,12 +112,10 @@ class SelectAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: const Text('Select'),
       leading: IconButton(
         icon: const Icon(Icons.close),
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
+        onPressed: close,
       ),
       actions: [
-        PopUpAddCategory(_addNewCategory),
+        SelectCategoryPopup(),
       ],
     );
   }
