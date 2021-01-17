@@ -2,57 +2,99 @@ import 'package:flutter/material.dart';
 
 import '../l10n/app_localizations.dart';
 
-class BottomNav extends StatelessWidget {
+class BottomNav extends StatefulWidget {
   final int currentIndex;
   final Function onTap;
   BottomNav(this.currentIndex, this.onTap(int));
+
+  @override
+  _BottomNavState createState() => _BottomNavState();
+}
+
+class _BottomNavState extends State<BottomNav> {
+  bool open = false;
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.vertical(top: Radius.elliptical(300, 40)),
-      child: Container(
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 100),
         color: Theme.of(context).primaryColor,
-        height: 80,
+        height: open ? 250 : 80,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 10),
-              height: 7,
-              width: 40,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: Colors.white,
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  open = !open;
+                });
+              },
+              child: Container(
+                margin: EdgeInsets.symmetric(vertical: 10),
+                height: 7,
+                width: 40,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Colors.white,
+                ),
               ),
             ),
+            open
+                ? Container(
+                    child: Row(
+                      children: [
+                        NavItem(
+                          icon: Icons.shopping_basket,
+                          label: AppLocalizations.of(context).outfitsTab,
+                          selected: widget.currentIndex == 0,
+                          onTap: () => widget.onTap(0),
+                        ),
+                        NavItem(
+                          icon: Icons.settings,
+                          label: AppLocalizations.of(context).outfitsTab,
+                          selected: widget.currentIndex == 0,
+                          onTap: () => widget.onTap(0),
+                        ),
+                        NavItem(
+                          icon: Icons.bar_chart,
+                          label: AppLocalizations.of(context).outfitsTab,
+                          selected: widget.currentIndex == 0,
+                          onTap: () => widget.onTap(0),
+                        ),
+                      ],
+                    ),
+                  )
+                : Container(),
             Container(
               width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.only(bottom: 3),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   NavItem(
-                    icon: const Icon(Icons.all_inbox, color: Colors.white),
+                    icon: Icons.all_inbox,
                     label: AppLocalizations.of(context).outfitsTab,
-                    selected: currentIndex == 0,
-                    onTap: () => onTap(0),
+                    selected: widget.currentIndex == 0,
+                    onTap: () => widget.onTap(0),
                   ),
                   NavItem(
-                    icon: const Icon(Icons.subscriptions, color: Colors.white),
+                    icon: Icons.subscriptions,
                     label: AppLocalizations.of(context).itemsTab,
-                    selected: currentIndex == 1,
-                    onTap: () => onTap(1),
+                    selected: widget.currentIndex == 1,
+                    onTap: () => widget.onTap(1),
                   ),
                   NavItem(
-                    icon: const Icon(Icons.calendar_today, color: Colors.white),
+                    icon: Icons.calendar_today,
                     label: AppLocalizations.of(context).calendar,
-                    selected: currentIndex == 2,
-                    onTap: () => onTap(2),
+                    selected: widget.currentIndex == 2,
+                    onTap: () => widget.onTap(2),
                   ),
                   NavItem(
-                    icon: const Icon(Icons.menu, color: Colors.white),
+                    icon: Icons.menu,
                     label: 'Menu',
-                    selected: currentIndex == 3,
-                    onTap: () => onTap(3),
+                    selected: widget.currentIndex == 3,
+                    onTap: () => widget.onTap(3),
                   ),
                 ],
               ),
@@ -65,7 +107,7 @@ class BottomNav extends StatelessWidget {
 }
 
 class NavItem extends StatelessWidget {
-  final Icon icon;
+  final IconData icon;
   final String label;
   final bool selected;
   final Function onTap;
@@ -81,12 +123,15 @@ class NavItem extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              icon,
+              Icon(
+                icon,
+                color: selected ? Colors.white : Colors.white70,
+              ),
               AnimatedDefaultTextStyle(
                 duration: Duration(milliseconds: 100),
                 style: TextStyle(
-                  color: Colors.white,
-                  fontSize: !selected ? 12 : 14,
+                  color: selected ? Colors.white : Colors.white70,
+                  fontSize: selected ? 14 : 12,
                 ),
                 child: Text(
                   label,
