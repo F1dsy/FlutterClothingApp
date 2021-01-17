@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../screens/calendar/add_event_screen.dart';
 import '../../providers/events.dart';
 import '../../models/event.dart';
+import '../../widgets/custom_app_bar.dart';
 
 class CalendarScreen extends StatefulWidget {
   static const routeName = '/';
@@ -27,7 +28,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: CustomAppBar(
         title: Text('Calendar'),
       ),
       body: SingleChildScrollView(

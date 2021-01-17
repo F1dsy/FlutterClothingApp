@@ -8,6 +8,7 @@ import '../../models/categories.dart';
 import '../../widgets/popup_add_category.dart';
 import './select_category_popup.dart';
 import './item_category_widget.dart';
+import '../../widgets/custom_app_bar.dart';
 
 class ItemsCategoriesScreen extends StatefulWidget {
   static const routeName = '/';
@@ -81,7 +82,7 @@ class NormalAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
+    return CustomAppBar(
       title: Text(AppLocalizations.of(context).itemsTab),
       actions: [
         PopUpAddCategory(_addNewCategory),
@@ -108,7 +109,7 @@ class SelectAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
+    return CustomAppBar(
       title: const Text('Select'),
       leading: IconButton(
         icon: const Icon(Icons.close),

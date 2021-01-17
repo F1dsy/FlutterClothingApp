@@ -9,6 +9,7 @@ import 'add_item_screen.dart';
 import '../../models/item.dart';
 import '../../screens/items/move_item.dart';
 import './select_items_popup.dart';
+import '../../widgets/custom_app_bar.dart';
 
 class ItemsScreen extends StatefulWidget {
   static const routeName = '/item';
@@ -86,7 +87,7 @@ class _ItemsScreenState extends State<ItemsScreen> {
     });
   }
 
-  Widget _buildNormalAppBar(name) => AppBar(
+  Widget _buildNormalAppBar(name) => CustomAppBar(
         title: Text(name),
         actions: [
           IconButton(
@@ -96,7 +97,7 @@ class _ItemsScreenState extends State<ItemsScreen> {
         ],
       );
 
-  Widget _buildSelectAppBar() => AppBar(
+  Widget _buildSelectAppBar() => CustomAppBar(
         title: Text(AppLocalizations.of(context).select),
         leading: IconButton(
           icon: Icon(Icons.close),

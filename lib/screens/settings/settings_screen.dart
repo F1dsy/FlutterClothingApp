@@ -2,6 +2,7 @@ import 'package:FlutterClothingApp/main.dart';
 import 'package:flutter/material.dart';
 import '../../l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../widgets/custom_app_bar.dart';
 
 class SettingsScreen extends StatefulWidget {
   static const routeName = '/settings';
@@ -78,7 +79,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: CustomAppBar(
         title: Text(AppLocalizations.of(context).settings),
       ),
       body: Column(

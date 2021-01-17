@@ -8,6 +8,7 @@ import '../../providers/outfits.dart';
 import '../../models/outfit.dart';
 import './outfit_widget.dart';
 import 'select_outfit_popup.dart';
+import '../../widgets/custom_app_bar.dart';
 
 class OutfitsScreen extends StatefulWidget {
   static const routeName = '/outfit';
@@ -111,7 +112,7 @@ class NormalAppBar extends StatelessWidget implements PreferredSizeWidget {
   get preferredSize => Size.fromHeight(kToolbarHeight);
   @override
   Widget build(BuildContext context) {
-    return AppBar(
+    return CustomAppBar(
       title: Text(name),
       actions: [
         IconButton(
@@ -133,7 +134,7 @@ class SelectAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
+    return CustomAppBar(
       title: Text(AppLocalizations.of(context).select),
       leading: IconButton(
         icon: const Icon(Icons.close),

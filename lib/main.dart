@@ -15,6 +15,7 @@ import './providers/events.dart';
 import 'screens/outfits/outfit_builder.dart';
 import 'screens/items/add_item_screen.dart';
 import 'screens/calendar/add_event_screen.dart';
+import 'theme.dart';
 
 void main() {
   runApp(MyApp());
@@ -90,12 +91,7 @@ class _MyAppState extends State<MyApp> {
       builder: (context, _) => MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.teal,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-          accentColor: Colors.tealAccent,
-          // brightness: Brightness.dark,
-        ),
+        theme: theme,
         home: MainScreen(),
         localizationsDelegates: [
           AppLocalizations.delegate,

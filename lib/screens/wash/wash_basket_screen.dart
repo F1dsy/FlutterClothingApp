@@ -5,6 +5,7 @@ import '../../l10n/app_localizations.dart';
 import '../../providers/item_categories.dart';
 import '../../providers/items.dart';
 import '../../models/item.dart';
+import '../../widgets/custom_app_bar.dart';
 
 class WashBasketScreen extends StatelessWidget {
   static const routeName = '/wash-basket';
@@ -12,7 +13,7 @@ class WashBasketScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: CustomAppBar(
         title: Text(AppLocalizations.of(context).washBasket),
       ),
       body: Container(
