@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../widgets/drawer.dart';
-import '../l10n/app_localizations.dart';
+// import '../l10n/app_localizations.dart';
 import 'outfits/outfits_category_screen.dart';
 import 'outfits/outfits_screen.dart';
 import 'items/items_category_screen.dart';
@@ -77,38 +77,37 @@ class _MainScreenState extends State<MainScreen> {
           // ),
           // appBar: AppBar(),
 
-          bottomNavigationBar:
-              // BottomNav(
-              //   _selectedIndex,
-              //   (i) => _selectTab(i),
-              // ),
-              BottomNavigationBar(
-            items: [
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.all_inbox),
-                label: AppLocalizations.of(context).outfitsTab,
-              ),
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.subscriptions),
-                label: AppLocalizations.of(context).itemsTab,
-              ),
-              // BottomNavigationBarItem(
-              //   icon: const Icon(Icons.home),
-              //   label: AppLocalizations.of(context).home,
-              // ),
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.calendar_today),
-                label: AppLocalizations.of(context).calendar,
-              ),
-              const BottomNavigationBarItem(
-                icon: Icon(Icons.menu),
-                label: 'Menu',
-              ),
-            ],
-            onTap: (i) => _selectTab(i),
-            currentIndex: _selectedIndex,
-            type: BottomNavigationBarType.fixed,
+          bottomNavigationBar: BottomNav(
+            _selectedIndex,
+            (i) => _selectTab(i),
           ),
+          //     BottomNavigationBar(
+          //   items: [
+          //     BottomNavigationBarItem(
+          //       icon: const Icon(Icons.all_inbox),
+          //       label: AppLocalizations.of(context).outfitsTab,
+          //     ),
+          //     BottomNavigationBarItem(
+          //       icon: const Icon(Icons.subscriptions),
+          //       label: AppLocalizations.of(context).itemsTab,
+          //     ),
+          //     // BottomNavigationBarItem(
+          //     //   icon: const Icon(Icons.home),
+          //     //   label: AppLocalizations.of(context).home,
+          //     // ),
+          //     BottomNavigationBarItem(
+          //       icon: const Icon(Icons.calendar_today),
+          //       label: AppLocalizations.of(context).calendar,
+          //     ),
+          //     const BottomNavigationBarItem(
+          //       icon: Icon(Icons.menu),
+          //       label: 'Menu',
+          //     ),
+          //   ],
+          //   onTap: (i) => _selectTab(i),
+          //   currentIndex: _selectedIndex,
+          //   type: BottomNavigationBarType.fixed,
+          // ),
           body: IndexedStack(
             index: _selectedIndex,
             children: [

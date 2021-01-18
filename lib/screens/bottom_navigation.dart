@@ -11,22 +11,77 @@ class BottomNav extends StatefulWidget {
   _BottomNavState createState() => _BottomNavState();
 }
 
-class _BottomNavState extends State<BottomNav> {
+class _BottomNavState extends State<BottomNav>
+    with SingleTickerProviderStateMixin {
   bool open = false;
+
+  AnimationController _animationController;
+  Animation _heightAnimation;
+  Animation _borderAnimationForward;
+  Animation _borderAnimationReverse;
+
+  @override
+  void initState() {
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 500),
+    );
+    _heightAnimation = CurvedAnimation(
+      curve: Curves.ease,
+      parent: _animationController,
+    );
+    _borderAnimationForward = TweenSequence([
+      TweenSequenceItem(tween: Tween<double>(begin: 0, end: 40), weight: 25),
+      TweenSequenceItem(tween: Tween<double>(begin: 40, end: 0), weight: 75),
+    ]).animate(_animationController);
+    _borderAnimationReverse = TweenSequence([
+      TweenSequenceItem(tween: Tween<double>(begin: 0, end: -40), weight: 25),
+      TweenSequenceItem(tween: Tween<double>(begin: -40, end: 0), weight: 75),
+    ]).animate(_animationController);
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.vertical(top: Radius.elliptical(300, 40)),
-      child: AnimatedContainer(
-        duration: Duration(milliseconds: 100),
-        color: Theme.of(context).primaryColor,
-        height: open ? 250 : 80,
+    return AnimatedBuilder(
+      animation: _animationController,
+      builder: (context, _) => Container(
+        height: _heightAnimation.value * 170 + 80,
+        decoration: BoxDecoration(
+          color: Theme.of(context).primaryColor,
+          borderRadius: BorderRadius.vertical(
+            top: Radius.elliptical(
+              300,
+              _animationController.status == AnimationStatus.forward
+                  ? _borderAnimationForward.value + 40
+                  : _borderAnimationReverse.value + 40,
+            ),
+          ),
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             GestureDetector(
+              onVerticalDragStart: (_) {
+                setState(() {
+                  open
+                      ? _animationController.forward()
+                      : _animationController.reverse();
+                  open = !open;
+                });
+              },
               onTap: () {
                 setState(() {
+                  open
+                      ? _animationController.forward()
+                      : _animationController.reverse();
                   open = !open;
                 });
               },
@@ -40,32 +95,32 @@ class _BottomNavState extends State<BottomNav> {
                 ),
               ),
             ),
-            open
-                ? Container(
-                    child: Row(
-                      children: [
-                        NavItem(
-                          icon: Icons.shopping_basket,
-                          label: AppLocalizations.of(context).outfitsTab,
-                          selected: widget.currentIndex == 0,
-                          onTap: () => widget.onTap(0),
-                        ),
-                        NavItem(
-                          icon: Icons.settings,
-                          label: AppLocalizations.of(context).outfitsTab,
-                          selected: widget.currentIndex == 0,
-                          onTap: () => widget.onTap(0),
-                        ),
-                        NavItem(
-                          icon: Icons.bar_chart,
-                          label: AppLocalizations.of(context).outfitsTab,
-                          selected: widget.currentIndex == 0,
-                          onTap: () => widget.onTap(0),
-                        ),
-                      ],
-                    ),
-                  )
-                : Container(),
+            // open
+            //     ? Container(
+            //         child: Row(
+            //           children: [
+            //             NavItem(
+            //               icon: Icons.shopping_basket,
+            //               label: AppLocalizations.of(context).outfitsTab,
+            //               selected: widget.currentIndex == 0,
+            //               onTap: () => widget.onTap(0),
+            //             ),
+            //             NavItem(
+            //               icon: Icons.settings,
+            //               label: AppLocalizations.of(context).outfitsTab,
+            //               selected: widget.currentIndex == 0,
+            //               onTap: () => widget.onTap(0),
+            //             ),
+            //             NavItem(
+            //               icon: Icons.bar_chart,
+            //               label: AppLocalizations.of(context).outfitsTab,
+            //               selected: widget.currentIndex == 0,
+            //               onTap: () => widget.onTap(0),
+            //             ),
+            //           ],
+            //         ),
+            //       )
+            //     : Container(),
             Container(
               width: MediaQuery.of(context).size.width,
               margin: EdgeInsets.only(bottom: 3),
