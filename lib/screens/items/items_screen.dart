@@ -147,11 +147,11 @@ class _ItemsScreenState extends State<ItemsScreen> {
                 );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _addNewItem(context, name),
-        child: Icon(Icons.add),
-        heroTag: null,
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () => _addNewItem(context, name),
+      //   child: Icon(Icons.add),
+      //   heroTag: null,
+      // ),
     );
   }
 }
