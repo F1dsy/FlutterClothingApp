@@ -6,7 +6,7 @@ import '../widgets/navigation/bottom_navigation.dart';
 import './wash/wash_basket_screen.dart';
 import './settings/settings_screen.dart';
 
-import '../routes.dart';
+import '../config/routes.dart';
 
 class MainScreen extends StatefulWidget {
   @override

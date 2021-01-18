@@ -5,9 +5,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'l10n/app_localizations.dart';
 
 import './screens/main_screen.dart';
-import 'theme.dart';
-import 'routes.dart';
-import 'provider_setup.dart';
+import 'config/theme.dart';
+import 'config/routes.dart';
+import 'config/provider_setup.dart';
 
 void main() {
   runApp(MyApp());

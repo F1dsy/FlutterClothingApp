@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-import './screens/settings/settings_screen.dart';
-import './screens/wash/wash_basket_screen.dart';
-import 'screens/outfits/outfit_builder.dart';
-import 'screens/items/add_item_screen.dart';
-import 'screens/outfits/outfits_category_screen.dart';
-import 'screens/outfits/outfits_screen.dart';
-import 'screens/items/items_category_screen.dart';
-import 'screens/items/items_screen.dart';
-import 'screens/items/move_item.dart';
-import 'screens/calendar/calendar_screen.dart';
+import '../screens/settings/settings_screen.dart';
+import '../screens/wash/wash_basket_screen.dart';
+import '../screens/outfits/outfit_builder.dart';
+import '../screens/items/add_item_screen.dart';
+import '../screens/outfits/outfits_category_screen.dart';
+import '../screens/outfits/outfits_screen.dart';
+import '../screens/items/items_category_screen.dart';
+import '../screens/items/items_screen.dart';
+import '../screens/items/move_item.dart';
+import '../screens/calendar/calendar_screen.dart';
 
 final Map<String, WidgetBuilder> rootRoutes = {
   OutfitBuilder.routeName: (context) => OutfitBuilder(),

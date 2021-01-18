@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import './providers/item_categories.dart';
-import './providers/items.dart';
-import './providers/outfits.dart';
-import './providers/outfit_categories.dart';
-import './providers/events.dart';
+import '../providers/item_categories.dart';
+import '../providers/items.dart';
+import '../providers/outfits.dart';
+import '../providers/outfit_categories.dart';
+import '../providers/events.dart';
 
 class ProviderSetup extends StatelessWidget {
   final Widget child;

@@ -33,19 +33,19 @@ class _BottomNavState extends State<BottomNav>
   void initState() {
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 500),
+      duration: Duration(milliseconds: 400),
     );
     _heightAnimation = CurvedAnimation(
       curve: Curves.ease,
       parent: _animationController,
     );
     _borderAnimationForward = TweenSequence([
-      TweenSequenceItem(tween: Tween<double>(begin: 0, end: 40), weight: 25),
-      TweenSequenceItem(tween: Tween<double>(begin: 40, end: 0), weight: 75),
+      TweenSequenceItem(tween: Tween<double>(begin: 0, end: 30), weight: 25),
+      TweenSequenceItem(tween: Tween<double>(begin: 30, end: 0), weight: 75),
     ]).animate(_animationController);
     _borderAnimationReverse = TweenSequence([
-      TweenSequenceItem(tween: Tween<double>(begin: 0, end: -40), weight: 25),
-      TweenSequenceItem(tween: Tween<double>(begin: -40, end: 0), weight: 75),
+      TweenSequenceItem(tween: Tween<double>(begin: 0, end: -10), weight: 25),
+      TweenSequenceItem(tween: Tween<double>(begin: -10, end: 0), weight: 75),
     ]).animate(_animationController);
 
     super.initState();
@@ -61,50 +61,47 @@ class _BottomNavState extends State<BottomNav>
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: _animationController,
-      builder: (context, child) => Container(
-        height: _heightAnimation.value * 150 + 77,
-        // height: 250,
-        decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor,
-          borderRadius: BorderRadius.vertical(
-            top: Radius.elliptical(
-              300,
-              _animationController.status == AnimationStatus.forward
-                  ? _borderAnimationForward.value + 40
-                  : _borderAnimationReverse.value + 40,
-            ),
+      builder: (context, child) => ClipPath(
+        clipper: ArcClipper(
+            _animationController.status == AnimationStatus.forward
+                ? _borderAnimationForward.value
+                : _borderAnimationReverse.value),
+        child: Container(
+          height: _heightAnimation.value * 150 + 77,
+          decoration: BoxDecoration(
+            color: Theme.of(context).primaryColor,
           ),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: () {
-                setState(() {
-                  !open
-                      ? _animationController.forward()
-                      : _animationController.reverse();
-                  open = !open;
-                });
-              },
-              child: _MenuIcon(),
-            ),
-            Expanded(
-              child: Row(
-                children: List.generate(
-                  widget.extendedNavItems.length,
-                  (i) => NavBoxItem(
-                    animation: _animationController,
-                    icon: widget.extendedNavItems[i].icon,
-                    label: widget.extendedNavItems[i].label,
-                    onTap: widget.extendedNavItems[i].onTap,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () {
+                  setState(() {
+                    !open
+                        ? _animationController.forward()
+                        : _animationController.reverse();
+                    open = !open;
+                  });
+                },
+                child: _MenuIcon(),
+              ),
+              Expanded(
+                child: Row(
+                  children: List.generate(
+                    widget.extendedNavItems.length,
+                    (i) => NavBoxItem(
+                      animation: _animationController,
+                      icon: widget.extendedNavItems[i].icon,
+                      label: widget.extendedNavItems[i].label,
+                      onTap: widget.extendedNavItems[i].onTap,
+                    ),
                   ),
                 ),
               ),
-            ),
-            child
-          ],
+              child
+            ],
+          ),
         ),
       ),
       child: Container(
@@ -154,4 +151,29 @@ class BottomExtendedNavItem {
   final String label;
   final Function onTap;
   BottomExtendedNavItem({this.icon, this.label, this.onTap});
+}
+
+class ArcClipper extends CustomClipper<Path> {
+  final double _animation;
+  ArcClipper(this._animation);
+  @override
+  Path getClip(Size size) {
+    Path path = Path();
+
+    path.moveTo(0, size.height);
+    path.lineTo(0, 20 + _animation);
+    path.quadraticBezierTo(
+      size.width / 2,
+      -20 - _animation,
+      size.width,
+      20 + _animation,
+    );
+    path.lineTo(size.width, size.height);
+
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper old) => false;
 }
