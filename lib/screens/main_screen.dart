@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../widgets/drawer.dart';
 import '../l10n/app_localizations.dart';
-import 'outfits/outfits_category_screen.dart';
-import 'outfits/outfits_screen.dart';
-import 'items/items_category_screen.dart';
-import 'items/items_screen.dart';
-import '../screens/items/move_item.dart';
-import '../screens/calendar/calendar_screen.dart';
-// import 'bottom_navigation.dart';
+import '../widgets/navigation/bottom_navigation.dart';
+import './wash/wash_basket_screen.dart';
+import './settings/settings_screen.dart';
+
+import '../routes.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -16,13 +14,6 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  List<GlobalKey<NavigatorState>> _keys = [
-    GlobalKey<NavigatorState>(),
-    GlobalKey<NavigatorState>(),
-    GlobalKey<NavigatorState>(),
-    GlobalKey<NavigatorState>(),
-  ];
-
   var _selectedIndex = 1;
 
   void _selectTab(i) {
@@ -35,123 +26,63 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
-  BuildNavigator outfitsNav;
-  BuildNavigator itemsNav;
-  BuildNavigator calendarNav;
-
-  @override
-  void didChangeDependencies() {
-    // Provider.of<Items>(context, listen: false).fetchAndSetItems();
-
-    outfitsNav = BuildNavigator({
-      OutfitsCategoriesScreen.routeName: (context) => OutfitsCategoriesScreen(),
-      OutfitsScreen.routeName: (context) => OutfitsScreen(),
-    }, _keys[0]);
-    itemsNav = BuildNavigator({
-      ItemsCategoriesScreen.routeName: (context) => ItemsCategoriesScreen(),
-      ItemsScreen.routeName: (context) => ItemsScreen(),
-      MoveItem.routeName: (context) => MoveItem(),
-    }, _keys[1]);
-    calendarNav = BuildNavigator({
-      CalendarScreen.routeName: (context) => CalendarScreen(),
-    }, _keys[2]);
-    // calendarNav2 = BuildNavigator({
-    //   CalendarScreen.routeName: (context) => CalendarScreen(),
-    // }, _keys[3]);
-
-    super.didChangeDependencies();
-  }
-
   @override
   Widget build(BuildContext context) {
     //Tells which Navigator is active and should react on Back button
 
     return WillPopScope(
       onWillPop: () async {
-        final result = await _keys[_selectedIndex].currentState.maybePop();
+        final result = await keys[_selectedIndex].currentState.maybePop();
         return !result;
       },
       child: Scaffold(
-          // drawer: SafeArea(
-          //   child: DrawerWidget(),
-          // ),
-          // appBar: AppBar(),
-
-          bottomNavigationBar:
-              // BottomNav(
-              //   _selectedIndex,
-              //   (i) => _selectTab(i),
-              // ),
-              BottomNavigationBar(
-            items: [
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.all_inbox),
-                label: AppLocalizations.of(context).outfitsTab,
-              ),
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.subscriptions),
-                label: AppLocalizations.of(context).itemsTab,
-              ),
-              // BottomNavigationBarItem(
-              //   icon: const Icon(Icons.home),
-              //   label: AppLocalizations.of(context).home,
-              // ),
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.calendar_today),
-                label: AppLocalizations.of(context).calendar,
-              ),
-              const BottomNavigationBarItem(
-                icon: Icon(Icons.menu),
-                label: 'Menu',
-              ),
-            ],
-            onTap: (i) => _selectTab(i),
-            currentIndex: _selectedIndex,
-            type: BottomNavigationBarType.fixed,
-          ),
-          body: IndexedStack(
-            index: _selectedIndex,
-            children: [
-              outfitsNav,
-              itemsNav,
-              // calendarNav,
-              calendarNav,
-              // BuildNavigator({
-              //   OutfitsCategoriesScreen.routeName: (context) =>
-              //       OutfitsCategoriesScreen(),
-              //   OutfitsScreen.routeName: (context) => OutfitsScreen(),
-              // }, _keys[0]),
-              // BuildNavigator({
-              //   ItemsCategoriesScreen.routeName: (context) =>
-              //       ItemsCategoriesScreen(),
-              //   ItemsScreen.routeName: (context) => ItemsScreen(),
-              // }, _keys[1]),
-
-              // BuildNavigator({
-              //   CalendarScreen.routeName: (context) => CalendarScreen(),
-              // }, _keys[2]),
-              // BuildNavigator({
-              //   CalendarScreen.routeName: (context) => CalendarScreen(),
-              // }, _keys[3]),
-            ],
-          )),
-    );
-  }
-}
-
-class BuildNavigator extends StatelessWidget {
-  // final GlobalKey<NavigatorState> _key = GlobalKey<NavigatorState>();
-  final GlobalKey<NavigatorState> _key;
-  final Map<String, WidgetBuilder> _routes;
-
-  BuildNavigator(this._routes, this._key);
-  @override
-  Widget build(BuildContext context) {
-    return Navigator(
-      key: _key,
-      initialRoute: '/',
-      onGenerateRoute: (settings) => MaterialPageRoute(
-          builder: _routes[settings.name], settings: settings),
+        extendBody: true,
+        bottomNavigationBar: BottomNav(
+          index: _selectedIndex,
+          onTap: (i) => _selectTab(i),
+          navItems: [
+            BottomNavItem(
+              icon: Icons.all_inbox,
+              label: AppLocalizations.of(context).outfitsTab,
+            ),
+            BottomNavItem(
+              icon: Icons.subscriptions,
+              label: AppLocalizations.of(context).itemsTab,
+            ),
+            BottomNavItem(
+              icon: Icons.calendar_today,
+              label: AppLocalizations.of(context).calendar,
+            ),
+            BottomNavItem(
+              icon: Icons.menu,
+              label: 'Menu',
+            ),
+          ],
+          extendedNavItems: [
+            BottomExtendedNavItem(
+              icon: Icons.shopping_basket,
+              label: AppLocalizations.of(context).washBasket,
+              onTap: () =>
+                  Navigator.of(context).pushNamed(WashBasketScreen.routeName),
+            ),
+            BottomExtendedNavItem(
+              icon: Icons.settings,
+              label: AppLocalizations.of(context).settings,
+              onTap: () =>
+                  Navigator.of(context).pushNamed(SettingsScreen.routeName),
+            ),
+            BottomExtendedNavItem(
+              icon: Icons.bar_chart,
+              label: AppLocalizations.of(context).statistics,
+              onTap: () {},
+            ),
+          ],
+        ),
+        body: IndexedStack(
+          index: _selectedIndex,
+          children: routeNavigators,
+        ),
+      ),
     );
   }
 }
