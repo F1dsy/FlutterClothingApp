@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/drawer.dart';
+// import '../widgets/drawer.dart';
 import '../l10n/app_localizations.dart';
 import '../widgets/navigation/bottom_navigation.dart';
 import './wash/wash_basket_screen.dart';
@@ -18,11 +18,7 @@ class _MainScreenState extends State<MainScreen> {
 
   void _selectTab(i) {
     setState(() {
-      if (i == 3) {
-        showDrawer(context);
-      } else {
-        _selectedIndex = i;
-      }
+      _selectedIndex = i;
     });
   }
 
@@ -50,12 +46,12 @@ class _MainScreenState extends State<MainScreen> {
               label: AppLocalizations.of(context).itemsTab,
             ),
             BottomNavItem(
-              icon: Icons.calendar_today,
-              label: AppLocalizations.of(context).calendar,
+              icon: Icons.home,
+              label: 'Home',
             ),
             BottomNavItem(
-              icon: Icons.menu,
-              label: 'Menu',
+              icon: Icons.calendar_today,
+              label: AppLocalizations.of(context).calendar,
             ),
           ],
           extendedNavItems: [
