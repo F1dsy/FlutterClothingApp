@@ -42,6 +42,7 @@ class OutfitWidget extends StatelessWidget {
         child: Stack(
           children: [
             ClipRRect(
+              borderRadius: BorderRadius.circular(4),
               child: _build(),
             ),
             Positioned.fill(

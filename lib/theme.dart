@@ -12,7 +12,7 @@ final theme = ThemeData(
     iconTheme: IconThemeData(color: Colors.white),
     textTheme: TextTheme(
       headline6: TextStyle().copyWith(
-          color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.bold),
+          color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.normal),
     ),
   ),
 );

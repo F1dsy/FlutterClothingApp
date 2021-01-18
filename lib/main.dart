@@ -14,7 +14,7 @@ import './providers/outfit_categories.dart';
 import './providers/events.dart';
 import 'screens/outfits/outfit_builder.dart';
 import 'screens/items/add_item_screen.dart';
-import 'screens/calendar/add_event_screen.dart';
+// import 'screens/calendar/add_event_screen.dart';
 import 'theme.dart';
 
 void main() {
@@ -108,7 +108,7 @@ class _MyAppState extends State<MyApp> {
         routes: {
           OutfitBuilder.routeName: (context) => OutfitBuilder(),
           AddItemScreen.routeName: (context) => AddItemScreen(),
-          AddEventScreen.routeName: (context) => AddEventScreen(),
+          // AddEventScreen.routeName: (context) => AddEventScreen(),
           WashBasketScreen.routeName: (context) => WashBasketScreen(),
           SettingsScreen.routeName: (context) => SettingsScreen(),
         },

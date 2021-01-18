@@ -29,7 +29,6 @@ class Events with ChangeNotifier {
         Event(
           id: event['event_id'],
           date: DateTime.parse(event['date']),
-          title: event['title'],
           outfit: outfit,
         )
       ];
@@ -41,7 +40,6 @@ class Events with ChangeNotifier {
     DBHelper.insert(DBHelper.Tables.Events, {
       'date': event.date.toIso8601String(),
       'outfit_id': event.outfit.id,
-      'title': event.title,
     });
     _events[event.date] = [event];
     notifyListeners();

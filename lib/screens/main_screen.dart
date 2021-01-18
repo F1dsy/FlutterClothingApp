@@ -8,7 +8,7 @@ import 'items/items_category_screen.dart';
 import 'items/items_screen.dart';
 import '../screens/items/move_item.dart';
 import '../screens/calendar/calendar_screen.dart';
-import 'bottom_navigation.dart';
+// import 'bottom_navigation.dart';
 
 class MainScreen extends StatefulWidget {
   @override

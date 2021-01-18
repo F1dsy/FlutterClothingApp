@@ -52,6 +52,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   });
                 },
                 availableGestures: AvailableGestures.horizontalSwipe,
+                calendarStyle: CalendarStyle(
+                  selectedColor: Theme.of(context).primaryColor,
+                  todayColor: Theme.of(context).primaryColor.withOpacity(0.6),
+                ),
               ),
               Column(
                 children: _selectedEvents == null
@@ -63,7 +67,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
                           // margin: EdgeInsets.all(5),
                           child: Card(
                             margin: EdgeInsets.all(5),
-                            child: Center(child: Text(event.title)),
+                            child:
+                                Center(child: Text(event.outfit.id.toString())),
                           ),
                         );
                       }).toList(),
@@ -74,8 +79,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context, rootNavigator: true)
-              .pushNamed(AddEventScreen.routeName);
+          // Navigator.of(context, rootNavigator: true)
+          // .pushNamed(AddEventScreen.routeName);
+          addEvent(context);
         },
         child: Icon(Icons.add),
         heroTag: null,
