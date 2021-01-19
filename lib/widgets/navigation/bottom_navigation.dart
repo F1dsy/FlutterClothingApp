@@ -61,48 +61,57 @@ class _BottomNavState extends State<BottomNav>
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: _animationController,
-      builder: (context, child) => ClipPath(
-        clipper: _ArcClipper(
-            _animationController.status == AnimationStatus.forward
-                ? _borderAnimationForward.value
-                : _borderAnimationReverse.value),
-        child: Container(
-          height: _heightAnimation.value * 150 + 77,
-          decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: () {
-                  setState(() {
-                    !open
-                        ? _animationController.forward()
-                        : _animationController.reverse();
-                    open = !open;
-                  });
-                },
-                child: _MenuIcon(),
-              ),
-              Expanded(
-                child: Row(
-                  children: List.generate(
-                    widget.extendedNavItems.length,
-                    (i) => NavBoxItem(
-                      animation: _animationController,
-                      icon: widget.extendedNavItems[i].icon,
-                      label: widget.extendedNavItems[i].label,
-                      onTap: widget.extendedNavItems[i].onTap,
+      builder: (context, child) => Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          Container(
+            height: _heightAnimation.value * 140 + 82,
+            decoration: BoxDecoration(
+                color: Theme.of(context).accentColor,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(15))),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () {
+                      setState(() {
+                        !open
+                            ? _animationController.forward()
+                            : _animationController.reverse();
+                        open = !open;
+                      });
+                    },
+                    child: _MenuIcon(),
+                  ),
+                ),
+                Expanded(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: List.generate(
+                      widget.extendedNavItems.length,
+                      (i) => NavBoxItem(
+                        animation: _animationController,
+                        icon: widget.extendedNavItems[i].icon,
+                        label: widget.extendedNavItems[i].label,
+                        onTap: widget.extendedNavItems[i].onTap,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              child
-            ],
+              ],
+            ),
           ),
-        ),
+          Container(
+            height: 55,
+            decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(15))),
+            child: child,
+          ),
+        ],
       ),
       child: Container(
         width: MediaQuery.of(context).size.width,
@@ -151,29 +160,4 @@ class BottomExtendedNavItem {
   final String label;
   final Function onTap;
   BottomExtendedNavItem({this.icon, this.label, this.onTap});
-}
-
-class _ArcClipper extends CustomClipper<Path> {
-  final double _animation;
-  _ArcClipper(this._animation);
-  @override
-  Path getClip(Size size) {
-    Path path = Path();
-
-    path.moveTo(0, size.height);
-    path.lineTo(0, 20 + _animation);
-    path.quadraticBezierTo(
-      size.width / 2,
-      -20 - _animation,
-      size.width,
-      20 + _animation,
-    );
-    path.lineTo(size.width, size.height);
-
-    path.close();
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper old) => false;
 }

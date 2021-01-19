@@ -15,7 +15,8 @@ class NavItem extends StatelessWidget {
         child: Container(
           height: 43,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            //set to MainAxisAlignment.start if icon should not move
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
                 icon,
