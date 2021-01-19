@@ -30,7 +30,7 @@ class NavBoxItem extends StatelessWidget {
                       alignment: Alignment.bottomCenter,
                       child: Icon(
                         icon,
-                        color: Colors.teal,
+                        color: Theme.of(context).primaryColor,
                       ),
                     ),
                   ),
@@ -38,7 +38,7 @@ class NavBoxItem extends StatelessWidget {
                     child: AnimatedDefaultTextStyle(
                       duration: Duration(milliseconds: 100),
                       style: TextStyle(
-                        color: Colors.teal,
+                        color: Theme.of(context).primaryColor,
                         fontSize: 14,
                       ),
                       child: Text(

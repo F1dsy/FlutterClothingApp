@@ -6,7 +6,8 @@ final theme = ThemeData(
   accentColor: Colors.tealAccent,
   appBarTheme: AppBarTheme(
     shadowColor: Colors.black,
-    color: Colors.teal,
+    // color: Colors.grey,
+
     centerTitle: true,
     actionsIconTheme: IconThemeData(color: Colors.white),
     iconTheme: IconThemeData(color: Colors.white),
