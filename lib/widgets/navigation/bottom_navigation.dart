@@ -62,7 +62,7 @@ class _BottomNavState extends State<BottomNav>
     return AnimatedBuilder(
       animation: _animationController,
       builder: (context, child) => ClipPath(
-        clipper: ArcClipper(
+        clipper: _ArcClipper(
             _animationController.status == AnimationStatus.forward
                 ? _borderAnimationForward.value
                 : _borderAnimationReverse.value),
@@ -153,9 +153,9 @@ class BottomExtendedNavItem {
   BottomExtendedNavItem({this.icon, this.label, this.onTap});
 }
 
-class ArcClipper extends CustomClipper<Path> {
+class _ArcClipper extends CustomClipper<Path> {
   final double _animation;
-  ArcClipper(this._animation);
+  _ArcClipper(this._animation);
   @override
   Path getClip(Size size) {
     Path path = Path();
