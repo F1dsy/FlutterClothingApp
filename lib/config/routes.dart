@@ -10,6 +10,7 @@ import '../screens/items/items_category_screen.dart';
 import '../screens/items/items_screen.dart';
 import '../screens/items/move_item.dart';
 import '../screens/calendar/calendar_screen.dart';
+import '../screens/home/home_screen.dart';
 
 final Map<String, WidgetBuilder> rootRoutes = {
   OutfitBuilder.routeName: (context) => OutfitBuilder(),
@@ -36,7 +37,7 @@ List<Widget> routeNavigators = [
     MoveItem.routeName: (context) => MoveItem(),
   }, keys[1]),
   BuildNavigator({
-    CalendarScreen.routeName: (context) => CalendarScreen(),
+    HomeScreen.routeName: (context) => HomeScreen(),
   }, keys[2]),
   BuildNavigator({
     CalendarScreen.routeName: (context) => CalendarScreen(),
