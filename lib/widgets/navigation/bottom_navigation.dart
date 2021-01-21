@@ -59,18 +59,18 @@ class _BottomNavState extends State<BottomNav>
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: AnimatedBuilder(
-        animation: _animationController,
-        builder: (context, child) => Container(
-          height: _heightAnimation.value * 150 + 77,
-          decoration: ShapeDecoration(
-              shape: _ArcShape(
-                  _animationController.status == AnimationStatus.forward
-                      ? _borderAnimationForward.value
-                      : _borderAnimationReverse.value),
-              color: Theme.of(context).primaryColor,
-              shadows: [BoxShadow()]),
+    return AnimatedBuilder(
+      animation: _animationController,
+      builder: (context, child) => Container(
+        height: _heightAnimation.value * 150 + 77,
+        decoration: ShapeDecoration(
+            shape: _ArcShape(
+                _animationController.status == AnimationStatus.forward
+                    ? _borderAnimationForward.value
+                    : _borderAnimationReverse.value),
+            color: Theme.of(context).primaryColor,
+            shadows: [BoxShadow()]),
+        child: SafeArea(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -103,20 +103,20 @@ class _BottomNavState extends State<BottomNav>
             ],
           ),
         ),
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: 50,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: List.generate(
-                widget.navItems.length,
-                (i) => NavItem(
-                      icon: widget.navItems[i].icon,
-                      label: widget.navItems[i].label,
-                      selected: i == widget.index,
-                      onTap: () => widget.onTap(i),
-                    )),
-          ),
+      ),
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: 50,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: List.generate(
+              widget.navItems.length,
+              (i) => NavItem(
+                    icon: widget.navItems[i].icon,
+                    label: widget.navItems[i].label,
+                    selected: i == widget.index,
+                    onTap: () => widget.onTap(i),
+                  )),
         ),
       ),
     );
