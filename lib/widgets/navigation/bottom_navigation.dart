@@ -59,62 +59,64 @@ class _BottomNavState extends State<BottomNav>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _animationController,
-      builder: (context, child) => Container(
-        height: _heightAnimation.value * 150 + 77,
-        decoration: ShapeDecoration(
-            shape: _ArcShape(
-                _animationController.status == AnimationStatus.forward
-                    ? _borderAnimationForward.value
-                    : _borderAnimationReverse.value),
-            color: Theme.of(context).primaryColor,
-            shadows: [BoxShadow()]),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: () {
-                setState(() {
-                  !open
-                      ? _animationController.forward()
-                      : _animationController.reverse();
-                  open = !open;
-                });
-              },
-              child: _MenuIcon(),
-            ),
-            Expanded(
-              child: Row(
-                children: List.generate(
-                  widget.extendedNavItems.length,
-                  (i) => NavBoxItem(
-                    animation: _animationController,
-                    icon: widget.extendedNavItems[i].icon,
-                    label: widget.extendedNavItems[i].label,
-                    onTap: widget.extendedNavItems[i].onTap,
+    return SafeArea(
+      child: AnimatedBuilder(
+        animation: _animationController,
+        builder: (context, child) => Container(
+          height: _heightAnimation.value * 150 + 77,
+          decoration: ShapeDecoration(
+              shape: _ArcShape(
+                  _animationController.status == AnimationStatus.forward
+                      ? _borderAnimationForward.value
+                      : _borderAnimationReverse.value),
+              color: Theme.of(context).primaryColor,
+              shadows: [BoxShadow()]),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () {
+                  setState(() {
+                    !open
+                        ? _animationController.forward()
+                        : _animationController.reverse();
+                    open = !open;
+                  });
+                },
+                child: _MenuIcon(),
+              ),
+              Expanded(
+                child: Row(
+                  children: List.generate(
+                    widget.extendedNavItems.length,
+                    (i) => NavBoxItem(
+                      animation: _animationController,
+                      icon: widget.extendedNavItems[i].icon,
+                      label: widget.extendedNavItems[i].label,
+                      onTap: widget.extendedNavItems[i].onTap,
+                    ),
                   ),
                 ),
               ),
-            ),
-            child
-          ],
+              child
+            ],
+          ),
         ),
-      ),
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        height: 50,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: List.generate(
-              widget.navItems.length,
-              (i) => NavItem(
-                    icon: widget.navItems[i].icon,
-                    label: widget.navItems[i].label,
-                    selected: i == widget.index,
-                    onTap: () => widget.onTap(i),
-                  )),
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: 50,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: List.generate(
+                widget.navItems.length,
+                (i) => NavItem(
+                      icon: widget.navItems[i].icon,
+                      label: widget.navItems[i].label,
+                      selected: i == widget.index,
+                      onTap: () => widget.onTap(i),
+                    )),
+          ),
         ),
       ),
     );
