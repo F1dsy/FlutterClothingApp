@@ -23,9 +23,13 @@ class ItemCategories with ChangeNotifier {
     notifyListeners();
   }
 
-  void deleteCategory(ItemCategory category) {
+  Future<bool> deleteCategory(ItemCategory category) async {
+    List checkResult = await DBHelper.query(DBHelper.Tables.Items,
+        whereString: 'category = ?', whereArgs: [category.title]);
+    if (checkResult.isNotEmpty) return true;
     DBHelper.delete(DBHelper.Tables.ItemCategories, category.id);
     _categories.remove(category);
     notifyListeners();
+    return false;
   }
 }

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 enum Popups { Delete }
 
 class SelectCategoryPopup extends StatelessWidget {
+  final Function delete;
+  SelectCategoryPopup({this.delete});
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton(
@@ -12,7 +14,14 @@ class SelectCategoryPopup extends StatelessWidget {
           value: Popups.Delete,
         ),
       ],
-      onSelected: (value) {},
+      onSelected: (value) {
+        switch (value) {
+          case Popups.Delete:
+            delete();
+            break;
+          default:
+        }
+      },
     );
   }
 }

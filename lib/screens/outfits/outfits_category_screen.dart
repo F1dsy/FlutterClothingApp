@@ -37,17 +37,44 @@ class _OutfitsCategoriesScreenState extends State<OutfitsCategoriesScreen> {
     });
   }
 
+  void _resetSelection() {
+    setState(() {
+      _selectable = false;
+      _selected = [];
+    });
+  }
+
+  void _deleteCategories() {
+    for (var category in _selected) {
+      Provider.of<OutfitCategories>(context, listen: false)
+          .deleteCategory(category)
+          .then(
+        (value) {
+          _resetSelection();
+          if (value) {
+            Scaffold.of(context).showSnackBar(SnackBar(
+              behavior: SnackBarBehavior.floating,
+              elevation: 2,
+              margin: EdgeInsets.all(5),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(4),
+              ),
+              content: Text(
+                'Could not Delete Category, since there are still Items inside',
+              ),
+            ));
+          }
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: !_selectable
           ? NormalAppBar()
-          : SelectAppBar(() {
-              setState(() {
-                _selectable = false;
-                _selected = [];
-              });
-            }),
+          : SelectAppBar(_resetSelection, _deleteCategories),
       body: Consumer<OutfitCategories>(
         builder: (context, data, child) => data.categories.isEmpty
             ? Center(child: Text('Add Category First'))
@@ -93,7 +120,8 @@ class NormalAppBar extends StatelessWidget implements PreferredSizeWidget {
 
 class SelectAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Function close;
-  SelectAppBar(this.close);
+  final Function delete;
+  SelectAppBar(this.close, this.delete);
 
   @override
   get preferredSize => Size.fromHeight(kToolbarHeight);
@@ -107,7 +135,9 @@ class SelectAppBar extends StatelessWidget implements PreferredSizeWidget {
         onPressed: close,
       ),
       actions: [
-        SelectCategoryPopup(),
+        SelectCategoryPopup(
+          delete: delete,
+        ),
       ],
     );
   }

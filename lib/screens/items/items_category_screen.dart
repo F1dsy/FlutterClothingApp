@@ -19,7 +19,14 @@ class ItemsCategoriesScreen extends StatefulWidget {
 
 class _ItemsCategoriesScreenState extends State<ItemsCategoriesScreen> {
   bool _selectable = false;
-  List _selected = [];
+  List<ItemCategory> _selected = [];
+
+  void _resetSelection() {
+    setState(() {
+      _selectable = false;
+      _selected = [];
+    });
+  }
 
   void _toggleSelection(ItemCategory category) {
     setState(() {
@@ -37,17 +44,40 @@ class _ItemsCategoriesScreenState extends State<ItemsCategoriesScreen> {
     });
   }
 
+  void _deleteCategories() {
+    for (var category in _selected) {
+      Provider.of<ItemCategories>(context, listen: false)
+          .deleteCategory(category)
+          .then(
+        (value) {
+          _resetSelection();
+          if (value) {
+            Scaffold.of(context).showSnackBar(SnackBar(
+              behavior: SnackBarBehavior.floating,
+              elevation: 2,
+              margin: EdgeInsets.all(5),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(4),
+              ),
+              content: Text(
+                'Could not Delete Category, since there are still Items inside',
+              ),
+            ));
+          }
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: !_selectable
           ? NormalAppBar()
-          : SelectAppBar(() {
-              setState(() {
-                _selectable = false;
-                _selected = [];
-              });
-            }),
+          : SelectAppBar(
+              _resetSelection,
+              _deleteCategories,
+            ),
       body: Consumer<ItemCategories>(
         builder: (context, data, child) => data.categories.isEmpty
             ? Center(
@@ -93,16 +123,8 @@ class NormalAppBar extends StatelessWidget implements PreferredSizeWidget {
 
 class SelectAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Function close;
-  SelectAppBar(this.close);
-
-  // void _addNewCategory(BuildContext context, String name) {
-  //   if (name.isEmpty) {
-  //     return;
-  //   }
-  //   Provider.of<ItemCategories>(context, listen: false).insertCategory(name);
-
-  //   Navigator.of(context, rootNavigator: true).pop();
-  // }
+  final Function delete;
+  SelectAppBar(this.close, this.delete);
 
   @override
   get preferredSize => Size.fromHeight(kToolbarHeight);
@@ -116,7 +138,9 @@ class SelectAppBar extends StatelessWidget implements PreferredSizeWidget {
         onPressed: close,
       ),
       actions: [
-        SelectCategoryPopup(),
+        SelectCategoryPopup(
+          delete: delete,
+        ),
       ],
     );
   }

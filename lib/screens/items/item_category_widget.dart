@@ -6,7 +6,7 @@ class ItemCategoryWidget extends StatelessWidget {
   final ItemCategory category;
   final bool selected;
   final Function toggle;
-  final List list;
+  final List<ItemCategory> list;
 
   ItemCategoryWidget(
     this.category,

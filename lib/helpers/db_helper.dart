@@ -43,21 +43,20 @@ Future<int> insert(Tables e, Map<String, dynamic> values) async {
   return result;
 }
 
-Future<List<Map<String, dynamic>>> query(Tables e) async {
+Future<List<Map<String, dynamic>>> query(
+  Tables e, {
+  String whereString,
+  List whereArgs,
+}) async {
   final String table = returnTable(e);
   final Database db = await _database();
-  return db.query(table);
+  return db.query(table, where: whereString, whereArgs: whereArgs);
 }
 
-Future<List<Map<String, dynamic>>> queryRaw(String query, List args) async {
-  final Database db = await _database();
-  return db.rawQuery(query, args);
-}
-
-Future<void> delete(Tables e, int id) async {
+Future<void> delete(Tables e, int id, {String whereString = 'id = ?'}) async {
   final String table = returnTable(e);
   final Database db = await _database();
-  db.delete(table, where: 'id = ?', whereArgs: [id]);
+  db.delete(table, where: whereString, whereArgs: [id]);
 }
 
 Future<void> update(Tables e, Map<String, dynamic> values) async {

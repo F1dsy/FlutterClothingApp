@@ -57,6 +57,11 @@ class Items with ChangeNotifier {
 
   void deleteItem(Item item) {
     DBHelper.delete(DBHelper.Tables.Items, item.id);
+    DBHelper.delete(
+      DBHelper.Tables.OutfitItems,
+      item.id,
+      whereString: 'item_id = ?',
+    );
     _items.remove(item);
     item.image.deleteSync();
     notifyListeners();

@@ -23,4 +23,14 @@ class OutfitCategories with ChangeNotifier {
     _categories.add(OutfitCategory(id, title));
     notifyListeners();
   }
+
+  Future<bool> deleteCategory(OutfitCategory category) async {
+    List checkResult = await DBHelper.query(DBHelper.Tables.Outfits,
+        whereString: 'category = ?', whereArgs: [category.title]);
+    if (checkResult.isNotEmpty) return true;
+    DBHelper.delete(DBHelper.Tables.OutfitCategories, category.id);
+    _categories.remove(category);
+    notifyListeners();
+    return false;
+  }
 }
