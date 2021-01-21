@@ -61,47 +61,45 @@ class _BottomNavState extends State<BottomNav>
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: _animationController,
-      builder: (context, child) => ClipPath(
-        clipper: _ArcClipper(
-            _animationController.status == AnimationStatus.forward
-                ? _borderAnimationForward.value
-                : _borderAnimationReverse.value),
-        child: Container(
-          height: _heightAnimation.value * 150 + 77,
-          decoration: BoxDecoration(
+      builder: (context, child) => Container(
+        height: _heightAnimation.value * 150 + 77,
+        decoration: ShapeDecoration(
+            shape: _ArcShape(
+                _animationController.status == AnimationStatus.forward
+                    ? _borderAnimationForward.value
+                    : _borderAnimationReverse.value),
             color: Theme.of(context).primaryColor,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: () {
-                  setState(() {
-                    !open
-                        ? _animationController.forward()
-                        : _animationController.reverse();
-                    open = !open;
-                  });
-                },
-                child: _MenuIcon(),
-              ),
-              Expanded(
-                child: Row(
-                  children: List.generate(
-                    widget.extendedNavItems.length,
-                    (i) => NavBoxItem(
-                      animation: _animationController,
-                      icon: widget.extendedNavItems[i].icon,
-                      label: widget.extendedNavItems[i].label,
-                      onTap: widget.extendedNavItems[i].onTap,
-                    ),
+            shadows: [BoxShadow()]),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () {
+                setState(() {
+                  !open
+                      ? _animationController.forward()
+                      : _animationController.reverse();
+                  open = !open;
+                });
+              },
+              child: _MenuIcon(),
+            ),
+            Expanded(
+              child: Row(
+                children: List.generate(
+                  widget.extendedNavItems.length,
+                  (i) => NavBoxItem(
+                    animation: _animationController,
+                    icon: widget.extendedNavItems[i].icon,
+                    label: widget.extendedNavItems[i].label,
+                    onTap: widget.extendedNavItems[i].onTap,
                   ),
                 ),
               ),
-              child
-            ],
-          ),
+            ),
+            child
+          ],
         ),
       ),
       child: Container(
@@ -153,27 +151,64 @@ class BottomExtendedNavItem {
   BottomExtendedNavItem({this.icon, this.label, this.onTap});
 }
 
-class _ArcClipper extends CustomClipper<Path> {
+// class _ArcClipper extends CustomClipper<Path> {
+//   final double _animation;
+//   _ArcClipper(this._animation);
+//   @override
+//   Path getClip(Size size) {
+//     Path path = Path();
+
+//     path.moveTo(0, size.height);
+//     path.lineTo(0, 20 + _animation);
+//     path.quadraticBezierTo(
+//       size.width / 2,
+//       -20 - _animation,
+//       size.width,
+//       20 + _animation,
+//     );
+//     path.lineTo(size.width, size.height);
+
+//     path.close();
+//     return path;
+//   }
+
+//   @override
+//   bool shouldReclip(CustomClipper old) => false;
+// }
+
+class _ArcShape extends ShapeBorder {
   final double _animation;
-  _ArcClipper(this._animation);
+  _ArcShape(this._animation);
   @override
-  Path getClip(Size size) {
+  Path getInnerPath(Rect rect, {TextDirection textDirection}) {
+    return getOuterPath(rect);
+  }
+
+  @override
+  Path getOuterPath(Rect rect, {TextDirection textDirection}) {
     Path path = Path();
 
-    path.moveTo(0, size.height);
-    path.lineTo(0, 20 + _animation);
+    path.moveTo(0, rect.bottomLeft.dy);
+    path.lineTo(0, rect.topLeft.dy + 20 + _animation);
     path.quadraticBezierTo(
-      size.width / 2,
-      -20 - _animation,
-      size.width,
-      20 + _animation,
+      rect.width / 2,
+      rect.topLeft.dy - 20 - _animation,
+      rect.width,
+      rect.topLeft.dy + 20 + _animation,
     );
-    path.lineTo(size.width, size.height);
+    path.lineTo(rect.width, rect.topLeft.dy + rect.height);
 
     path.close();
+
     return path;
   }
 
   @override
-  bool shouldReclip(CustomClipper old) => false;
+  void paint(Canvas canvas, Rect rect, {TextDirection textDirection}) {}
+
+  @override
+  ShapeBorder scale(double t) => _ArcShape(_animation);
+
+  @override
+  EdgeInsetsGeometry get dimensions => EdgeInsets.all(0);
 }
