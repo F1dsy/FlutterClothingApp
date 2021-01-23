@@ -1,22 +1,47 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'l10n/app_localizations.dart';
 
 import './screens/main_screen.dart';
 import 'config/theme.dart';
 import 'config/routes.dart';
 import 'config/provider_setup.dart';
+import 'config/localization.dart';
+import 'helpers/db_helper.dart' show databaseInit;
 
 void main() {
-  runApp(MyApp());
+  runApp(Init());
 }
 
+// Initialize database and show splashscreen(future)
+class Init extends StatelessWidget {
+  Future<void> init() async {
+    await databaseInit();
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    int washThreshold = preferences.getInt('washThreshold');
+    if (washThreshold == null) {
+      preferences.setInt('washThreshold', 3);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: init(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return MyApp();
+        }
+        return Container();
+      },
+    );
+  }
+}
+
+// Setup app
 class MyApp extends StatefulWidget {
   static void setLocale(BuildContext context, Locale newLocale) {
     var state = context.findAncestorStateOfType<_MyAppState>();
-    state.setLocale(newLocale);
+    state._setLocale(newLocale);
   }
 
   @override
@@ -26,7 +51,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   Locale _locale;
 
-  setLocale(Locale local) {
+  void _setLocale(Locale local) {
     setState(() {
       _locale = local;
     });
@@ -34,20 +59,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void didChangeDependencies() async {
-    // initialize all shared preferences. If first time, set standart values
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    String string = preferences.getString('language');
-    int washThreshold = preferences.getInt('washThreshold');
-    if (string == null) {
-      _locale = Locale('en');
-      preferences.setString('language', 'en');
-    } else {
-      _locale = Locale(string);
-    }
-    if (washThreshold == null) {
-      preferences.setInt('washThreshold', 3);
-      print('setWash');
-    }
+    _locale = await initLocale();
     setState(() {});
     super.didChangeDependencies();
   }
@@ -60,17 +72,8 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         theme: theme,
         home: MainScreen(),
-        localizationsDelegates: [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: [
-          const Locale('en'),
-          const Locale('de'),
-          const Locale('da'),
-        ],
+        localizationsDelegates: localizationsDelegates,
+        supportedLocales: supportedLocales,
         locale: _locale,
         routes: rootRoutes,
       ),

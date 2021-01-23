@@ -1,0 +1,11 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "database": "${workspaceFolder:FlutterClothingApp}/assets/database/app.db",
+            "name": "app"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
+}

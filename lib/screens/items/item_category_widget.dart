@@ -24,7 +24,7 @@ class ItemCategoryWidget extends StatelessWidget {
     bool isSelected = list.contains(category);
 
     return Card(
-      margin: EdgeInsets.all(10),
+      // margin: EdgeInsets.all(10),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
