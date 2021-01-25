@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-import '../../providers/items.dart';
+// import '../../providers/items.dart';
 import '../../providers/outfits.dart';
 import '../../models/item.dart';
 import '../../models/categories.dart';
@@ -25,7 +25,7 @@ class _OutfitBuilderState extends State<OutfitBuilder> {
 
   @override
   void didChangeDependencies() {
-    _items = Provider.of<Items>(context).items;
+    // _items = Provider.of<Items>(context).items;
     _currentCategory = Provider.of<ItemCategories>(context).categories.first;
     super.didChangeDependencies();
   }

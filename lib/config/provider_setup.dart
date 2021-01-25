@@ -31,7 +31,7 @@ class ProviderSetup extends StatelessWidget {
       ),
       ChangeNotifierProxyProvider<Items, Outfits>(
         create: (context) => Outfits(),
-        update: (context, items, outfits) => outfits..update = items.items,
+        update: (context, items, outfits) => outfits..update = items.itemAsList,
         // lazy: false,
       ),
       ChangeNotifierProxyProvider<Outfits, Events>(

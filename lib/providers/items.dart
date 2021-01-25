@@ -14,22 +14,14 @@ class Items with ChangeNotifier {
   }
 
   int _washThreshold;
-  List<Item> _items = [];
+  Map<ItemCategory, List<Item>> _items = {};
 
-  List<Item> get items {
-    return [..._items];
+  Map<ItemCategory, List<Item>> get items {
+    return {..._items};
   }
 
-  List<Item> itemsOfCategory(ItemCategory category) {
-    return _items.where((element) => element.category == category).toList();
-  }
-
-  List<Item> itemsOnlyOfId(List<int> ids) {
-    List<Item> filtered = [];
-    ids.forEach((id) {
-      filtered.addAll(_items.where((item) => item.id == id));
-    });
-    return filtered;
+  List<Item> get itemAsList {
+    return _items.values.expand((list) => list).toList();
   }
 
   Future<void> fetchAndSetItems(List<ItemCategory> categories) async {
@@ -38,27 +30,30 @@ class Items with ChangeNotifier {
 
     SharedPreferences preferences = await SharedPreferences.getInstance();
     _washThreshold = preferences.getInt('washThreshold');
-    _items = result.map((e) {
+
+    categories.forEach((category) => _items[category] = []);
+
+    result.forEach((e) {
+      ItemCategory category =
+          categories.firstWhere((category) => category.id == e['category_id']);
       Item item = Item(
         id: e['id'],
-        category: categories
-            .firstWhere((category) => category.id == e['category_id']),
+        category: category,
         image: File(e['imageURL']),
         isInWash: e['isInWash'] == 1,
         timeOfWash:
             e['timeOfWash'] != null ? DateTime.tryParse(e['timeOfWash']) : null,
       );
-
+      _items[category].add(item);
       _timeSinceInWash(item);
-      return item;
-    }).toList();
+    });
     notifyListeners();
   }
 
   Future<void> insertItem(ItemCategory category, File image) async {
     final id = await DBHelper.insert(DBHelper.Tables.Items,
         {'category_id': category.id, 'imageURL': image.path, 'isInWash': 0});
-    _items.insert(0, Item(id: id, category: category, image: image));
+    _items[category].insert(0, Item(id: id, category: category, image: image));
     notifyListeners();
   }
 

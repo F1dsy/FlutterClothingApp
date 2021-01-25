@@ -125,7 +125,7 @@ class _ItemsScreenState extends State<ItemsScreen> {
       appBar: _selectable ? _buildSelectAppBar() : _buildNormalAppBar(category),
       body: Consumer<Items>(
         builder: (context, data, child) {
-          var items = data.itemsOfCategory(category);
+          var items = data.items[category];
           return items.isEmpty
               ? Center(
                   child: Text('No Items'),

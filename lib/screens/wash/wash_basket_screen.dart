@@ -28,8 +28,7 @@ class WashBasketScreen extends StatelessWidget {
           builder: (context, snapshot) => Consumer2<ItemCategories, Items>(
             builder: (context, categories, items, child) => ListView.builder(
               itemBuilder: (context, i) {
-                List<Item> inWashItems = items
-                    .itemsOfCategory(categories.categories[i])
+                List<Item> inWashItems = items.items[categories.categories[i]]
                     .where((item) => item.isInWash == true)
                     .toList();
                 return Column(
