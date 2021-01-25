@@ -88,10 +88,6 @@ class _OutfitsCategoriesScreenState extends State<OutfitsCategoriesScreen> {
                 itemCount: data.categories.length,
               ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Icons.add),
-      ),
     );
   }
 }

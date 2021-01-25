@@ -22,14 +22,14 @@ class WashBasketScreen extends StatelessWidget {
             {
               Provider.of<ItemCategories>(context, listen: false)
                   .fetchAndSetCategories(),
-              Provider.of<Items>(context, listen: false).fetchAndSetItems(),
+              // Provider.of<Items>(context, listen: false).fetchAndSetItems(),
             },
           ),
           builder: (context, snapshot) => Consumer2<ItemCategories, Items>(
             builder: (context, categories, items, child) => ListView.builder(
               itemBuilder: (context, i) {
                 List<Item> inWashItems = items
-                    .itemsOfCategory(categories.categories[i].title)
+                    .itemsOfCategory(categories.categories[i])
                     .where((item) => item.isInWash == true)
                     .toList();
                 return Column(

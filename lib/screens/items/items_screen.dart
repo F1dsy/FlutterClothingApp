@@ -1,3 +1,4 @@
+import 'package:FlutterClothingApp/models/categories.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -22,14 +23,12 @@ class _ItemsScreenState extends State<ItemsScreen> {
   bool _selectable = false;
   List<Item> _selected = [];
 
-  void _addNewItem(BuildContext context, String name) {
+  void _addNewItem(BuildContext context, ItemCategory category) {
     Navigator.of(context, rootNavigator: true)
-        .pushNamed(AddItemScreen.routeName, arguments: name);
-    // Navigator.pushNamed(context, AddItemScreen.routeName, arguments: name);
+        .pushNamed(AddItemScreen.routeName, arguments: category);
   }
 
   void toggleSelection(Item item) {
-    // print('inToggle ' + item.hashCode.toString());
     setState(() {
       if (!_selectable) {
         _selectable = true;
@@ -87,12 +86,12 @@ class _ItemsScreenState extends State<ItemsScreen> {
     });
   }
 
-  Widget _buildNormalAppBar(name) => CustomAppBar(
-        title: Text(name),
+  Widget _buildNormalAppBar(ItemCategory category) => CustomAppBar(
+        title: Text(category.title),
         actions: [
           IconButton(
             icon: Icon(Icons.add),
-            onPressed: () => _addNewItem(context, name),
+            onPressed: () => _addNewItem(context, category),
           ),
         ],
       );
@@ -120,13 +119,13 @@ class _ItemsScreenState extends State<ItemsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final String name = ModalRoute.of(context).settings.arguments;
+    final ItemCategory category = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
-      appBar: _selectable ? _buildSelectAppBar() : _buildNormalAppBar(name),
+      appBar: _selectable ? _buildSelectAppBar() : _buildNormalAppBar(category),
       body: Consumer<Items>(
         builder: (context, data, child) {
-          var items = data.itemsOfCategory(name);
+          var items = data.itemsOfCategory(category);
           return items.isEmpty
               ? Center(
                   child: Text('No Items'),
@@ -137,21 +136,20 @@ class _ItemsScreenState extends State<ItemsScreen> {
                   itemBuilder: (context, i) {
                     return ItemWidget(
                         items[i], _selectable, toggleSelection, _selected);
-                    // return Container(
-                    //   height: 100,
-                    //   child: const Text('hiii'),
-                    // );
                   },
                   itemCount: items.length,
                   staggeredTileBuilder: (_) => StaggeredTile.fit(1),
                 );
         },
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () => _addNewItem(context, name),
-      //   child: Icon(Icons.add),
-      //   heroTag: null,
-      // ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 65.0),
+        child: FloatingActionButton(
+          onPressed: () => _addNewItem(context, category),
+          child: Icon(Icons.add),
+          heroTag: null,
+        ),
+      ),
     );
   }
 }

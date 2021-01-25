@@ -1,3 +1,4 @@
+import 'package:FlutterClothingApp/models/categories.dart';
 import 'package:flutter/material.dart';
 
 import '../helpers/db_helper.dart' as DBHelper;
@@ -5,7 +6,8 @@ import '../models/outfit.dart';
 import '../models/item.dart';
 
 class Outfits with ChangeNotifier {
-  set update(List value) {
+  set update(List<Item> value) {
+    if (value.isEmpty) return;
     fetchAndSetOutfits(value);
   }
 
@@ -15,12 +17,11 @@ class Outfits with ChangeNotifier {
     return [..._outfits];
   }
 
-  List<Outfit> outfitsOfCategory(String category) {
+  List<Outfit> outfitsOfCategory(OutfitCategory category) {
     return _outfits.where((outfit) => outfit.category == category).toList();
   }
 
   Future<void> fetchAndSetOutfits(List<Item> items) async {
-    if (items.isEmpty) return;
     final outfits = await DBHelper.query(DBHelper.Tables.Outfits);
     final itemsOfOutfit = await DBHelper.query(DBHelper.Tables.OutfitItems);
     _outfits = outfits.map((outfit) {
@@ -46,7 +47,7 @@ class Outfits with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> insertOutfit(String category, List<Item> items) async {
+  Future<void> insertOutfit(OutfitCategory category, List<Item> items) async {
     final id =
         await DBHelper.insert(DBHelper.Tables.Outfits, {'category': category});
     for (var item in items) {
@@ -64,7 +65,7 @@ class Outfits with ChangeNotifier {
     notifyListeners();
   }
 
-  void moveToCategory(List<Outfit> outfits, String newCategory) {
+  void moveToCategory(List<Outfit> outfits, OutfitCategory newCategory) {
     for (var outfit in outfits) {
       outfit.category = newCategory;
     }

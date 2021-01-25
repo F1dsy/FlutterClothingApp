@@ -4,9 +4,16 @@ import 'package:flutter/foundation.dart';
 
 import '../helpers/db_helper.dart' as DBHelper;
 import '../models/item.dart';
+import '../models/categories.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Items with ChangeNotifier {
+  set update(List<ItemCategory> value) {
+    if (value.isEmpty) return;
+    print(value);
+    fetchAndSetItems(value);
+  }
+
   int _washThreshold;
   List<Item> _items = [];
 
@@ -14,7 +21,7 @@ class Items with ChangeNotifier {
     return [..._items];
   }
 
-  List<Item> itemsOfCategory(String category) {
+  List<Item> itemsOfCategory(ItemCategory category) {
     return _items.where((element) => element.category == category).toList();
   }
 
@@ -26,16 +33,17 @@ class Items with ChangeNotifier {
     return filtered;
   }
 
-  Future<void> fetchAndSetItems() async {
+  Future<void> fetchAndSetItems(List<ItemCategory> categories) async {
     List<Map<String, dynamic>> result =
         await DBHelper.query(DBHelper.Tables.Items);
-    // print('Items in items' + result.toString());
+
     SharedPreferences preferences = await SharedPreferences.getInstance();
     _washThreshold = preferences.getInt('washThreshold');
     _items = result.map((e) {
       Item item = Item(
         id: e['id'],
-        category: e['category'],
+        category: categories
+            .firstWhere((category) => category.id == e['category_id']),
         image: File(e['imageURL']),
         isInWash: e['isInWash'] == 1,
         timeOfWash:
@@ -48,9 +56,9 @@ class Items with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> insertItem(String category, File image) async {
+  Future<void> insertItem(ItemCategory category, File image) async {
     final id = await DBHelper.insert(DBHelper.Tables.Items,
-        {'category': category, 'imageURL': image.path, 'isInWash': 0});
+        {'category_id': category.id, 'imageURL': image.path, 'isInWash': 0});
     _items.insert(0, Item(id: id, category: category, image: image));
     notifyListeners();
   }
@@ -96,7 +104,7 @@ class Items with ChangeNotifier {
     return item;
   }
 
-  void moveToCategory(List<Item> items, String newCategory) {
+  void moveToCategory(List<Item> items, ItemCategory newCategory) {
     for (var item in items) {
       item.category = newCategory;
     }

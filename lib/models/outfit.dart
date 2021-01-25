@@ -1,9 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'item.dart';
+import 'categories.dart';
 
 class Outfit {
   final int id;
-  String category;
+  OutfitCategory category;
   List<Item> items;
   // String imageURL;
 

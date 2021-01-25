@@ -21,7 +21,7 @@ class OutfitCategoryWidget extends StatelessWidget {
     // if (selectCategory == true) {
     // Navigator.of(context).pop(category.title);
     // } else {
-    Navigator.of(context).pushNamed('/outfit', arguments: category.title);
+    Navigator.of(context).pushNamed('/outfit', arguments: category);
     // }
   }
 

@@ -1,9 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'categories.dart';
 
 class Item {
   final int id;
-  String category;
+  ItemCategory category;
   File image;
   bool isInWash = false;
   DateTime timeOfWash;

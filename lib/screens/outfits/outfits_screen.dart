@@ -1,3 +1,4 @@
+import 'package:FlutterClothingApp/models/categories.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'outfit_builder.dart';
 import '../../l10n/app_localizations.dart';
 import '../../providers/outfits.dart';
+import '../../providers/items.dart';
 import '../../models/outfit.dart';
 import './outfit_widget.dart';
 import 'select_outfit_popup.dart';
@@ -38,8 +40,22 @@ class _OutfitsScreenState extends State<OutfitsScreen> {
   }
 
   void _addNewOutfit(BuildContext context, String name) {
-    Navigator.of(context, rootNavigator: true)
-        .pushNamed(OutfitBuilder.routeName, arguments: name);
+    if (Provider.of<Items>(context, listen: false).items.isEmpty) {
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: Text('No Items'),
+                content: Text('You need to add Items first'),
+                actions: [
+                  FlatButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: Text('OK'))
+                ],
+              ));
+    } else {
+      Navigator.of(context, rootNavigator: true)
+          .pushNamed(OutfitBuilder.routeName, arguments: name);
+    }
   }
 
   void _deleteItems(List<Outfit> outfits) {
@@ -54,11 +70,11 @@ class _OutfitsScreenState extends State<OutfitsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final String name = ModalRoute.of(context).settings.arguments;
+    final OutfitCategory category = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
       appBar: !_selectable
-          ? NormalAppBar(name)
+          ? NormalAppBar(category.title, _addNewOutfit)
           : SelectAppBar(
               () {
                 setState(() {
@@ -71,7 +87,7 @@ class _OutfitsScreenState extends State<OutfitsScreen> {
       body: Consumer<Outfits>(
         builder: (context, data, child) {
           // gets list of outfits in the selected category
-          List<Outfit> outfits = data.outfitsOfCategory(name);
+          List<Outfit> outfits = data.outfitsOfCategory(category);
 
           return outfits.isEmpty
               ? Center(
@@ -90,11 +106,14 @@ class _OutfitsScreenState extends State<OutfitsScreen> {
                 );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        heroTag: null,
-        onPressed: () => _addNewOutfit(context, name),
-        child: Icon(Icons.add),
-        elevation: 4,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 65.0),
+        child: FloatingActionButton(
+          heroTag: null,
+          onPressed: () => _addNewOutfit(context, category.title),
+          child: Icon(Icons.add),
+          elevation: 4,
+        ),
       ),
     );
   }
@@ -102,11 +121,8 @@ class _OutfitsScreenState extends State<OutfitsScreen> {
 
 class NormalAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String name;
-  NormalAppBar(this.name);
-  void _addNewOutfit(BuildContext context, String name) {
-    Navigator.of(context, rootNavigator: true)
-        .pushNamed(OutfitBuilder.routeName, arguments: name);
-  }
+  final Function addNewOutfit;
+  NormalAppBar(this.name, this.addNewOutfit);
 
   @override
   get preferredSize => Size.fromHeight(kToolbarHeight);
@@ -117,7 +133,7 @@ class NormalAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         IconButton(
           icon: Icon(Icons.add),
-          onPressed: () => _addNewOutfit(context, name),
+          onPressed: () => addNewOutfit(context, name),
         ),
       ],
     );

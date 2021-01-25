@@ -25,7 +25,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
   void _save() async {
     _formKey.currentState.save();
 
-    // Provider.of<Items>(context, listen: false).fetchAndSetItems();
     Navigator.of(context).pop();
   }
 
@@ -56,42 +55,35 @@ class _AddItemScreenState extends State<AddItemScreen> {
         key: _formKey,
         child: Column(
           children: [
-            Container(
-              width: double.infinity,
-              height: 300,
+            Card(
+              margin: const EdgeInsets.all(8.0),
+              child: DropdownButtonFormField(
+                items: Provider.of<ItemCategories>(context)
+                    .categories
+                    .map((category) => DropdownMenuItem(
+                          child: Container(
+                            margin: const EdgeInsets.only(left: 8.0),
+                            child: Text(category.title),
+                          ),
+                          value: category,
+                        ))
+                    .toList(),
+                value: ModalRoute.of(context).settings.arguments,
+                onChanged: (_) {},
+                onSaved: (category) {
+                  Provider.of<Items>(context, listen: false)
+                      .insertItem(category, imageInput.image);
+                },
+              ),
+            ),
+            Card(
+              margin: const EdgeInsets.all(8.0),
               child: imageInput.image == null
                   ? null
-                  : Image.file(imageInput.image),
-            ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: [
-            //     FlatButton.icon(
-            //       label: Text('Camera'),
-            //       icon: Icon(Icons.camera_alt),
-            //       onPressed: _takePicture,
-            //     ),
-            //     FlatButton.icon(
-            //       label: Text('Gallery'),
-            //       icon: Icon(Icons.image),
-            //       onPressed: _pickFromGallery,
-            //     )
-            //   ],
-            // ),
-            DropdownButtonFormField(
-              items: Provider.of<ItemCategories>(context)
-                  .categories
-                  .map((e) => DropdownMenuItem(
-                        child: Text(e.title),
-                        value: e.title,
-                      ))
-                  .toList(),
-              value: ModalRoute.of(context).settings.arguments,
-              onChanged: (_) {},
-              onSaved: (value) {
-                Provider.of<Items>(context, listen: false)
-                    .insertItem(value, imageInput.image);
-              },
+                  : ClipRRect(
+                      borderRadius: BorderRadius.circular(4),
+                      child: Image.file(imageInput.image),
+                    ),
             ),
           ],
         ),

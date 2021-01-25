@@ -9,32 +9,7 @@ import 'config/localization.dart';
 import 'helpers/db_helper.dart' show databaseInit;
 
 void main() {
-  runApp(Init());
-}
-
-// Initialize database and show splashscreen(future)
-class Init extends StatelessWidget {
-  Future<void> init() async {
-    await databaseInit();
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    int washThreshold = preferences.getInt('washThreshold');
-    if (washThreshold == null) {
-      preferences.setInt('washThreshold', 3);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: init(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          return MyApp();
-        }
-        return Container();
-      },
-    );
-  }
+  runApp(MyApp());
 }
 
 // Setup app
@@ -50,6 +25,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   Locale _locale;
+  Future initFuture;
 
   void _setLocale(Locale local) {
     setState(() {
@@ -57,26 +33,41 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  Future<void> init() async {
+    await databaseInit();
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    int washThreshold = preferences.getInt('washThreshold');
+    if (washThreshold == null) {
+      preferences.setInt('washThreshold', 3);
+    }
+  }
+
   @override
   void didChangeDependencies() async {
     _locale = await initLocale();
+    initFuture = init();
     setState(() {});
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ProviderSetup(
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        debugShowCheckedModeBanner: false,
-        theme: theme,
-        home: MainScreen(),
-        localizationsDelegates: localizationsDelegates,
-        supportedLocales: supportedLocales,
-        locale: _locale,
-        routes: rootRoutes,
-      ),
+    return FutureBuilder(
+      future: initFuture,
+      builder: (context, snap) => snap.connectionState == ConnectionState.done
+          ? ProviderSetup(
+              child: MaterialApp(
+                title: 'Flutter Demo',
+                debugShowCheckedModeBanner: false,
+                theme: theme,
+                home: MainScreen(),
+                localizationsDelegates: localizationsDelegates,
+                supportedLocales: supportedLocales,
+                locale: _locale,
+                routes: rootRoutes,
+              ),
+            )
+          : Container(),
     );
   }
 }
