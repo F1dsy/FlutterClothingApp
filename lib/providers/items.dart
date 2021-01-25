@@ -10,7 +10,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Items with ChangeNotifier {
   set update(List<ItemCategory> value) {
     if (value.isEmpty) return;
-    print(value);
     fetchAndSetItems(value);
   }
 

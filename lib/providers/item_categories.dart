@@ -25,7 +25,7 @@ class ItemCategories with ChangeNotifier {
 
   Future<bool> deleteCategory(ItemCategory category) async {
     List checkResult = await DBHelper.query(DBHelper.Tables.Items,
-        whereString: 'category = ?', whereArgs: [category.title]);
+        whereString: 'category_id = ?', whereArgs: [category.id]);
     if (checkResult.isNotEmpty) return true;
     DBHelper.delete(DBHelper.Tables.ItemCategories, category.id);
     _categories.remove(category);

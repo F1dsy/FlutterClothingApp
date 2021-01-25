@@ -37,6 +37,28 @@ class _OutfitBuilderState extends State<OutfitBuilder> {
         .then(Navigator.of(context).pop);
   }
 
+  void _selectionHandler() {
+    setState(() {
+      if (frontCardOffset.dx > 150) {
+        _addSelectItem();
+      } else if (frontCardOffset.dx < -150) {
+        _nextItem();
+      }
+      frontCardOffset = Offset(0, 0);
+    });
+  }
+
+  void _addSelectItem() {
+    _selectedItems.add(_items[_currentIndex]);
+    _items.remove(_items[_currentIndex]);
+    _currentCategory = _items[_currentIndex].category;
+  }
+
+  void _nextItem() {
+    _currentIndex++;
+    _currentCategory = _items[_currentIndex].category;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -133,20 +155,8 @@ class _OutfitBuilderState extends State<OutfitBuilder> {
                               },
                             );
                           },
-                          onPanEnd: (DragEndDetails details) {
-                            setState(
-                              () {
-                                if (frontCardOffset.dx > 150) {
-                                  _selectedItems.add(_items[_currentIndex]);
-                                  _items.remove(_items[_currentIndex]);
-                                  _currentIndex = _currentIndex + 1;
-                                } else if (frontCardOffset.dx < -150) {
-                                  _currentIndex = _currentIndex + 1;
-                                } else {}
-                                frontCardOffset = Offset(0, 0);
-                              },
-                            );
-                          },
+                          onPanEnd: (DragEndDetails details) =>
+                              _selectionHandler(),
                         ),
                       ],
                     )
