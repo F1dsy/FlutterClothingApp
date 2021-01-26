@@ -6,11 +6,6 @@ import '../models/outfit.dart';
 import '../models/item.dart';
 
 class Outfits with ChangeNotifier {
-  set update(List<Item> value) {
-    if (value.isEmpty) return;
-    fetchAndSetOutfits(value);
-  }
-
   List<Outfit> _outfits = [];
 
   List<Outfit> get outfits {
@@ -21,7 +16,9 @@ class Outfits with ChangeNotifier {
     return _outfits.where((outfit) => outfit.category == category).toList();
   }
 
-  Future<void> fetchAndSetOutfits(List<Item> items) async {
+  Future<void> fetchAndSetOutfits(
+      List<Item> items, List<OutfitCategory> categories) async {
+    if (items.isEmpty || categories.isEmpty) return;
     final outfits = await DBHelper.query(DBHelper.Tables.Outfits);
     final itemsOfOutfit = await DBHelper.query(DBHelper.Tables.OutfitItems);
     _outfits = outfits.map((outfit) {
@@ -39,7 +36,8 @@ class Outfits with ChangeNotifier {
 
       return Outfit(
         id: outfit['id'],
-        category: outfit['category'],
+        category: categories
+            .firstWhere((category) => category.id == outfit['category_id']),
         items: itemList,
       );
     }).toList();
@@ -49,7 +47,7 @@ class Outfits with ChangeNotifier {
 
   Future<void> insertOutfit(OutfitCategory category, List<Item> items) async {
     final id = await DBHelper.insert(
-        DBHelper.Tables.Outfits, {'category': category.title});
+        DBHelper.Tables.Outfits, {'category_id': category.id});
     for (var item in items) {
       DBHelper.insert(
           DBHelper.Tables.OutfitItems, {'outfit_id': id, 'item_id': item.id});

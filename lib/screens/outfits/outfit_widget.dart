@@ -6,10 +6,15 @@ import '../../widgets/show_image_dialog.dart';
 class OutfitWidget extends StatelessWidget {
   final Outfit outfit;
   final bool selectable;
-  final Function toggleSelected;
+  final Function(Outfit) toggleSelected;
   final List list;
 
-  OutfitWidget(this.outfit, this.selectable, this.toggleSelected, this.list);
+  OutfitWidget(
+    this.outfit,
+    this.selectable,
+    this.toggleSelected, [
+    this.list,
+  ]);
 
   Widget _build() {
     if (outfit.items.length >= 4) {
@@ -36,7 +41,7 @@ class OutfitWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isSelected = list.contains(outfit);
+    bool isSelected = list == null ? false : list.contains(outfit);
     return Container(
       child: Card(
         child: Stack(

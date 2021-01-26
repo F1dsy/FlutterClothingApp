@@ -135,7 +135,7 @@ class _ItemsScreenState extends State<ItemsScreen> {
                   crossAxisCount: 3,
                   itemBuilder: (context, i) {
                     return ItemWidget(
-                        items[i], _selectable, toggleSelection, _selected);
+                        items[i], toggleSelection, _selectable, _selected);
                   },
                   itemCount: items.length,
                   staggeredTileBuilder: (_) => StaggeredTile.fit(1),

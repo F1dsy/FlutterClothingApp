@@ -6,6 +6,7 @@ import '../../screens/calendar/add_event_screen.dart';
 import '../../providers/events.dart';
 import '../../models/event.dart';
 import '../../widgets/custom_app_bar.dart';
+import 'event_widget.dart';
 
 class CalendarScreen extends StatefulWidget {
   static const routeName = '/';
@@ -19,10 +20,17 @@ class _CalendarScreenState extends State<CalendarScreen> {
   // Map<DateTime, List<dynamic>> _events = {};
   List<Event> _selectedEvents = [];
 
+  DateTime _selectedDay = DateTime.now();
+
   @override
   void dispose() {
     _calendarController.dispose();
     super.dispose();
+  }
+
+  void _addNewEvent() {
+    Navigator.of(context, rootNavigator: true)
+        .pushNamed(AddEventScreen.routeName, arguments: _selectedDay);
   }
 
   @override
@@ -30,16 +38,22 @@ class _CalendarScreenState extends State<CalendarScreen> {
     return Scaffold(
       appBar: CustomAppBar(
         title: Text('Calendar'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: _addNewEvent,
+          )
+        ],
       ),
       body: SingleChildScrollView(
         child: Consumer<Events>(
           builder: (context, data, child) => Column(
             children: [
               TableCalendar(
+                initialSelectedDay: _selectedDay,
                 calendarController: _calendarController,
                 startingDayOfWeek: StartingDayOfWeek.monday,
                 weekendDays: [],
-                // calendarStyle: CalendarStyle(),
                 events: data.events,
                 initialCalendarFormat: CalendarFormat.month,
                 headerStyle: HeaderStyle(
@@ -48,6 +62,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 ),
                 onDaySelected: (day, events, holidays) {
                   setState(() {
+                    _selectedDay = day;
                     _selectedEvents = (events is List<Event>) ? events : null;
                   });
                 },
@@ -61,14 +76,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 children: _selectedEvents == null
                     ? []
                     : _selectedEvents.map((event) {
-                        return Container(
-                          width: double.infinity,
-                          height: 60,
-                          // margin: EdgeInsets.all(5),
-                          child: Card(
-                            margin: EdgeInsets.all(5),
-                            child:
-                                Center(child: Text(event.outfit.id.toString())),
+                        return Card(
+                          margin: EdgeInsets.all(5),
+                          child: ListTile(
+                            title: Text(event.outfit.id.toString()),
+                            onTap: () => showEvent(context, event),
                           ),
                         );
                       }).toList(),
@@ -77,14 +89,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Navigator.of(context, rootNavigator: true)
-          // .pushNamed(AddEventScreen.routeName);
-          addEvent(context);
-        },
-        child: Icon(Icons.add),
-        heroTag: null,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 65.0),
+        child: FloatingActionButton(
+          onPressed: _addNewEvent,
+          child: Icon(Icons.add),
+          heroTag: null,
+        ),
       ),
     );
   }

@@ -36,12 +36,14 @@ class Events with ChangeNotifier {
     notifyListeners();
   }
 
-  void addEvent(Event event) {
-    DBHelper.insert(DBHelper.Tables.Events, {
+  void addEvent(Event event) async {
+    final int id = await DBHelper.insert(DBHelper.Tables.Events, {
       'date': event.date.toIso8601String(),
       'outfit_id': event.outfit.id,
     });
-    _events[event.date] = [event];
+    _events[event.date] = [
+      Event(id: id, date: event.date, outfit: event.outfit)
+    ];
     notifyListeners();
   }
 }

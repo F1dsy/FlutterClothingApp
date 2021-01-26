@@ -6,9 +6,10 @@ import '../../widgets/show_image_dialog.dart';
 class ItemWidget extends StatelessWidget {
   final Item item;
   final bool selectable;
-  final Function toggleSelected;
+  final Function(Item) toggleSelected;
   final List list;
-  ItemWidget(this.item, this.selectable, this.toggleSelected, this.list);
+  ItemWidget(this.item, this.toggleSelected,
+      [this.selectable = false, this.list]);
 
   void showImage(BuildContext context) {
     showDialog(
@@ -25,7 +26,7 @@ class ItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isSelected = list.contains(item);
+    bool isSelected = list == null ? false : list.contains(item);
 
     return Container(
         child: Card(

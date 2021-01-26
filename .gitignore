@@ -11,7 +11,7 @@
 .design
 
 # Databases
-app_en.db
+assets/database/*.db
 
 # IntelliJ related
 *.iml

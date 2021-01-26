@@ -5,7 +5,7 @@ final theme = ThemeData(
   primaryColor: Color(0xFF342D7E),
   visualDensity: VisualDensity.adaptivePlatformDensity,
   accentColor: Color(0xFF4239A5),
-  canvasColor: Color(0xFFFEFEFE),
+  canvasColor: Color(0xFFF2F2F2),
   appBarTheme: AppBarTheme(
     shadowColor: Colors.black,
     // color: Colors.grey,
