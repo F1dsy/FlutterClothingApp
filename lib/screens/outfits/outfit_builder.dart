@@ -28,9 +28,7 @@ class _OutfitBuilderState extends State<OutfitBuilder> {
   void didChangeDependencies() {
     _items = Provider.of<Items>(context).items;
     _items.forEach((key, value) {
-      print(value.hashCode);
       _items[key] = [...value];
-      print(_items[key].hashCode);
     });
     _categories = Provider.of<ItemCategories>(context).categories;
     _currentCategory = _categories.first;

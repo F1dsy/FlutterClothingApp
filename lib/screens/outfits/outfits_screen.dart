@@ -39,7 +39,7 @@ class _OutfitsScreenState extends State<OutfitsScreen> {
     });
   }
 
-  void _addNewOutfit(BuildContext context, String name) {
+  void _addNewOutfit(BuildContext context, OutfitCategory category) {
     if (Provider.of<Items>(context, listen: false).items.isEmpty) {
       showDialog(
           context: context,
@@ -54,7 +54,7 @@ class _OutfitsScreenState extends State<OutfitsScreen> {
               ));
     } else {
       Navigator.of(context, rootNavigator: true)
-          .pushNamed(OutfitBuilder.routeName, arguments: name);
+          .pushNamed(OutfitBuilder.routeName, arguments: category);
     }
   }
 
@@ -74,7 +74,7 @@ class _OutfitsScreenState extends State<OutfitsScreen> {
 
     return Scaffold(
       appBar: !_selectable
-          ? NormalAppBar(category.title, _addNewOutfit)
+          ? NormalAppBar(category, _addNewOutfit)
           : SelectAppBar(
               () {
                 setState(() {
@@ -110,7 +110,7 @@ class _OutfitsScreenState extends State<OutfitsScreen> {
         padding: const EdgeInsets.only(bottom: 65.0),
         child: FloatingActionButton(
           heroTag: null,
-          onPressed: () => _addNewOutfit(context, category.title),
+          onPressed: () => _addNewOutfit(context, category),
           child: Icon(Icons.add),
           elevation: 4,
         ),
@@ -120,20 +120,20 @@ class _OutfitsScreenState extends State<OutfitsScreen> {
 }
 
 class NormalAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final String name;
+  final OutfitCategory category;
   final Function addNewOutfit;
-  NormalAppBar(this.name, this.addNewOutfit);
+  NormalAppBar(this.category, this.addNewOutfit);
 
   @override
   get preferredSize => Size.fromHeight(kToolbarHeight);
   @override
   Widget build(BuildContext context) {
     return CustomAppBar(
-      title: Text(name),
+      title: Text(category.title),
       actions: [
         IconButton(
           icon: Icon(Icons.add),
-          onPressed: () => addNewOutfit(context, name),
+          onPressed: () => addNewOutfit(context, category),
         ),
       ],
     );

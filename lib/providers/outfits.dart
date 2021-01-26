@@ -48,8 +48,8 @@ class Outfits with ChangeNotifier {
   }
 
   Future<void> insertOutfit(OutfitCategory category, List<Item> items) async {
-    final id =
-        await DBHelper.insert(DBHelper.Tables.Outfits, {'category': category});
+    final id = await DBHelper.insert(
+        DBHelper.Tables.Outfits, {'category': category.title});
     for (var item in items) {
       DBHelper.insert(
           DBHelper.Tables.OutfitItems, {'outfit_id': id, 'item_id': item.id});
