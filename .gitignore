@@ -10,6 +10,9 @@
 .svn/
 .design
 
+# Databases
+app_en.db
+
 # IntelliJ related
 *.iml
 *.ipr
