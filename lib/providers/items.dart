@@ -53,7 +53,7 @@ class Items with ChangeNotifier {
   Future<void> insertItem(ItemCategory category, File image) async {
     final id = await DBHelper.insert(DBHelper.Tables.Items,
         {'category_id': category.id, 'imageURL': image.path, 'isInWash': 0});
-    _items[category].insert(0, Item(id: id, category: category, image: image));
+    _items[category].add(Item(id: id, category: category, image: image));
     notifyListeners();
   }
 
