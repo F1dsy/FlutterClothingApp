@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-// import '../../providers/items.dart';
+import '../../providers/items.dart';
 import '../../providers/outfits.dart';
 import '../../models/item.dart';
 import '../../models/categories.dart';
@@ -20,13 +20,20 @@ class _OutfitBuilderState extends State<OutfitBuilder> {
   Offset frontCardOffset = Offset(0, 0);
   int _currentIndex = 0;
   ItemCategory _currentCategory;
-  List<Item> _items;
+  List<ItemCategory> _categories;
+  Map<ItemCategory, List<Item>> _items;
   List<Item> _selectedItems = [];
 
   @override
   void didChangeDependencies() {
-    // _items = Provider.of<Items>(context).items;
-    _currentCategory = Provider.of<ItemCategories>(context).categories.first;
+    _items = Provider.of<Items>(context).items;
+    _items.forEach((key, value) {
+      print(value.hashCode);
+      _items[key] = [...value];
+      print(_items[key].hashCode);
+    });
+    _categories = Provider.of<ItemCategories>(context).categories;
+    _currentCategory = _categories.first;
     super.didChangeDependencies();
   }
 
@@ -48,15 +55,29 @@ class _OutfitBuilderState extends State<OutfitBuilder> {
     });
   }
 
+  void _setCurrentCategory() {
+    if (_currentIndex >= _items[_currentCategory].length) {
+      try {
+        _currentCategory =
+            _categories[_categories.indexOf(_currentCategory) + 1];
+        _currentIndex = 0;
+      } catch (e) {
+        _currentCategory = _categories.first;
+        _currentIndex = 0;
+      }
+    }
+  }
+
   void _addSelectItem() {
-    _selectedItems.add(_items[_currentIndex]);
-    _items.remove(_items[_currentIndex]);
-    _currentCategory = _items[_currentIndex].category;
+    _selectedItems.add(_items[_currentCategory][_currentIndex]);
+    _items[_currentCategory].remove(_items[_currentCategory][_currentIndex]);
+    _setCurrentCategory();
   }
 
   void _nextItem() {
     _currentIndex++;
-    _currentCategory = _items[_currentIndex].category;
+
+    _setCurrentCategory();
   }
 
   @override
@@ -103,12 +124,7 @@ class _OutfitBuilderState extends State<OutfitBuilder> {
                 onChanged: (ItemCategory category) {
                   setState(() {
                     _currentCategory = category;
-                    _currentIndex = _items.indexWhere(
-                      (item) =>
-                          item ==
-                          _items.firstWhere(
-                              (litem) => litem.category == category),
-                    );
+                    _currentIndex = 0;
                   });
                 },
                 items: Provider.of<ItemCategories>(context)
@@ -126,44 +142,44 @@ class _OutfitBuilderState extends State<OutfitBuilder> {
               ),
             ),
             Expanded(
-              child: _currentIndex < _items.length
-                  ? Stack(
-                      children: [
-                        Align(
-                          child: Transform.translate(
-                            offset: frontCardOffset,
-                            child: Card(
-                              elevation: 2,
-                              child: Container(
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(4),
-                                  child: Image.file(
-                                    _items[_currentIndex].image,
+                child: _items[_currentCategory].length == 0
+                    ? Center(
+                        child: Text('No Items'),
+                      )
+                    : Stack(
+                        children: [
+                          Align(
+                            child: Transform.translate(
+                              offset: frontCardOffset,
+                              child: Card(
+                                elevation: 2,
+                                child: Container(
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(4),
+                                    child: Image.file(
+                                      _items[_currentCategory][_currentIndex]
+                                          .image,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                        GestureDetector(
-                          onPanUpdate: (DragUpdateDetails details) {
-                            setState(
-                              () {
-                                frontCardOffset = Offset(
-                                    frontCardOffset.dx + details.delta.dx,
-                                    frontCardOffset.dy + details.delta.dy);
-                              },
-                            );
-                          },
-                          onPanEnd: (DragEndDetails details) =>
-                              _selectionHandler(),
-                        ),
-                      ],
-                    )
-                  : Center(
-                      child: Text('No Items'),
-                    ),
-            )
+                          GestureDetector(
+                            onPanUpdate: (DragUpdateDetails details) {
+                              setState(
+                                () {
+                                  frontCardOffset = Offset(
+                                      frontCardOffset.dx + details.delta.dx,
+                                      frontCardOffset.dy + details.delta.dy);
+                                },
+                              );
+                            },
+                            onPanEnd: (DragEndDetails details) =>
+                                _selectionHandler(),
+                          ),
+                        ],
+                      ))
           ],
         ),
       ),
