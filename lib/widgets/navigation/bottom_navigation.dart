@@ -71,7 +71,7 @@ class _BottomNavState extends State<BottomNav>
                     ? _borderAnimationForward.value
                     : _borderAnimationReverse.value),
             color: Theme.of(context).primaryColor,
-            shadows: [BoxShadow()]),
+            shadows: [BoxShadow(blurRadius: 3)]),
         child: SafeArea(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

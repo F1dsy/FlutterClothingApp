@@ -115,30 +115,33 @@ class _OutfitBuilderState extends State<OutfitBuilder> {
                 ),
               ),
             ),
-            Card(
-              margin: const EdgeInsets.all(8.0),
-              child: DropdownButton(
-                underline: Container(),
-                isExpanded: true,
-                value: _currentCategory,
-                onChanged: (ItemCategory category) {
-                  setState(() {
-                    _currentCategory = category;
-                    _currentIndex = 0;
-                  });
-                },
-                items: Provider.of<ItemCategories>(context)
-                    .categories
-                    .map(
-                      (category) => DropdownMenuItem(
-                        child: Container(
-                          margin: const EdgeInsets.only(left: 8.0),
-                          child: Text(category.title),
+            Container(
+              color: Theme.of(context).canvasColor,
+              child: Card(
+                margin: const EdgeInsets.all(8.0),
+                child: DropdownButton(
+                  underline: Container(),
+                  isExpanded: true,
+                  value: _currentCategory,
+                  onChanged: (ItemCategory category) {
+                    setState(() {
+                      _currentCategory = category;
+                      _currentIndex = 0;
+                    });
+                  },
+                  items: Provider.of<ItemCategories>(context)
+                      .categories
+                      .map(
+                        (category) => DropdownMenuItem(
+                          child: Container(
+                            margin: const EdgeInsets.only(left: 8.0),
+                            child: Text(category.title),
+                          ),
+                          value: category,
                         ),
-                        value: category,
-                      ),
-                    )
-                    .toList(),
+                      )
+                      .toList(),
+                ),
               ),
             ),
             Expanded(
@@ -148,6 +151,9 @@ class _OutfitBuilderState extends State<OutfitBuilder> {
                       )
                     : Stack(
                         children: [
+                          Container(
+                            color: Theme.of(context).canvasColor,
+                          ),
                           Align(
                             child: Transform.translate(
                               offset: frontCardOffset,
