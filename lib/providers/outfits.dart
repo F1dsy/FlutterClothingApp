@@ -1,4 +1,6 @@
-import 'package:FlutterClothingApp/models/categories.dart';
+import 'dart:io';
+
+import '../models/categories.dart';
 import 'package:flutter/material.dart';
 
 import '../helpers/db_helper.dart' as DBHelper;
@@ -39,20 +41,31 @@ class Outfits with ChangeNotifier {
         category: categories
             .firstWhere((category) => category.id == outfit['category_id']),
         items: itemList,
+        featureImage: outfit['feature_imageURL'] == null
+            ? null
+            : File(outfit['feature_imageURL']),
       );
     }).toList();
 
     notifyListeners();
   }
 
-  Future<void> insertOutfit(OutfitCategory category, List<Item> items) async {
-    final id = await DBHelper.insert(
-        DBHelper.Tables.Outfits, {'category_id': category.id});
+  Future<void> insertOutfit(
+      OutfitCategory category, List<Item> items, File featureImage) async {
+    final id = await DBHelper.insert(DBHelper.Tables.Outfits, {
+      'category_id': category.id,
+      'feature_imageURL': featureImage.path,
+    });
     for (var item in items) {
       DBHelper.insert(
           DBHelper.Tables.OutfitItems, {'outfit_id': id, 'item_id': item.id});
     }
-    _outfits.insert(0, Outfit(id: id, category: category, items: items));
+    _outfits.add(Outfit(
+      id: id,
+      category: category,
+      items: items,
+      featureImage: featureImage,
+    ));
     notifyListeners();
   }
 

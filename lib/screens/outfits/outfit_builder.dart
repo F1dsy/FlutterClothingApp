@@ -1,10 +1,13 @@
+// import 'dart:io';
+
 import '../../providers/item_categories.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
+import '../../helpers/image_input.dart';
 import '../../providers/items.dart';
-import '../../providers/outfits.dart';
+// import '../../providers/outfits.dart';
 import '../../models/item.dart';
 import '../../models/categories.dart';
 
@@ -16,7 +19,6 @@ class OutfitBuilder extends StatefulWidget {
 }
 
 class _OutfitBuilderState extends State<OutfitBuilder> {
-  GlobalKey _appBar = GlobalKey();
   Offset frontCardOffset = Offset(0, 0);
   int _currentIndex = 0;
   ItemCategory _currentCategory;
@@ -36,18 +38,26 @@ class _OutfitBuilderState extends State<OutfitBuilder> {
   }
 
   void _saveOutfit(List<Item> items) {
-    OutfitCategory category = ModalRoute.of(context).settings.arguments;
-    Provider.of<Outfits>(context, listen: false)
-        .insertOutfit(category, items)
-        .then(Navigator.of(context).pop);
+    // OutfitCategory category = ModalRoute.of(context).settings.arguments;
+    // Provider.of<Outfits>(context, listen: false)
+    //     .insertOutfit(category, items, null)
+    //     .then(Navigator.of(context).pop);
+
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => _Confirm(),
+    ));
   }
 
   void _selectionHandler() {
     setState(() {
       if (frontCardOffset.dx > 150) {
-        _addSelectItem();
+        _selectedItems.add(_items[_currentCategory][_currentIndex]);
+        _items[_currentCategory]
+            .remove(_items[_currentCategory][_currentIndex]);
+        _setCurrentCategory();
       } else if (frontCardOffset.dx < -150) {
-        _nextItem();
+        _currentIndex++;
+        _setCurrentCategory();
       }
       frontCardOffset = Offset(0, 0);
     });
@@ -66,18 +76,6 @@ class _OutfitBuilderState extends State<OutfitBuilder> {
     }
   }
 
-  void _addSelectItem() {
-    _selectedItems.add(_items[_currentCategory][_currentIndex]);
-    _items[_currentCategory].remove(_items[_currentCategory][_currentIndex]);
-    _setCurrentCategory();
-  }
-
-  void _nextItem() {
-    _currentIndex++;
-
-    _setCurrentCategory();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,7 +89,6 @@ class _OutfitBuilderState extends State<OutfitBuilder> {
                 : null,
           )
         ],
-        key: _appBar,
       ),
       body: Container(
         child: Column(
@@ -114,31 +111,37 @@ class _OutfitBuilderState extends State<OutfitBuilder> {
               ),
             ),
             Container(
-              color: Theme.of(context).canvasColor,
-              child: Card(
-                margin: const EdgeInsets.all(8.0),
-                child: DropdownButton(
-                  underline: Container(),
-                  isExpanded: true,
-                  value: _currentCategory,
-                  onChanged: (ItemCategory category) {
-                    setState(() {
-                      _currentCategory = category;
-                      _currentIndex = 0;
-                    });
-                  },
-                  items: Provider.of<ItemCategories>(context)
-                      .categories
-                      .map(
-                        (category) => DropdownMenuItem(
-                          child: Container(
-                            margin: const EdgeInsets.only(left: 8.0),
-                            child: Text(category.title),
+              // height: 50,
+              // width: 300,
+              child: Container(
+                // height: 50,
+                // width: 300,
+                color: Theme.of(context).canvasColor,
+                child: Card(
+                  margin: const EdgeInsets.all(8.0),
+                  child: DropdownButton(
+                    underline: Container(),
+                    isExpanded: true,
+                    value: _currentCategory,
+                    onChanged: (ItemCategory category) {
+                      setState(() {
+                        _currentCategory = category;
+                        _currentIndex = 0;
+                      });
+                    },
+                    items: Provider.of<ItemCategories>(context)
+                        .categories
+                        .map(
+                          (category) => DropdownMenuItem(
+                            child: Container(
+                              margin: const EdgeInsets.only(left: 8.0),
+                              child: Text(category.title),
+                            ),
+                            value: category,
                           ),
-                          value: category,
-                        ),
-                      )
-                      .toList(),
+                        )
+                        .toList(),
+                  ),
                 ),
               ),
             ),
@@ -186,6 +189,41 @@ class _OutfitBuilderState extends State<OutfitBuilder> {
                       ))
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _Confirm extends StatefulWidget {
+  @override
+  __ConfirmState createState() => __ConfirmState();
+}
+
+class __ConfirmState extends State<_Confirm> {
+  ImageInput _imageInput = ImageInput();
+  void _addFeatureImage() {
+    _imageInput.takePicture().then((_) => setState(() {}));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Confirm'),
+      ),
+      body: Column(
+        children: [
+          _imageInput.image == null
+              ? Container()
+              : Image.file(_imageInput.image),
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: RaisedButton(
+              child: Text('Add Photo'),
+              onPressed: _addFeatureImage,
+            ),
+          )
+        ],
       ),
     );
   }
