@@ -17,7 +17,9 @@ class OutfitWidget extends StatelessWidget {
   ]);
 
   Widget _build() {
-    if (outfit.items.length >= 4) {
+    if (outfit.featureImage != null) {
+      return Image.file(outfit.featureImage);
+    } else if (outfit.items.length >= 4) {
       return Column(
         children: [
           Row(

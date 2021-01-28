@@ -1,4 +1,4 @@
-// import 'dart:io';
+import 'dart:io';
 
 import '../../providers/item_categories.dart';
 import 'package:flutter/material.dart';
@@ -7,9 +7,11 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import '../../helpers/image_input.dart';
 import '../../providers/items.dart';
-// import '../../providers/outfits.dart';
+import '../../providers/outfits.dart';
 import '../../models/item.dart';
 import '../../models/categories.dart';
+
+enum _SelectStep { Builder, Confirm }
 
 class OutfitBuilder extends StatefulWidget {
   static const routeName = '/addOutfit';
@@ -25,6 +27,8 @@ class _OutfitBuilderState extends State<OutfitBuilder> {
   List<ItemCategory> _categories;
   Map<ItemCategory, List<Item>> _items;
   List<Item> _selectedItems = [];
+  _SelectStep _selectStep = _SelectStep.Builder;
+  ImageInput _imageInput = ImageInput();
 
   @override
   void didChangeDependencies() {
@@ -37,15 +41,24 @@ class _OutfitBuilderState extends State<OutfitBuilder> {
     super.didChangeDependencies();
   }
 
-  void _saveOutfit(List<Item> items) {
-    // OutfitCategory category = ModalRoute.of(context).settings.arguments;
-    // Provider.of<Outfits>(context, listen: false)
-    //     .insertOutfit(category, items, null)
-    //     .then(Navigator.of(context).pop);
+  void _setFeatureImage() {
+    _imageInput.takePicture().then((_) => setState(() {}));
+  }
 
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => _Confirm(),
-    ));
+  void _saveOutfit() {
+    OutfitCategory category = ModalRoute.of(context).settings.arguments;
+    Provider.of<Outfits>(context, listen: false)
+        .insertOutfit(category, _selectedItems, _imageInput.image)
+        .then(Navigator.of(context).pop);
+  }
+
+  void _toConfirmRoute() {
+    setState(() {
+      _selectStep = _SelectStep.Confirm;
+    });
+    // Navigator.of(context).pushReplacement(MaterialPageRoute(
+    //   builder: (context) => _Confirm(_saveOutfit),
+    // ));
   }
 
   void _selectionHandler() {
@@ -84,147 +97,150 @@ class _OutfitBuilderState extends State<OutfitBuilder> {
         actions: [
           IconButton(
             icon: Icon(Icons.done),
-            onPressed: _selectedItems.isNotEmpty
-                ? () => _saveOutfit(_selectedItems)
-                : null,
+            onPressed: _selectStep == _SelectStep.Confirm
+                ? _saveOutfit
+                : _selectedItems.isNotEmpty
+                    ? () => _toConfirmRoute()
+                    : null,
           )
         ],
       ),
-      body: Container(
-        child: Column(
-          children: [
-            Expanded(
-              child: Container(
-                child: StaggeredGridView.countBuilder(
-                  crossAxisCount: 3,
-                  itemBuilder: (context, i) => Card(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(4),
-                      child: Image.file(
-                        _selectedItems[i].image,
+      body: _selectStep == _SelectStep.Confirm
+          ? _Confirm(
+              _setFeatureImage,
+              _imageInput.image,
+            )
+          : Container(
+              child: Column(
+                children: [
+                  Expanded(
+                    child: Container(
+                      child: StaggeredGridView.countBuilder(
+                        crossAxisCount: 3,
+                        itemBuilder: (context, i) => Card(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(4),
+                            child: Image.file(
+                              _selectedItems[i].image,
+                            ),
+                          ),
+                        ),
+                        itemCount: _selectedItems.length,
+                        staggeredTileBuilder: (_) => StaggeredTile.fit(1),
                       ),
                     ),
                   ),
-                  itemCount: _selectedItems.length,
-                  staggeredTileBuilder: (_) => StaggeredTile.fit(1),
-                ),
-              ),
-            ),
-            Container(
-              // height: 50,
-              // width: 300,
-              child: Container(
-                // height: 50,
-                // width: 300,
-                color: Theme.of(context).canvasColor,
-                child: Card(
-                  margin: const EdgeInsets.all(8.0),
-                  child: DropdownButton(
-                    underline: Container(),
-                    isExpanded: true,
-                    value: _currentCategory,
-                    onChanged: (ItemCategory category) {
-                      setState(() {
-                        _currentCategory = category;
-                        _currentIndex = 0;
-                      });
-                    },
-                    items: Provider.of<ItemCategories>(context)
-                        .categories
-                        .map(
-                          (category) => DropdownMenuItem(
-                            child: Container(
-                              margin: const EdgeInsets.only(left: 8.0),
-                              child: Text(category.title),
-                            ),
-                            value: category,
-                          ),
-                        )
-                        .toList(),
-                  ),
-                ),
-              ),
-            ),
-            Expanded(
-                child: _items[_currentCategory].length == 0
-                    ? Center(
-                        child: Text('No Items'),
-                      )
-                    : Stack(
-                        children: [
-                          Container(
-                            color: Theme.of(context).canvasColor,
-                          ),
-                          Align(
-                            child: Transform.translate(
-                              offset: frontCardOffset,
-                              child: Card(
-                                elevation: 2,
+                  Container(
+                    color: Theme.of(context).canvasColor,
+                    child: Card(
+                      margin: const EdgeInsets.all(8.0),
+                      child: DropdownButton(
+                        underline: Container(),
+                        isExpanded: true,
+                        value: _currentCategory,
+                        onChanged: (ItemCategory category) {
+                          setState(() {
+                            _currentCategory = category;
+                            _currentIndex = 0;
+                          });
+                        },
+                        items: Provider.of<ItemCategories>(context)
+                            .categories
+                            .map(
+                              (category) => DropdownMenuItem(
                                 child: Container(
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(4),
-                                    child: Image.file(
-                                      _items[_currentCategory][_currentIndex]
-                                          .image,
+                                  margin: const EdgeInsets.only(left: 8.0),
+                                  child: Text(category.title),
+                                ),
+                                value: category,
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                      child: _items[_currentCategory].length == 0
+                          ? Center(
+                              child: Text('No Items'),
+                            )
+                          : Stack(
+                              children: [
+                                Container(
+                                  color: Theme.of(context).canvasColor,
+                                ),
+                                Align(
+                                  child: Transform.translate(
+                                    offset: frontCardOffset,
+                                    child: Card(
+                                      elevation: 2,
+                                      child: Container(
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(4),
+                                          child: Image.file(
+                                            _items[_currentCategory]
+                                                    [_currentIndex]
+                                                .image,
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ),
-                          ),
-                          GestureDetector(
-                            onPanUpdate: (DragUpdateDetails details) {
-                              setState(
-                                () {
-                                  frontCardOffset = Offset(
-                                      frontCardOffset.dx + details.delta.dx,
-                                      frontCardOffset.dy + details.delta.dy);
-                                },
-                              );
-                            },
-                            onPanEnd: (DragEndDetails details) =>
-                                _selectionHandler(),
-                          ),
-                        ],
-                      ))
-          ],
-        ),
-      ),
+                                GestureDetector(
+                                  onPanUpdate: (DragUpdateDetails details) {
+                                    setState(
+                                      () {
+                                        frontCardOffset = Offset(
+                                            frontCardOffset.dx +
+                                                details.delta.dx,
+                                            frontCardOffset.dy +
+                                                details.delta.dy);
+                                      },
+                                    );
+                                  },
+                                  onPanEnd: (DragEndDetails details) =>
+                                      _selectionHandler(),
+                                ),
+                              ],
+                            ))
+                ],
+              ),
+            ),
     );
   }
 }
 
-class _Confirm extends StatefulWidget {
-  @override
-  __ConfirmState createState() => __ConfirmState();
-}
-
-class __ConfirmState extends State<_Confirm> {
-  ImageInput _imageInput = ImageInput();
-  void _addFeatureImage() {
-    _imageInput.takePicture().then((_) => setState(() {}));
-  }
+class _Confirm extends StatelessWidget {
+  final Function setImage;
+  final File image;
+  _Confirm(this.setImage, this.image);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Confirm'),
-      ),
-      body: Column(
-        children: [
-          _imageInput.image == null
-              ? Container()
-              : Image.file(_imageInput.image),
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: RaisedButton(
-              child: Text('Add Photo'),
-              onPressed: _addFeatureImage,
+    return Column(
+      children: [
+        Center(
+          child: Container(
+            height: 300,
+            child: Card(
+              child: image == null
+                  ? FractionallySizedBox(
+                      widthFactor: 0.6,
+                      child: FlatButton.icon(
+                          onPressed: setImage,
+                          icon: Icon(Icons.camera_alt),
+                          label: Text('Add Feature Image')),
+                    )
+                  : ClipRRect(
+                      borderRadius: BorderRadius.circular(4),
+                      child: Image.file(image),
+                    ),
             ),
-          )
-        ],
-      ),
+          ),
+        ),
+      ],
     );
   }
 }
