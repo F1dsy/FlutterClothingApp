@@ -56,9 +56,6 @@ class _OutfitBuilderState extends State<OutfitBuilder> {
     setState(() {
       _selectStep = _SelectStep.Confirm;
     });
-    // Navigator.of(context).pushReplacement(MaterialPageRoute(
-    //   builder: (context) => _Confirm(_saveOutfit),
-    // ));
   }
 
   void _selectionHandler() {
