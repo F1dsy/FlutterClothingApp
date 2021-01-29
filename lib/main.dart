@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import './screens/main_screen.dart';
 import 'config/theme.dart';
@@ -7,6 +6,7 @@ import 'config/routes.dart';
 import 'config/provider_setup.dart';
 import 'config/localization.dart';
 import 'helpers/db_helper.dart' show databaseInit;
+import './helpers/shared_preferences.dart';
 
 void main() {
   runApp(MyApp());
@@ -32,6 +32,7 @@ class _MyAppState extends State<MyApp> {
   Locale locale;
   Future initFuture;
   ThemeData theme;
+  bool isFirstTime;
 
   void _setLocale(Locale local) {
     setState(() {
@@ -48,11 +49,15 @@ class _MyAppState extends State<MyApp> {
     await databaseInit();
     theme = await getThemeData();
     locale = await initLocale();
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    int washThreshold = preferences.getInt('washThreshold');
+    int washThreshold = await getSetting<int>('washThreshold');
     if (washThreshold == null) {
-      preferences.setInt('washThreshold', 3);
+      setSetting<int>('washThreshold', 3);
     }
+    bool firstTime = await getSetting<bool>('firstTime') ?? true;
+    if (firstTime) {
+      setSetting<bool>('firstTime', false);
+    }
+    isFirstTime = firstTime;
   }
 
   @override
@@ -68,7 +73,7 @@ class _MyAppState extends State<MyApp> {
       builder: (context, snap) => snap.connectionState == ConnectionState.done
           ? ProviderSetup(
               child: MaterialApp(
-                title: 'Flutter Demo',
+                title: 'Fabrics',
                 debugShowCheckedModeBanner: false,
                 theme: theme,
                 home: MainScreen(),
@@ -76,9 +81,19 @@ class _MyAppState extends State<MyApp> {
                 supportedLocales: supportedLocales,
                 locale: locale,
                 routes: rootRoutes,
+                initialRoute: isFirstTime ? '/firstTime' : '/',
               ),
             )
-          : Container(),
+          : Container(
+              color: Colors.black,
+              child: Center(
+                child: Text(
+                  'Fabrics',
+                  textScaleFactor: 2,
+                  textDirection: TextDirection.ltr,
+                ),
+              ),
+            ),
     );
   }
 }

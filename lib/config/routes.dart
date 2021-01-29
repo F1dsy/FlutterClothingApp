@@ -11,6 +11,7 @@ import '../screens/items/items_screen.dart';
 import '../screens/items/move_item.dart';
 import '../screens/calendar/calendar_screen.dart';
 import '../screens/calendar/add_event_screen.dart';
+import '../screens/first_time/first_time_screen.dart';
 
 final Map<String, WidgetBuilder> rootRoutes = {
   OutfitBuilder.routeName: (context) => OutfitBuilder(),
@@ -18,6 +19,7 @@ final Map<String, WidgetBuilder> rootRoutes = {
   WashBasketScreen.routeName: (context) => WashBasketScreen(),
   SettingsScreen.routeName: (context) => SettingsScreen(),
   AddEventScreen.routeName: (context) => AddEventScreen(),
+  FirstTimeScreen.routeName: (context) => FirstTimeScreen(),
 };
 
 List<GlobalKey<NavigatorState>> keys = [

@@ -5,10 +5,13 @@ import '../helpers/shared_preferences.dart';
 
 Future<ThemeData> getThemeData() {
   return getSetting<String>('colorTheme').then((theme) {
-    if (theme == 'light') {
-      return themeLight;
-    } else {
+    if (theme == null) {
+      setSetting<String>('colorTheme', 'light');
+    }
+    if (theme == 'dark') {
       return themeDark;
+    } else {
+      return themeLight;
     }
   });
 }

@@ -14,6 +14,9 @@ void setSetting<T>(String setting, T value) {
       case int:
         preferences.setInt(setting, value as int);
         break;
+      case bool:
+        preferences.setBool(setting, value as bool);
+        break;
     }
   });
 }
