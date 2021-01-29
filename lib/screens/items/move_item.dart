@@ -30,7 +30,7 @@ class MoveItem extends StatelessWidget {
                 itemBuilder: (context, i) => Card(
                   child: ListTile(
                     onTap: () {
-                      Navigator.of(context).pop(data.categories[i].title);
+                      Navigator.of(context).pop(data.categories[i]);
                     },
                     title: Text(
                       data.categories[i].title,

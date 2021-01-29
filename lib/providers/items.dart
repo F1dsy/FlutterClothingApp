@@ -100,7 +100,13 @@ class Items with ChangeNotifier {
 
   void moveToCategory(List<Item> items, ItemCategory newCategory) {
     for (var item in items) {
+      DBHelper.update(DBHelper.Tables.Items, {
+        'id': item.id,
+        'category_id': newCategory.id,
+      });
+      _items[item.category].remove(item);
       item.category = newCategory;
+      _items[newCategory].add(item);
     }
     notifyListeners();
   }

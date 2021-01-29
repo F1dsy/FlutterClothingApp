@@ -26,7 +26,7 @@ List<GlobalKey<NavigatorState>> keys = [
   GlobalKey<NavigatorState>(),
   GlobalKey<NavigatorState>(),
   GlobalKey<NavigatorState>(),
-  GlobalKey<NavigatorState>(),
+  // GlobalKey<NavigatorState>(),
 ];
 
 List<Widget> routeNavigators = [
@@ -42,9 +42,9 @@ List<Widget> routeNavigators = [
   BuildNavigator({
     CalendarScreen.routeName: (context) => CalendarScreen(),
   }, keys[2]),
-  BuildNavigator({
-    CalendarScreen.routeName: (context) => CalendarScreen(),
-  }, keys[3])
+  // BuildNavigator({
+  //   CalendarScreen.routeName: (context) => CalendarScreen(),
+  // }, keys[3])
 ];
 
 class BuildNavigator extends StatelessWidget {

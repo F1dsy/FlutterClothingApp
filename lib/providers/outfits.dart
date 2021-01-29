@@ -54,7 +54,7 @@ class Outfits with ChangeNotifier {
       OutfitCategory category, List<Item> items, File featureImage) async {
     final id = await DBHelper.insert(DBHelper.Tables.Outfits, {
       'category_id': category.id,
-      'feature_imageURL': featureImage.path,
+      'feature_imageURL': featureImage == null ? null : featureImage.path,
     });
     for (var item in items) {
       DBHelper.insert(

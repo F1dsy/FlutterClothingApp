@@ -47,10 +47,10 @@ class _MainScreenState extends State<MainScreen> {
               icon: CustomIcons.shirt,
               label: AppLocalizations.of(context).itemsTab,
             ),
-            BottomNavItem(
-              icon: Icons.home,
-              label: 'Home',
-            ),
+            // BottomNavItem(
+            //   icon: Icons.home,
+            //   label: 'Home',
+            // ),
             BottomNavItem(
               icon: Icons.calendar_today,
               label: AppLocalizations.of(context).calendar,
