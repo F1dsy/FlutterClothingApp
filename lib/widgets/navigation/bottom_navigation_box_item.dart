@@ -30,20 +30,12 @@ class NavBoxItem extends StatelessWidget {
                       alignment: Alignment.bottomCenter,
                       child: Icon(
                         icon,
-                        color: Theme.of(context).primaryColor,
                       ),
                     ),
                   ),
                   Expanded(
-                    child: AnimatedDefaultTextStyle(
-                      duration: Duration(milliseconds: 100),
-                      style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        fontSize: 14,
-                      ),
-                      child: Text(
-                        label,
-                      ),
+                    child: Text(
+                      label,
                     ),
                   ),
                 ],

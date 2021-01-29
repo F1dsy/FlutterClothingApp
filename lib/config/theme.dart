@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import '../helpers/shared_preferences.dart';
 
@@ -16,6 +18,22 @@ final themeLight = ThemeData(
   visualDensity: VisualDensity.adaptivePlatformDensity,
   accentColor: Color(0xFF4239A5),
   canvasColor: Color(0xFFF2F2F2),
+  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    selectedIconTheme: IconThemeData(
+      color: Colors.white,
+    ),
+    unselectedIconTheme: IconThemeData(
+      color: Colors.white70,
+    ),
+    selectedLabelStyle: TextStyle().copyWith(
+      color: Colors.white,
+      fontSize: 14,
+    ),
+    unselectedLabelStyle: TextStyle().copyWith(
+      color: Colors.white70,
+      fontSize: 12,
+    ),
+  ),
   appBarTheme: AppBarTheme(
     centerTitle: true,
     actionsIconTheme: IconThemeData(color: Colors.white),
@@ -32,6 +50,20 @@ final themeDark = ThemeData(
   visualDensity: VisualDensity.adaptivePlatformDensity,
   brightness: Brightness.dark,
   accentColor: Color(0xFF4239A5),
+  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    selectedIconTheme:
+        IconThemeData(color: Colors.purple, opacity: 1, size: 24.0),
+    unselectedIconTheme:
+        IconThemeData(color: Colors.white, opacity: 0.7, size: 24.0),
+    selectedLabelStyle: TextStyle().copyWith(
+      color: Colors.purple,
+      fontSize: 14,
+    ),
+    unselectedLabelStyle: TextStyle().copyWith(
+      color: Colors.white70,
+      fontSize: 12,
+    ),
+  ),
   appBarTheme: AppBarTheme(
     centerTitle: true,
     actionsIconTheme: IconThemeData(color: Colors.white),

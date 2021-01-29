@@ -8,6 +8,8 @@ class NavItem extends StatelessWidget {
   NavItem({this.icon, this.label, this.selected, this.onTap});
   @override
   Widget build(BuildContext context) {
+    BottomNavigationBarThemeData theme =
+        Theme.of(context).bottomNavigationBarTheme;
     return Expanded(
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
@@ -17,16 +19,19 @@ class NavItem extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Icon(
-                icon,
-                color: selected ? Colors.white : Colors.white70,
+              IconTheme(
+                data: selected
+                    ? theme.selectedIconTheme
+                    : theme.unselectedIconTheme,
+                child: Icon(
+                  icon,
+                ),
               ),
               AnimatedDefaultTextStyle(
                 duration: Duration(milliseconds: 100),
-                style: TextStyle(
-                  color: selected ? Colors.white : Colors.white70,
-                  fontSize: selected ? 14 : 12,
-                ),
+                style: selected
+                    ? theme.selectedLabelStyle
+                    : theme.unselectedLabelStyle,
                 child: Text(
                   label,
                 ),
