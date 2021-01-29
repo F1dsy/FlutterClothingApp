@@ -8,6 +8,8 @@ import './settings/settings_screen.dart';
 
 import '../config/routes.dart';
 
+import '../icons/icon.dart';
+
 class MainScreen extends StatefulWidget {
   @override
   _MainScreenState createState() => _MainScreenState();
@@ -38,11 +40,11 @@ class _MainScreenState extends State<MainScreen> {
           onTap: (i) => _selectTab(i),
           navItems: [
             BottomNavItem(
-              icon: Icons.all_inbox,
+              icon: CustomIcons.outfit,
               label: AppLocalizations.of(context).outfitsTab,
             ),
             BottomNavItem(
-              icon: Icons.subscriptions,
+              icon: CustomIcons.shirt,
               label: AppLocalizations.of(context).itemsTab,
             ),
             BottomNavItem(
