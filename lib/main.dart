@@ -19,22 +19,35 @@ class MyApp extends StatefulWidget {
     state._setLocale(newLocale);
   }
 
+  static void setColorTheme(BuildContext context) {
+    var state = context.findAncestorStateOfType<_MyAppState>();
+    state._setTheme();
+  }
+
   @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  Locale _locale;
+  Locale locale;
   Future initFuture;
+  ThemeData theme;
 
   void _setLocale(Locale local) {
     setState(() {
-      _locale = local;
+      locale = local;
     });
+  }
+
+  void _setTheme() async {
+    theme = await getThemeData();
+    setState(() {});
   }
 
   Future<void> init() async {
     await databaseInit();
+    theme = await getThemeData();
+    locale = await initLocale();
     SharedPreferences preferences = await SharedPreferences.getInstance();
     int washThreshold = preferences.getInt('washThreshold');
     if (washThreshold == null) {
@@ -43,11 +56,9 @@ class _MyAppState extends State<MyApp> {
   }
 
   @override
-  void didChangeDependencies() async {
-    _locale = await initLocale();
+  void initState() {
     initFuture = init();
-    setState(() {});
-    super.didChangeDependencies();
+    super.initState();
   }
 
   @override
@@ -63,7 +74,7 @@ class _MyAppState extends State<MyApp> {
                 home: MainScreen(),
                 localizationsDelegates: localizationsDelegates,
                 supportedLocales: supportedLocales,
-                locale: _locale,
+                locale: locale,
                 routes: rootRoutes,
               ),
             )
