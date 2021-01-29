@@ -6,6 +6,7 @@ import '../../screens/calendar/add_event_screen.dart';
 import '../../providers/events.dart';
 import '../../models/event.dart';
 import '../../widgets/custom_app_bar.dart';
+import '../../l10n/app_localizations.dart';
 import 'event_widget.dart';
 
 class CalendarScreen extends StatefulWidget {
@@ -53,6 +54,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 initialSelectedDay: _selectedDay,
                 calendarController: _calendarController,
                 startingDayOfWeek: StartingDayOfWeek.monday,
+                locale: AppLocalizations.of(context).localeName,
                 weekendDays: [],
                 events: data.events,
                 initialCalendarFormat: CalendarFormat.month,

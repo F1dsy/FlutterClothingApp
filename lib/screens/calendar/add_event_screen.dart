@@ -11,6 +11,7 @@ import '../../providers/outfit_categories.dart';
 import '../../providers/events.dart';
 import '../../providers/outfits.dart';
 import '../outfits/outfit_widget.dart';
+import '../../l10n/app_localizations.dart';
 
 enum _SelectStep {
   Category,
@@ -68,7 +69,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
     _selectedDay = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: CustomAppBar(
-        title: Text('Add Event'),
+        title: Text(AppLocalizations.of(context).addEvent),
         actions: [
           IconButton(
             icon: Icon(Icons.check),

@@ -16,7 +16,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get calendar => 'Kalender';
 
   @override
-  String get itemsTab => 'Kleider';
+  String get itemsTab => 'Kleidung';
 
   @override
   String get outfitsTab => 'Outfits';
@@ -38,4 +38,52 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get selectLang => 'Sprache Wählen';
+
+  @override
+  String get language => 'Sprache';
+
+  @override
+  String get languageSubtitle => 'Wähle deine Sprache';
+
+  @override
+  String get washTitle => 'Wäschezeit';
+
+  @override
+  String get washSubtitle => 'Wie lange ist deine Kleidung in der Wäsche';
+
+  @override
+  String get washDialogTitle => 'Tage in Wäsche wählen';
+
+  @override
+  String day(int count) {
+    return intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '${count} Tage',
+    );
+  }
+
+  @override
+  String get colorThemeTitle => 'Farbthema';
+
+  @override
+  String get colorThemeSubtitle => 'Magst du es Hell oder Dunkel';
+
+  @override
+  String get light => 'Hell';
+
+  @override
+  String get dark => 'Dunkel';
+
+  @override
+  String get colorThemeDialogTitle => 'Farbthema auswählen';
+
+  @override
+  String get delete => 'Löschen';
+
+  @override
+  String get moveToCategory => 'Kategorie verschieben';
+
+  @override
+  String get addEvent => 'Neues Event';
 }

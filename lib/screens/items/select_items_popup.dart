@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/app_localizations.dart';
+
 enum Popups {
   Delete,
   Move,
@@ -25,11 +27,11 @@ class SelectItemsPopup extends StatelessWidget {
     return PopupMenuButton(
       itemBuilder: (context) => [
         PopupMenuItem(
-          child: Text('Delete'),
+          child: Text(AppLocalizations.of(context).delete),
           value: Popups.Delete,
         ),
         PopupMenuItem(
-          child: Text('Move to Category'),
+          child: Text(AppLocalizations.of(context).moveToCategory),
           value: Popups.Move,
         ),
         PopupMenuItem(

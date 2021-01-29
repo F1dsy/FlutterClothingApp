@@ -127,6 +127,48 @@ abstract class AppLocalizations {
 
   // No description provided in @selectLang
   String get selectLang;
+
+  // No description provided in @language
+  String get language;
+
+  // No description provided in @languageSubtitle
+  String get languageSubtitle;
+
+  // No description provided in @washTitle
+  String get washTitle;
+
+  // No description provided in @washSubtitle
+  String get washSubtitle;
+
+  // No description provided in @washDialogTitle
+  String get washDialogTitle;
+
+  // Select washThreshold in Settings Screen
+  String day(int count);
+
+  // Select ColorTheme Title in Settings Screen
+  String get colorThemeTitle;
+
+  // No description provided in @colorThemeSubtitle
+  String get colorThemeSubtitle;
+
+  // No description provided in @light
+  String get light;
+
+  // No description provided in @dark
+  String get dark;
+
+  // No description provided in @colorThemeDialogTitle
+  String get colorThemeDialogTitle;
+
+  // No description provided in @delete
+  String get delete;
+
+  // No description provided in @moveToCategory
+  String get moveToCategory;
+
+  // No description provided in @addEvent
+  String get addEvent;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

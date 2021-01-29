@@ -38,4 +38,52 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get selectLang => 'Select Language';
+
+  @override
+  String get language => 'Language';
+
+  @override
+  String get languageSubtitle => 'Set the language you want';
+
+  @override
+  String get washTitle => 'Wash time';
+
+  @override
+  String get washSubtitle => 'How long is your clothing in wash';
+
+  @override
+  String get washDialogTitle => 'Select time in wash';
+
+  @override
+  String day(int count) {
+    return intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '${count} Days',
+    );
+  }
+
+  @override
+  String get colorThemeTitle => 'Color Theme';
+
+  @override
+  String get colorThemeSubtitle => 'Do you like it light or dark';
+
+  @override
+  String get light => 'Light';
+
+  @override
+  String get dark => 'Dark';
+
+  @override
+  String get colorThemeDialogTitle => 'Select Color Theme';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String get moveToCategory => 'Move to Category';
+
+  @override
+  String get addEvent => 'Add Event';
 }

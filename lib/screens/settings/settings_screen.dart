@@ -56,11 +56,12 @@ class SettingsScreen extends StatelessWidget {
     getSetting<int>('washThreshold').then((inWashTime) => showDialog(
           context: context,
           builder: (context) => SimpleDialog(
-            title: Text('Select Time in Wash'),
+            title: Text(AppLocalizations.of(context).washDialogTitle),
             children: List.generate(
               7,
               (i) => RadioListTile(
-                title: Text('${i + 1} ${i == 0 ? 'day' : 'days'}'),
+                // title: Text('${i + 1} ${i == 0 ? 'day' : 'days'}'),
+                title: Text(AppLocalizations.of(context).day(i + 1)),
                 value: i + 1,
                 groupValue: inWashTime,
                 onChanged: (int value) {
@@ -83,19 +84,19 @@ class SettingsScreen extends StatelessWidget {
     getSetting<String>('colorTheme').then((theme) => showDialog(
           context: context,
           builder: (context) => SimpleDialog(
-            title: Text('Select Color Theme'),
+            title: Text(AppLocalizations.of(context).colorThemeDialogTitle),
             children: [
               RadioListTile(
                 value: 'light',
                 groupValue: theme,
                 onChanged: (String value) => _setColorTheme(value),
-                title: Text('Light'),
+                title: Text(AppLocalizations.of(context).light),
               ),
               RadioListTile(
                 value: 'dark',
                 groupValue: theme,
                 onChanged: (String value) => _setColorTheme(value),
-                title: Text('Dark'),
+                title: Text(AppLocalizations.of(context).dark),
               )
             ],
           ),
@@ -111,23 +112,20 @@ class SettingsScreen extends StatelessWidget {
       body: Column(
         children: [
           _SettingTile(
-            title: 'Language',
-            subtitle: 'Set the language you want',
-            buttonText: 'Select',
+            title: AppLocalizations.of(context).language,
+            subtitle: AppLocalizations.of(context).languageSubtitle,
             onButtonTap: () => _selectLanguageDialog(context),
           ),
           Divider(),
           _SettingTile(
-            title: 'In Wash Time',
-            subtitle: 'How long is your clothing in wash',
-            buttonText: 'Select',
+            title: AppLocalizations.of(context).washTitle,
+            subtitle: AppLocalizations.of(context).washSubtitle,
             onButtonTap: () => _selectInWashTimeDialog(context),
           ),
           Divider(),
           _SettingTile(
-            title: 'Color Theme',
-            subtitle: 'Do you like it light or dark',
-            buttonText: 'Select',
+            title: AppLocalizations.of(context).colorThemeTitle,
+            subtitle: AppLocalizations.of(context).colorThemeSubtitle,
             onButtonTap: () => _selectColorThemeDialog(context),
           ),
         ],
@@ -139,9 +137,9 @@ class SettingsScreen extends StatelessWidget {
 class _SettingTile extends StatelessWidget {
   final String title;
   final String subtitle;
-  final String buttonText;
+
   final Function onButtonTap;
-  _SettingTile({this.title, this.onButtonTap, this.subtitle, this.buttonText});
+  _SettingTile({this.title, this.onButtonTap, this.subtitle});
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -153,7 +151,7 @@ class _SettingTile extends StatelessWidget {
       subtitle: Text(subtitle),
       trailing: RaisedButton(
         onPressed: onButtonTap,
-        child: Text(buttonText),
+        child: Text(AppLocalizations.of(context).select),
       ),
     );
   }

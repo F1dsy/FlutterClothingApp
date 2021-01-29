@@ -1,43 +1,57 @@
 {
-    "home": "Home",
-    "@home": {
-
-    },
-    "calendar": "Calendar",
-    "@calendar": {
-        
-    },
-    "itemsTab": "Clothes",
-    "@itemsTab": {
-
-    },
-    "outfitsTab": "Outfits",
-    "@outfitsTab": {
-
-    },
-    "settings": "Settings",
-    "@settings": {
-
-    },
-    "statistics": "Statistics",
-    "@statistics": {
-
-    },
-    "washBasket": "Wash Basket",
-    "@washBasket": {
-        
-    },
-    "newCategory": "New Category",
-    "@newCategory": {
-        
-    },
-    "select": "Select",
-    "@select": {
-        
-    },
-    "selectLang": "Select Language",
-    "@selectLang": {
-        
+  "home": "Home",
+  "@home": {},
+  "calendar": "Calendar",
+  "@calendar": {},
+  "itemsTab": "Clothes",
+  "@itemsTab": {},
+  "outfitsTab": "Outfits",
+  "@outfitsTab": {},
+  "settings": "Settings",
+  "@settings": {},
+  "statistics": "Statistics",
+  "@statistics": {},
+  "washBasket": "Wash Basket",
+  "@washBasket": {},
+  "newCategory": "New Category",
+  "@newCategory": {},
+  "select": "Select",
+  "@select": {},
+  "selectLang": "Select Language",
+  "@selectLang": {},
+  "language": "Language",
+  "@language": {},
+  "languageSubtitle": "Set the language you want",
+  "@languageSubtitle": {},
+  "washTitle": "Wash time",
+  "@washTitle": {},
+  "washSubtitle": "How long is your clothing in wash",
+  "@washSubtitle": {},
+  "washDialogTitle": "Select time in wash",
+  "@washDialogTitle": {},
+  "day": "{count, plural, one{1 Day} other{{count} Days}}",
+  "@day": {
+    "description": "Select washThreshold in Settings Screen",
+    "placeholders": {
+      "count": {}
     }
-
+  },
+  "colorThemeTitle": "Color Theme",
+  "@colorThemeTitle": {
+    "description": "Select ColorTheme Title in Settings Screen"
+  },
+  "colorThemeSubtitle": "Do you like it light or dark", 
+  "@colorThemeSubtitle": {},
+  "light": "Light",
+  "@light": {},
+  "dark": "Dark",
+  "@dark": {},
+  "colorThemeDialogTitle": "Select Color Theme", 
+  "@colorThemeDialogTitle": {},
+  "delete": "Delete",
+  "@delete": {},
+  "moveToCategory": "Move to Category",
+  "@moveToCategory": {},
+  "addEvent": "Add Event",
+  "@addEvent": {}
 }

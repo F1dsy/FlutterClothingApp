@@ -28,7 +28,7 @@ class AppLocalizationsDa extends AppLocalizations {
   String get statistics => 'Statistik';
 
   @override
-  String get washBasket => 'Vaske Kurv';
+  String get washBasket => 'Vaskekurv';
 
   @override
   String get newCategory => 'Ny Kategori';
@@ -38,4 +38,52 @@ class AppLocalizationsDa extends AppLocalizations {
 
   @override
   String get selectLang => 'Vælg Sprog';
+
+  @override
+  String get language => 'Sprog';
+
+  @override
+  String get languageSubtitle => 'Sæt det sprog du vil';
+
+  @override
+  String get washTitle => 'Vasketid';
+
+  @override
+  String get washSubtitle => 'Hvor længe har du dit tøj i vasken';
+
+  @override
+  String get washDialogTitle => 'Vælg dage in vaskekurv';
+
+  @override
+  String day(int count) {
+    return intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '${count} Dage',
+    );
+  }
+
+  @override
+  String get colorThemeTitle => 'Farvetema';
+
+  @override
+  String get colorThemeSubtitle => 'Kan du lide det lyst eller mørkt';
+
+  @override
+  String get light => 'Lys';
+
+  @override
+  String get dark => 'Mørk';
+
+  @override
+  String get colorThemeDialogTitle => 'Vælg farvetema';
+
+  @override
+  String get delete => 'Slet';
+
+  @override
+  String get moveToCategory => 'Flyt kategori';
+
+  @override
+  String get addEvent => 'Ny Event';
 }
