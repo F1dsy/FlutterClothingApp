@@ -49,19 +49,18 @@ final themeLight = ThemeData(
 );
 
 final themeDark = ThemeData(
-  primarySwatch: Colors.purple,
+  primarySwatch: Colors.deepPurple,
   visualDensity: VisualDensity.adaptivePlatformDensity,
   brightness: Brightness.dark,
   accentColor: Color(0xFF4239A5),
+  toggleableActiveColor: Colors.purple,
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     selectedIconTheme:
-        IconThemeData(color: Colors.purple, opacity: 1, size: 24.0),
+        IconThemeData(color: Colors.deepPurple, opacity: 1, size: 24.0),
     unselectedIconTheme:
         IconThemeData(color: Colors.white, opacity: 0.7, size: 24.0),
-    selectedLabelStyle: TextStyle().copyWith(
-      color: Colors.purple,
-      fontSize: 14,
-    ),
+    selectedLabelStyle:
+        TextStyle().copyWith(color: Colors.deepPurple, fontSize: 14),
     unselectedLabelStyle: TextStyle().copyWith(
       color: Colors.white70,
       fontSize: 12,

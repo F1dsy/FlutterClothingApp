@@ -11,19 +11,6 @@ class ItemWidget extends StatelessWidget {
   ItemWidget(this.item, this.toggleSelected,
       [this.selectable = false, this.list]);
 
-  void showImage(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (context) => Dialog(
-              child: Container(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(4),
-                  child: Image.file(item.image),
-                ),
-              ),
-            ));
-  }
-
   @override
   Widget build(BuildContext context) {
     bool isSelected = list == null ? false : list.contains(item);

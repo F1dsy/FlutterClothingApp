@@ -6,6 +6,32 @@ class NavItem extends StatelessWidget {
   final bool selected;
   final Function onTap;
   NavItem({this.icon, this.label, this.selected, this.onTap});
+
+  Widget buildChild(theme) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        IconTheme(
+          data: selected ? theme.selectedIconTheme : theme.unselectedIconTheme,
+          child: Icon(
+            icon,
+          ),
+        ),
+        SizedBox(
+          height: 2,
+        ),
+        AnimatedDefaultTextStyle(
+          duration: Duration(milliseconds: 100),
+          style:
+              selected ? theme.selectedLabelStyle : theme.unselectedLabelStyle,
+          child: Text(
+            label,
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     BottomNavigationBarThemeData theme =
@@ -15,29 +41,19 @@ class NavItem extends StatelessWidget {
         behavior: HitTestBehavior.opaque,
         onTap: onTap,
         child: Container(
-          height: 43,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              IconTheme(
-                data: selected
-                    ? theme.selectedIconTheme
-                    : theme.unselectedIconTheme,
-                child: Icon(
-                  icon,
-                ),
-              ),
-              AnimatedDefaultTextStyle(
-                duration: Duration(milliseconds: 100),
-                style: selected
-                    ? theme.selectedLabelStyle
-                    : theme.unselectedLabelStyle,
-                child: Text(
-                  label,
-                ),
-              ),
-            ],
-          ),
+          height: 50,
+          child:
+              // selected
+              // ? ShaderMask(
+              //     shaderCallback: (rect) => LinearGradient(
+              //       // begin: Alignment.topLeft,
+              //       // end: Alignment.topCenter,
+              //       colors: [Colors.purple, Colors.deepPurple],
+              //     ).createShader(rect),
+              //     child: buildChild(theme),
+              //   )
+              // :
+              buildChild(theme),
         ),
       ),
     );

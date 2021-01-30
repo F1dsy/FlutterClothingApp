@@ -63,7 +63,7 @@ class _BottomNavState extends State<BottomNav>
       animation: _animationController,
       builder: (context, child) => Container(
         height: _heightAnimation.value * 150 +
-            77 +
+            85 +
             MediaQuery.of(context).padding.bottom,
         decoration: ShapeDecoration(
             shape: _ArcShape(
