@@ -47,14 +47,6 @@ class _ItemsScreenState extends State<ItemsScreen> {
     selectionHandler.reset();
   }
 
-  void _removeFromBasket(List<Item> items) {
-    for (var item in items) {
-      Provider.of<Items>(context, listen: false).removeFromWashBasket(item);
-    }
-
-    selectionHandler.reset();
-  }
-
   void _moveToCategory() {
     Navigator.of(context).pushNamed(MoveItem.routeName).then((value) {
       if (value == null) return;
@@ -88,9 +80,7 @@ class _ItemsScreenState extends State<ItemsScreen> {
             delete: () => _deleteItems(selectionHandler.selectedList),
             move: _moveToCategory,
             addToBasket: () => _addToBasket(selectionHandler.selectedList),
-            removeFromBasket: () =>
-                _removeFromBasket(selectionHandler.selectedList),
-          ),
+          )
         ],
       );
 

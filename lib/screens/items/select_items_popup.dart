@@ -13,13 +13,11 @@ class SelectItemsPopup extends StatelessWidget {
   final Function delete;
   final Function move;
   final Function addToBasket;
-  final Function removeFromBasket;
 
   SelectItemsPopup({
     this.delete,
     this.move,
     this.addToBasket,
-    this.removeFromBasket,
   });
 
   @override
@@ -38,10 +36,6 @@ class SelectItemsPopup extends StatelessWidget {
           child: Text('Add to Basket'),
           value: Popups.AddToBasket,
         ),
-        PopupMenuItem(
-          child: Text('Remove from Basket'),
-          value: Popups.RemoveFromBasket,
-        ),
       ],
       onSelected: (value) {
         switch (value) {
@@ -53,9 +47,6 @@ class SelectItemsPopup extends StatelessWidget {
             break;
           case Popups.AddToBasket:
             addToBasket();
-            break;
-          case Popups.RemoveFromBasket:
-            removeFromBasket();
             break;
           default:
         }
