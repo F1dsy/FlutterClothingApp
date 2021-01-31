@@ -1,4 +1,4 @@
-package com.example.FlutterClothingApp
+package com.fabrics.fabrics
 
 import io.flutter.embedding.android.FlutterActivity
 
