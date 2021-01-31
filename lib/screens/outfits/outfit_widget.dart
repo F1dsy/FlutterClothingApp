@@ -5,14 +5,14 @@ import '../../widgets/show_image_dialog.dart';
 
 class OutfitWidget extends StatelessWidget {
   final Outfit outfit;
-  final bool selectable;
   final Function(Outfit) toggleSelected;
+  final bool selectable;
   final List list;
 
   OutfitWidget(
     this.outfit,
-    this.selectable,
     this.toggleSelected, [
+    this.selectable = false,
     this.list,
   ]);
 

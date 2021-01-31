@@ -75,6 +75,9 @@ class Items with ChangeNotifier {
       'isInWash': 1,
       'timeOfWash': DateTime.now().toIso8601String(),
     });
+    item.isInWash = true;
+    item.timeOfWash = DateTime.now();
+    notifyListeners();
   }
 
   void removeFromWashBasket(Item item) {
@@ -83,6 +86,9 @@ class Items with ChangeNotifier {
       'isInWash': 0,
       'timeOfWash': null,
     });
+    item.isInWash = false;
+    item.timeOfWash = null;
+    notifyListeners();
   }
 
   Item _timeSinceInWash(Item item) {

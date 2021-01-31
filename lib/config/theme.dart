@@ -22,20 +22,11 @@ final themeLight = ThemeData(
   accentColor: Color(0xFF4239A5),
   canvasColor: Color(0xFFF2F2F2),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
-    selectedIconTheme: IconThemeData(
-      color: Colors.white,
-    ),
-    unselectedIconTheme: IconThemeData(
-      color: Colors.white70,
-    ),
-    selectedLabelStyle: TextStyle().copyWith(
-      color: Colors.white,
-      fontSize: 14,
-    ),
-    unselectedLabelStyle: TextStyle().copyWith(
-      color: Colors.white70,
-      fontSize: 12,
-    ),
+    selectedIconTheme: IconThemeData(color: Colors.white),
+    unselectedIconTheme: IconThemeData(color: Colors.white70),
+    selectedLabelStyle: TextStyle().copyWith(color: Colors.white, fontSize: 14),
+    unselectedLabelStyle:
+        TextStyle().copyWith(color: Colors.white70, fontSize: 12),
   ),
   appBarTheme: AppBarTheme(
     centerTitle: true,
@@ -61,10 +52,8 @@ final themeDark = ThemeData(
         IconThemeData(color: Colors.white, opacity: 0.7, size: 24.0),
     selectedLabelStyle:
         TextStyle().copyWith(color: Colors.deepPurple, fontSize: 14),
-    unselectedLabelStyle: TextStyle().copyWith(
-      color: Colors.white70,
-      fontSize: 12,
-    ),
+    unselectedLabelStyle:
+        TextStyle().copyWith(color: Colors.white70, fontSize: 12),
   ),
   appBarTheme: AppBarTheme(
     centerTitle: true,

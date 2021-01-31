@@ -9,6 +9,7 @@ import '../../widgets/popup_add_category.dart';
 import './select_category_popup.dart';
 import './item_category_widget.dart';
 import '../../widgets/custom_app_bar.dart';
+import '../../helpers/selection_handler.dart';
 
 class ItemsCategoriesScreen extends StatefulWidget {
   static const routeName = '/';
@@ -18,39 +19,20 @@ class ItemsCategoriesScreen extends StatefulWidget {
 }
 
 class _ItemsCategoriesScreenState extends State<ItemsCategoriesScreen> {
-  bool _selectable = false;
-  List<ItemCategory> _selected = [];
-
-  void _resetSelection() {
-    setState(() {
-      _selectable = false;
-      _selected = [];
-    });
-  }
-
-  void _toggleSelection(ItemCategory category) {
-    setState(() {
-      if (!_selectable) {
-        _selectable = true;
-      }
-      if (_selected.contains(category)) {
-        _selected.remove(category);
-        if (_selected.isEmpty) {
-          _selectable = false;
-        }
-      } else {
-        _selected.add(category);
-      }
-    });
+  SelectionHandler<ItemCategory> selectionHandler;
+  @override
+  initState() {
+    selectionHandler = SelectionHandler<ItemCategory>(setState);
+    super.initState();
   }
 
   void _deleteCategories() {
-    for (var category in _selected) {
+    for (var category in selectionHandler.selectedList) {
       Provider.of<ItemCategories>(context, listen: false)
           .deleteCategory(category)
           .then(
         (value) {
-          _resetSelection();
+          selectionHandler.reset();
           if (value) {
             Scaffold.of(context).showSnackBar(SnackBar(
               behavior: SnackBarBehavior.floating,
@@ -72,10 +54,10 @@ class _ItemsCategoriesScreenState extends State<ItemsCategoriesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: !_selectable
+      appBar: !selectionHandler.isSelectable
           ? NormalAppBar()
           : SelectAppBar(
-              _resetSelection,
+              selectionHandler.reset,
               _deleteCategories,
             ),
       body: Consumer<ItemCategories>(
@@ -86,9 +68,9 @@ class _ItemsCategoriesScreenState extends State<ItemsCategoriesScreen> {
             : ListView.builder(
                 itemBuilder: (context, i) => ItemCategoryWidget(
                   data.categories[i],
-                  _selectable,
-                  _toggleSelection,
-                  _selected,
+                  selectionHandler.toggleSelection,
+                  selectionHandler.isSelectable,
+                  selectionHandler.selectedList,
                 ),
                 itemCount: data.categories.length,
               ),

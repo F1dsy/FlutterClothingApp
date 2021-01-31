@@ -4,14 +4,14 @@ import '../../models/categories.dart';
 
 class ItemCategoryWidget extends StatelessWidget {
   final ItemCategory category;
-  final bool selected;
   final Function toggle;
+  final bool selected;
   final List<ItemCategory> list;
 
   ItemCategoryWidget(
     this.category,
-    this.selected,
     this.toggle,
+    this.selected,
     this.list,
   );
 

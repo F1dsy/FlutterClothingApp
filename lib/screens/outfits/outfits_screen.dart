@@ -11,6 +11,7 @@ import '../../models/outfit.dart';
 import './outfit_widget.dart';
 import 'select_outfit_popup.dart';
 import '../../widgets/custom_app_bar.dart';
+import '../../helpers/selection_handler.dart';
 
 class OutfitsScreen extends StatefulWidget {
   static const routeName = '/outfit';
@@ -20,23 +21,12 @@ class OutfitsScreen extends StatefulWidget {
 }
 
 class _OutfitsScreenState extends State<OutfitsScreen> {
-  bool _selectable = false;
-  List<Outfit> _selected = [];
+  SelectionHandler<Outfit> selectionHandler;
 
-  void _toggleSelection(Outfit category) {
-    setState(() {
-      if (!_selectable) {
-        _selectable = true;
-      }
-      if (_selected.contains(category)) {
-        _selected.remove(category);
-        if (_selected.isEmpty) {
-          _selectable = false;
-        }
-      } else {
-        _selected.add(category);
-      }
-    });
+  @override
+  void initState() {
+    selectionHandler = SelectionHandler<Outfit>(setState);
+    super.initState();
   }
 
   void _addNewOutfit(BuildContext context, OutfitCategory category) {
@@ -62,10 +52,7 @@ class _OutfitsScreenState extends State<OutfitsScreen> {
     for (var outfit in outfits) {
       Provider.of<Outfits>(context, listen: false).deleteOutfit(outfit);
     }
-    setState(() {
-      _selected = [];
-      _selectable = false;
-    });
+    selectionHandler.reset();
   }
 
   @override
@@ -73,16 +60,11 @@ class _OutfitsScreenState extends State<OutfitsScreen> {
     final OutfitCategory category = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
-      appBar: !_selectable
+      appBar: !selectionHandler.isSelectable
           ? NormalAppBar(category, _addNewOutfit)
           : SelectAppBar(
-              () {
-                setState(() {
-                  _selectable = false;
-                  _selected = [];
-                });
-              },
-              () => _deleteItems(_selected),
+              selectionHandler.reset,
+              () => _deleteItems(selectionHandler.selectedList),
             ),
       body: Consumer<Outfits>(
         builder: (context, data, child) {
@@ -97,9 +79,9 @@ class _OutfitsScreenState extends State<OutfitsScreen> {
                   crossAxisCount: 3,
                   itemBuilder: (context, i) => OutfitWidget(
                     outfits[i],
-                    _selectable,
-                    _toggleSelection,
-                    _selected,
+                    selectionHandler.toggleSelection,
+                    selectionHandler.isSelectable,
+                    selectionHandler.selectedList,
                   ),
                   itemCount: outfits.length,
                   staggeredTileBuilder: (_) => StaggeredTile.fit(1),

@@ -4,16 +4,14 @@ import '../../models/categories.dart';
 
 class OutfitCategoryWidget extends StatelessWidget {
   final OutfitCategory category;
-  // final bool selectCategory;
   final bool selected;
   final Function toggle;
   final List list;
 
   OutfitCategoryWidget(
     this.category,
-    // this.selectCategory,
-    this.selected,
     this.toggle,
+    this.selected,
     this.list,
   );
 

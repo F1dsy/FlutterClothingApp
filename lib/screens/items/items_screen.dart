@@ -11,6 +11,7 @@ import '../../models/item.dart';
 import '../../screens/items/move_item.dart';
 import './select_items_popup.dart';
 import '../../widgets/custom_app_bar.dart';
+import '../../helpers/selection_handler.dart';
 
 class ItemsScreen extends StatefulWidget {
   static const routeName = '/item';
@@ -20,69 +21,47 @@ class ItemsScreen extends StatefulWidget {
 }
 
 class _ItemsScreenState extends State<ItemsScreen> {
-  bool _selectable = false;
-  List<Item> _selected = [];
+  SelectionHandler<Item> selectionHandler;
+  @override
+  initState() {
+    selectionHandler = SelectionHandler<Item>(setState);
+    super.initState();
+  }
 
   void _addNewItem(BuildContext context, ItemCategory category) {
     Navigator.of(context, rootNavigator: true)
         .pushNamed(AddItemScreen.routeName, arguments: category);
   }
 
-  void toggleSelection(Item item) {
-    setState(() {
-      if (!_selectable) {
-        _selectable = true;
-      }
-      if (_selected.contains(item)) {
-        _selected.remove(item);
-        if (_selected.isEmpty) {
-          _selectable = false;
-        }
-      } else {
-        _selected.add(item);
-      }
-    });
-  }
-
   void _deleteItems(List<Item> items) {
     for (var item in items) {
       Provider.of<Items>(context, listen: false).deleteItem(item);
     }
-    setState(() {
-      _selected = [];
-      _selectable = false;
-    });
+    selectionHandler.reset();
   }
 
   void _addToBasket(List<Item> items) {
     for (var item in items) {
       Provider.of<Items>(context, listen: false).addToWashBasket(item);
     }
-    setState(() {
-      _selected = [];
-      _selectable = false;
-    });
+    selectionHandler.reset();
   }
 
   void _removeFromBasket(List<Item> items) {
     for (var item in items) {
       Provider.of<Items>(context, listen: false).removeFromWashBasket(item);
     }
-    setState(() {
-      _selected = [];
-      _selectable = false;
-    });
+
+    selectionHandler.reset();
   }
 
   void _moveToCategory() {
     Navigator.of(context).pushNamed(MoveItem.routeName).then((value) {
       if (value == null) return;
       Provider.of<Items>(context, listen: false)
-          .moveToCategory(_selected, value);
-      setState(() {
-        _selected = [];
-        _selectable = false;
-      });
+          .moveToCategory(selectionHandler.selectedList, value);
+
+      selectionHandler.reset();
     });
   }
 
@@ -101,18 +80,16 @@ class _ItemsScreenState extends State<ItemsScreen> {
         leading: IconButton(
           icon: Icon(Icons.close),
           onPressed: () {
-            setState(() {
-              _selected = [];
-              _selectable = false;
-            });
+            selectionHandler.reset();
           },
         ),
         actions: [
           SelectItemsPopup(
-            delete: () => _deleteItems(_selected),
+            delete: () => _deleteItems(selectionHandler.selectedList),
             move: _moveToCategory,
-            addToBasket: () => _addToBasket(_selected),
-            removeFromBasket: () => _removeFromBasket(_selected),
+            addToBasket: () => _addToBasket(selectionHandler.selectedList),
+            removeFromBasket: () =>
+                _removeFromBasket(selectionHandler.selectedList),
           ),
         ],
       );
@@ -122,7 +99,9 @@ class _ItemsScreenState extends State<ItemsScreen> {
     final ItemCategory category = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
-      appBar: _selectable ? _buildSelectAppBar() : _buildNormalAppBar(category),
+      appBar: selectionHandler.isSelectable
+          ? _buildSelectAppBar()
+          : _buildNormalAppBar(category),
       body: Consumer<Items>(
         builder: (context, data, child) {
           var items = data.items[category];
@@ -135,7 +114,11 @@ class _ItemsScreenState extends State<ItemsScreen> {
                   crossAxisCount: 3,
                   itemBuilder: (context, i) {
                     return ItemWidget(
-                        items[i], toggleSelection, _selectable, _selected);
+                      items[i],
+                      selectionHandler.toggleSelection,
+                      selectionHandler.isSelectable,
+                      selectionHandler.selectedList,
+                    );
                   },
                   itemCount: items.length,
                   staggeredTileBuilder: (_) => StaggeredTile.fit(1),

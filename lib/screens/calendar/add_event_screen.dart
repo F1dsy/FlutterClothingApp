@@ -127,8 +127,7 @@ class _SelectOutfit extends StatelessWidget {
       builder: (context, data, child) => StaggeredGridView.countBuilder(
         crossAxisCount: 3,
         itemCount: data.outfits.length,
-        itemBuilder: (context, i) =>
-            OutfitWidget(data.outfits[i], false, select, []),
+        itemBuilder: (context, i) => OutfitWidget(data.outfits[i], select),
         staggeredTileBuilder: (_) => StaggeredTile.fit(1),
       ),
     );
@@ -153,7 +152,10 @@ class _Confirm extends StatelessWidget {
         Container(
           height: 300,
           child: Center(
-            child: OutfitWidget(outfit, false, (_) {}),
+            child: OutfitWidget(
+              outfit,
+              (_) {},
+            ),
           ),
         ),
         Container(

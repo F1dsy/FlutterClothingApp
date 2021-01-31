@@ -8,6 +8,7 @@ import './outfit_category_widget.dart';
 import '../../models/categories.dart';
 import './select_category_popup.dart';
 import '../../widgets/custom_app_bar.dart';
+import '../../helpers/selection_handler.dart';
 
 class OutfitsCategoriesScreen extends StatefulWidget {
   static const routeName = '/';
@@ -18,39 +19,21 @@ class OutfitsCategoriesScreen extends StatefulWidget {
 }
 
 class _OutfitsCategoriesScreenState extends State<OutfitsCategoriesScreen> {
-  bool _selectable = false;
-  List _selected = [];
+  SelectionHandler<OutfitCategory> selectionHandler;
 
-  void _toggleSelection(OutfitCategory category) {
-    setState(() {
-      if (!_selectable) {
-        _selectable = true;
-      }
-      if (_selected.contains(category)) {
-        _selected.remove(category);
-        if (_selected.isEmpty) {
-          _selectable = false;
-        }
-      } else {
-        _selected.add(category);
-      }
-    });
-  }
-
-  void _resetSelection() {
-    setState(() {
-      _selectable = false;
-      _selected = [];
-    });
+  @override
+  initState() {
+    selectionHandler = SelectionHandler<OutfitCategory>(setState);
+    super.initState();
   }
 
   void _deleteCategories() {
-    for (var category in _selected) {
+    for (var category in selectionHandler.selectedList) {
       Provider.of<OutfitCategories>(context, listen: false)
           .deleteCategory(category)
           .then(
         (value) {
-          _resetSelection();
+          selectionHandler.reset();
           if (value) {
             Scaffold.of(context).showSnackBar(SnackBar(
               behavior: SnackBarBehavior.floating,
@@ -72,18 +55,18 @@ class _OutfitsCategoriesScreenState extends State<OutfitsCategoriesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: !_selectable
+      appBar: !selectionHandler.isSelectable
           ? NormalAppBar()
-          : SelectAppBar(_resetSelection, _deleteCategories),
+          : SelectAppBar(selectionHandler.reset, _deleteCategories),
       body: Consumer<OutfitCategories>(
         builder: (context, data, child) => data.categories.isEmpty
             ? Center(child: Text('Add Category First'))
             : ListView.builder(
                 itemBuilder: (context, i) => OutfitCategoryWidget(
                   data.categories[i],
-                  _selectable,
-                  _toggleSelection,
-                  _selected,
+                  selectionHandler.toggleSelection,
+                  selectionHandler.isSelectable,
+                  selectionHandler.selectedList,
                 ),
                 itemCount: data.categories.length,
               ),
