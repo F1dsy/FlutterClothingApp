@@ -31,7 +31,7 @@ class FourthScreen extends StatelessWidget {
             ),
             NextButton(
               page: PageName.Fifth,
-              duration: Duration(seconds: 2),
+              duration: Duration(seconds: 3),
             ),
           ],
         ),
@@ -57,6 +57,8 @@ class OutfitBox extends StatelessWidget {
         .animate(animation);
     Animation outfit = Tween<double>(begin: 0, end: 1)
         .chain(CurveTween(curve: Interval(0.7, 1, curve: Curves.ease)))
+        .animate(animation);
+    Animation text = CurveTween(curve: Interval(0, 0.4, curve: Curves.ease))
         .animate(animation);
 
     return Column(
@@ -95,13 +97,25 @@ class OutfitBox extends StatelessWidget {
         Container(
           width: 220,
           margin: EdgeInsets.only(top: 20),
-          child: Text(
-            'Combine your items to elaborate outfits',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.white.withOpacity(animation.value * 0.7),
-              fontSize: 16,
-            ),
+          child: Stack(
+            children: [
+              Text(
+                'Add items by taking pictures of your clothes',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white.withOpacity(0.7 - text.value * 0.7),
+                  fontSize: 16,
+                ),
+              ),
+              Text(
+                'Combine your items to elaborate outfits',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white.withOpacity(text.value * 0.7),
+                  fontSize: 16,
+                ),
+              ),
+            ],
           ),
         ),
       ],
@@ -111,9 +125,33 @@ class OutfitBox extends StatelessWidget {
 
 class Clump extends StatelessWidget {
   final double clumpItems;
-  Clump({this.clumpItems = 1});
+  final Animation fadeOutAnimation;
+  Clump({this.clumpItems = 1, this.fadeOutAnimation});
   @override
   Widget build(BuildContext context) {
+    double firstOpacity;
+    double secondOpacity;
+    double thirdOpacity;
+    double fourthOpacity;
+    if (fadeOutAnimation != null) {
+      firstOpacity = 1 -
+          CurveTween(curve: Interval(0, 0.55, curve: Curves.ease))
+              .animate(fadeOutAnimation)
+              .value;
+      secondOpacity = 1 -
+          CurveTween(curve: Interval(0.15, 0.70, curve: Curves.ease))
+              .animate(fadeOutAnimation)
+              .value;
+      thirdOpacity = 1 -
+          CurveTween(curve: Interval(0.30, 0.85, curve: Curves.ease))
+              .animate(fadeOutAnimation)
+              .value;
+      fourthOpacity = 1 -
+          CurveTween(curve: Interval(0.45, 1, curve: Curves.ease))
+              .animate(fadeOutAnimation)
+              .value;
+    }
+
     return Container(
       height: 180,
       child: Stack(
@@ -122,51 +160,61 @@ class Clump extends StatelessWidget {
           Positioned(
             top: 20,
             left: 20 + (clumpItems ?? 0) * 10,
-            child: Container(
-              width: 70,
-              height: 110,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(11),
-                color: Colors.white54,
+            child: Opacity(
+              opacity: firstOpacity ?? 1,
+              child: Container(
+                width: 70,
+                height: 110,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(11),
+                  color: Colors.white54,
+                ),
               ),
             ),
           ),
           Positioned(
-            // bottom: (clumpItems ?? 0) * 35,
             top: 150 - (clumpItems ?? 0) * 35,
             left: 20 + (clumpItems ?? 0) * 25,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(11),
-                color: Colors.white54,
+            child: Opacity(
+              opacity: secondOpacity ?? 1,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(11),
+                  color: Colors.white54,
+                ),
+                width: 70,
+                height: 30,
               ),
-              width: 70,
-              height: 30,
             ),
           ),
           Positioned(
             top: 20 + (clumpItems ?? 0) * 40,
             right: 20 + (clumpItems ?? 0) * 30,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(11),
-                color: Colors.white54,
+            child: Opacity(
+              opacity: thirdOpacity ?? 1,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(11),
+                  color: Colors.white54,
+                ),
+                width: 70,
+                height: 80,
               ),
-              width: 70,
-              height: 80,
             ),
           ),
           Positioned(
-            // bottom: (clumpItems ?? 0) * 15,
             top: 120 - (clumpItems ?? 0) * 15,
             right: 20 + (clumpItems ?? 0) * 20,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(11),
-                color: Colors.white54,
+            child: Opacity(
+              opacity: fourthOpacity ?? 1,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(11),
+                  color: Colors.white54,
+                ),
+                width: 70,
+                height: 60,
               ),
-              width: 70,
-              height: 60,
             ),
           ),
         ],

@@ -32,8 +32,18 @@ class FifthScreen extends StatelessWidget {
 class CalendarItem extends StatelessWidget {
   final Animation animation;
   CalendarItem({this.animation});
+
   @override
   Widget build(BuildContext context) {
+    Animation plus = CurveTween(curve: Interval(0.6, 0.9, curve: Curves.ease))
+        .animate(animation);
+    Animation calendar = CurveTween(curve: Interval(0.7, 1, curve: Curves.ease))
+        .animate(animation);
+    Animation text = CurveTween(curve: Interval(0, 0.4, curve: Curves.ease))
+        .animate(animation);
+    Animation arrow =
+        CurveTween(curve: Interval(0.20, 0.30, curve: Curves.ease))
+            .animate(animation);
     return Column(
       children: [
         BoxOutline(
@@ -42,13 +52,15 @@ class CalendarItem extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  Opacity(
-                    opacity: 1 - animation.value,
-                    child: Clump(),
+                  Clump(
+                    fadeOutAnimation: CurvedAnimation(
+                      parent: animation,
+                      curve: Interval(0, 0.25),
+                    ),
                   ),
                   Expanded(
                     child: Opacity(
-                      opacity: 1 - animation.value,
+                      opacity: 1 - arrow.value,
                       child: Icon(
                         Icons.arrow_downward_rounded,
                         color: Colors.white54,
@@ -71,8 +83,10 @@ class CalendarItem extends StatelessWidget {
                       transform: Matrix4.translationValues(
                           0,
                           animation
-                              .drive(Tween<double>(begin: 200, end: 0)
-                                  .chain(CurveTween(curve: Curves.ease)))
+                              .drive(Tween<double>(begin: 203, end: 0).chain(
+                                  CurveTween(
+                                      curve: Interval(0.15, 0.7,
+                                          curve: Curves.ease))))
                               .value,
                           0),
                       child: Container(
@@ -85,7 +99,7 @@ class CalendarItem extends StatelessWidget {
                     ),
                   ),
                   Opacity(
-                    opacity: animation.value,
+                    opacity: plus.value,
                     child: Icon(
                       Icons.add,
                       color: Colors.white54,
@@ -96,7 +110,7 @@ class CalendarItem extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 20),
                     // color: Colors.amber,
                     child: Opacity(
-                      opacity: animation.value,
+                      opacity: calendar.value,
                       child: Icon(
                         Icons.calendar_today_rounded,
                         color: Colors.white54,
@@ -112,13 +126,25 @@ class CalendarItem extends StatelessWidget {
         Container(
           width: 220,
           margin: EdgeInsets.only(top: 20),
-          child: Text(
-            'Plan ahead and select your favourite outfit for the coming event',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.white.withOpacity(animation.value * 0.7),
-              fontSize: 16,
-            ),
+          child: Stack(
+            children: [
+              Text(
+                'Combine your items to elaborate outfits',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white.withOpacity(0.7 - text.value * 0.7),
+                  fontSize: 16,
+                ),
+              ),
+              Text(
+                'Plan ahead and select your favourite outfit for the coming event',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white.withOpacity(text.value * 0.7),
+                  fontSize: 16,
+                ),
+              ),
+            ],
           ),
         ),
       ],

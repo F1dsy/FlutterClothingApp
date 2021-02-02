@@ -32,7 +32,7 @@ class _MyAppState extends State<MyApp> {
   Locale locale;
   Future initFuture;
   ThemeData theme;
-  bool isFirstTime = true;
+  bool isFirstTime;
 
   void _setLocale(Locale local) {
     setState(() {
@@ -57,7 +57,7 @@ class _MyAppState extends State<MyApp> {
     if (firstTime) {
       setSetting<bool>('firstTime', false);
     }
-    // isFirstTime = firstTime;
+    isFirstTime = firstTime;
   }
 
   @override
