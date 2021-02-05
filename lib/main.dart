@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import './screens/main_screen.dart';
 import 'config/theme.dart';
@@ -46,6 +47,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> init() async {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     await databaseInit();
     theme = await getThemeData();
     locale = await initLocale();

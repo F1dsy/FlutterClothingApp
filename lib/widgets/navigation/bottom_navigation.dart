@@ -86,6 +86,23 @@ class _BottomNavState extends State<BottomNav>
                     open = !open;
                   });
                 },
+                onPanUpdate: (details) {
+                  if (details.delta.direction.isNegative) {
+                    setState(() {
+                      if (!open) {
+                        _animationController.forward();
+                        open = true;
+                      }
+                    });
+                  } else {
+                    setState(() {
+                      if (open) {
+                        _animationController.reverse();
+                        open = false;
+                      }
+                    });
+                  }
+                },
                 child: _MenuIcon(),
               ),
               Expanded(

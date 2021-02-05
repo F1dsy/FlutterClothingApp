@@ -42,7 +42,11 @@ class Events with ChangeNotifier {
       'outfit_id': event.outfit.id,
     });
     _events[event.date] = [
-      Event(id: id, date: event.date, outfit: event.outfit)
+      Event(
+        id: id,
+        date: event.date,
+        outfit: event.outfit,
+      )
     ];
     notifyListeners();
   }

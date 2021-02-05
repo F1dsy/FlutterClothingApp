@@ -31,6 +31,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
 
   Outfit _selectedOutfit;
   DateTime _selectedDay;
+  TimeOfDay _selectedTimeOfDay = TimeOfDay.now();
 
   void _selectCategory(OutfitCategory category) {
     setState(() {
@@ -53,20 +54,32 @@ class _AddEventScreenState extends State<AddEventScreen> {
           lastDate: DateTime.now().add(Duration(days: 365)),
         ) ??
         _selectedDay;
+    setState(() {});
+  }
+
+  void _selectTime() async {
+    _selectedTimeOfDay = await showTimePicker(
+          context: context,
+          initialTime: _selectedTimeOfDay ?? TimeOfDay.now(),
+        ) ??
+        _selectedTimeOfDay;
+    setState(() {});
   }
 
   void _addEvent() {
     Provider.of<Events>(context, listen: false).addEvent(Event(
       id: null,
-      date: _selectedDay,
       outfit: _selectedOutfit,
+      date: _selectedDay,
+      time: _selectedTimeOfDay,
     ));
+    print(_selectedTimeOfDay);
     Navigator.of(context).pop();
   }
 
   @override
   Widget build(BuildContext context) {
-    _selectedDay = ModalRoute.of(context).settings.arguments;
+    _selectedDay = _selectedDay ?? ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: CustomAppBar(
         title: Text(AppLocalizations.of(context).addEvent),
@@ -77,7 +90,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
           )
         ],
       ),
-      body: (() {
+      body: () {
         switch (_selectStep) {
           case _SelectStep.Category:
             return _SelectCategory(_selectCategory);
@@ -89,12 +102,14 @@ class _AddEventScreenState extends State<AddEventScreen> {
             return _Confirm(
               _selectedOutfit,
               _selectedDay,
+              _selectedTimeOfDay,
               _selectDate,
+              _selectTime,
             );
             break;
           default:
         }
-      }()),
+      }(),
     );
   }
 }
@@ -137,12 +152,16 @@ class _SelectOutfit extends StatelessWidget {
 class _Confirm extends StatelessWidget {
   final Outfit outfit;
   final DateTime date;
+  final TimeOfDay time;
   final Function selectDate;
+  final Function selectTime;
 
   _Confirm(
     this.outfit,
     this.date,
+    this.time,
     this.selectDate,
+    this.selectTime,
   );
 
   @override
@@ -158,11 +177,18 @@ class _Confirm extends StatelessWidget {
             ),
           ),
         ),
-        Container(
-          child: RaisedButton(
-            onPressed: selectDate,
-            child: Text(DateFormat.yMd().format(date)),
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            RaisedButton(
+              onPressed: selectDate,
+              child: Text(DateFormat.yMd().format(date)),
+            ),
+            RaisedButton(
+              onPressed: selectTime,
+              child: Text(time.format(context)),
+            ),
+          ],
         ),
       ],
     );

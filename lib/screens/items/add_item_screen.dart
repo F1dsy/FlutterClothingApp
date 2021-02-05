@@ -76,14 +76,16 @@ class _AddItemScreenState extends State<AddItemScreen> {
                 },
               ),
             ),
-            Card(
-              margin: const EdgeInsets.all(8.0),
-              child: imageInput.image == null
-                  ? null
-                  : ClipRRect(
-                      borderRadius: BorderRadius.circular(4),
-                      child: Image.file(imageInput.image),
-                    ),
+            Expanded(
+              child: Card(
+                margin: const EdgeInsets.all(8.0),
+                child: imageInput.image == null
+                    ? null
+                    : ClipRRect(
+                        borderRadius: BorderRadius.circular(4),
+                        child: Image.file(imageInput.image),
+                      ),
+              ),
             ),
           ],
         ),

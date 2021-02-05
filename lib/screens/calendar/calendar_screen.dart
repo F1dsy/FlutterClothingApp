@@ -80,33 +80,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     : _selectedEvents.map((event) {
                         return Card(
                           margin: EdgeInsets.all(5),
-                          child: Stack(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(4),
-                                child: Image.file(
-                                  event.outfit.featureImage == null
-                                      ? event.outfit.items[0].image
-                                      : event.outfit.featureImage,
-                                  height: 60,
-                                  width: double.infinity,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              Positioned.fill(
-                                child: Material(
-                                  color: Colors.transparent,
-                                  child: InkWell(
-                                    onTap: () => showEvent(context, event),
-                                  ),
-                                ),
-                              )
-                            ],
+                          child: ListTile(
+                            title: Text(event.time.format(context) ?? 'NO'),
+                            onTap: () => showEvent(context, event),
                           ),
-                          //  ListTile(
-
-                          //   onTap: () => showEvent(context, event),
-                          // ),
                         );
                       }).toList(),
               ),
