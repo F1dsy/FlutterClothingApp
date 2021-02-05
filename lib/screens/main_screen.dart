@@ -17,11 +17,11 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   var _selectedIndex = 1;
 
-  void _selectTab(i) {
-    setState(() {
-      _selectedIndex = i;
-    });
-  }
+  // void _selectTab(i) {
+  //   setState(() {
+  //     _selectedIndex = i;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
