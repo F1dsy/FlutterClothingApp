@@ -57,7 +57,7 @@ class _OutfitsCategoriesScreenState extends State<OutfitsCategoriesScreen> {
     return Scaffold(
       appBar: !selectionHandler.isSelectable
           ? NormalAppBar()
-          : SelectAppBar(selectionHandler.reset, _deleteCategories),
+          : SelectAppBar(selectionHandler, _deleteCategories),
       body: Consumer<OutfitCategories>(
         builder: (context, data, child) => data.categories.isEmpty
             ? Center(child: Text('Add Category First'))
@@ -98,9 +98,9 @@ class NormalAppBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 class SelectAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final Function close;
+  final SelectionHandler selectionHandler;
   final Function delete;
-  SelectAppBar(this.close, this.delete);
+  SelectAppBar(this.selectionHandler, this.delete);
 
   @override
   get preferredSize => Size.fromHeight(kToolbarHeight);
@@ -108,10 +108,12 @@ class SelectAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return CustomAppBar(
-      title: const Text('Select'),
+      title: Text(selectionHandler.selectedList.length.toString() +
+          ' ' +
+          AppLocalizations.of(context).select),
       leading: IconButton(
         icon: const Icon(Icons.close),
-        onPressed: close,
+        onPressed: selectionHandler.reset,
       ),
       actions: [
         SelectCategoryPopup(

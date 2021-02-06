@@ -72,6 +72,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 calendarStyle: CalendarStyle(
                   selectedColor: Theme.of(context).primaryColor,
                   todayColor: Theme.of(context).primaryColor.withOpacity(0.6),
+                  markersColor: Theme.of(context).accentColor,
                 ),
               ),
               Column(

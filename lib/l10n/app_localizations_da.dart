@@ -34,7 +34,7 @@ class AppLocalizationsDa extends AppLocalizations {
   String get newCategory => 'Ny Kategori';
 
   @override
-  String get select => 'Vælg';
+  String get select => 'Valgt';
 
   @override
   String get selectLang => 'Vælg Sprog';

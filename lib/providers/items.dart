@@ -63,7 +63,7 @@ class Items with ChangeNotifier {
       item.id,
       whereString: 'item_id = ?',
     );
-    _items.remove(item);
+    _items[item.category].remove(item);
     item.image.deleteSync();
     notifyListeners();
   }

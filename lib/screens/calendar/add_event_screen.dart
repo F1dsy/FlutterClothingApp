@@ -73,7 +73,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
       date: _selectedDay,
       time: _selectedTimeOfDay,
     ));
-    print(_selectedTimeOfDay);
+
     Navigator.of(context).pop();
   }
 
