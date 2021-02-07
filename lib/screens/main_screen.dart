@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../l10n/app_localizations.dart';
 // import '../widgets/navigation/bottom_navigation.dart';
-// import './wash/wash_basket_screen.dart';
+
 import './settings/settings_screen.dart';
 
 import '../config/routes.dart';

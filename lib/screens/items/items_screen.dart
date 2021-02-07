@@ -40,13 +40,6 @@ class _ItemsScreenState extends State<ItemsScreen> {
     selectionHandler.reset();
   }
 
-  void _addToBasket(List<Item> items) {
-    for (var item in items) {
-      Provider.of<Items>(context, listen: false).addToWashBasket(item);
-    }
-    selectionHandler.reset();
-  }
-
   void _moveToCategory() {
     Navigator.of(context).pushNamed(MoveItem.routeName).then((value) {
       if (value == null) return;
@@ -81,7 +74,6 @@ class _ItemsScreenState extends State<ItemsScreen> {
           SelectItemsPopup(
             delete: () => _deleteItems(selectionHandler.selectedList),
             move: _moveToCategory,
-            addToBasket: () => _addToBasket(selectionHandler.selectedList),
           )
         ],
       );

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../screens/settings/settings_screen.dart';
-// import '../screens/wash/wash_basket_screen.dart';
 import '../screens/outfits/outfit_builder.dart';
 import '../screens/items/add_item_screen.dart';
 import '../screens/outfits/outfits_category_screen.dart';
@@ -16,7 +15,6 @@ import '../screens/first_time/first_time_screen.dart';
 final Map<String, WidgetBuilder> rootRoutes = {
   OutfitBuilder.routeName: (context) => OutfitBuilder(),
   AddItemScreen.routeName: (context) => AddItemScreen(),
-  // WashBasketScreen.routeName: (context) => WashBasketScreen(),
   SettingsScreen.routeName: (context) => SettingsScreen(),
   AddEventScreen.routeName: (context) => AddEventScreen(),
   FirstTimeScreen.routeName: (context) => FirstTimeScreen(),

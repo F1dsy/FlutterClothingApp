@@ -52,28 +52,6 @@ class SettingsScreen extends StatelessWidget {
             ));
   }
 
-  void _selectInWashTimeDialog(BuildContext context) {
-    getSetting<int>('washThreshold').then((inWashTime) => showDialog(
-          context: context,
-          builder: (context) => SimpleDialog(
-            title: Text(AppLocalizations.of(context).washDialogTitle),
-            children: List.generate(
-              7,
-              (i) => RadioListTile(
-                // title: Text('${i + 1} ${i == 0 ? 'day' : 'days'}'),
-                title: Text(AppLocalizations.of(context).day(i + 1)),
-                value: i + 1,
-                groupValue: inWashTime,
-                onChanged: (int value) {
-                  setSetting('washThreshold', value);
-                  Navigator.of(context).pop();
-                },
-              ),
-            ),
-          ),
-        ));
-  }
-
   void _selectColorThemeDialog(BuildContext context) {
     _setColorTheme(String value) {
       setSetting('colorTheme', value);
@@ -115,12 +93,6 @@ class SettingsScreen extends StatelessWidget {
             title: AppLocalizations.of(context).language,
             subtitle: AppLocalizations.of(context).languageSubtitle,
             onButtonTap: () => _selectLanguageDialog(context),
-          ),
-          Divider(),
-          _SettingTile(
-            title: AppLocalizations.of(context).washTitle,
-            subtitle: AppLocalizations.of(context).washSubtitle,
-            onButtonTap: () => _selectInWashTimeDialog(context),
           ),
           Divider(),
           _SettingTile(

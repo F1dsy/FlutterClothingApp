@@ -51,10 +51,6 @@ class _MyAppState extends State<MyApp> {
     await databaseInit();
     theme = await getThemeData();
     locale = await initLocale();
-    int washThreshold = await getSetting<int>('washThreshold');
-    if (washThreshold == null) {
-      setSetting<int>('washThreshold', 3);
-    }
     bool firstTime = await getSetting<bool>('firstTime') ?? true;
     if (firstTime) {
       setSetting<bool>('firstTime', false);
