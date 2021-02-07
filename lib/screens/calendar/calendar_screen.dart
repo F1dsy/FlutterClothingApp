@@ -7,7 +7,7 @@ import '../../providers/events.dart';
 import '../../models/event.dart';
 import '../../widgets/custom_app_bar.dart';
 import '../../l10n/app_localizations.dart';
-import 'event_widget.dart';
+import '../../widgets/show_image_dialog.dart';
 
 class CalendarScreen extends StatefulWidget {
   static const routeName = '/';
@@ -17,11 +17,15 @@ class CalendarScreen extends StatefulWidget {
 }
 
 class _CalendarScreenState extends State<CalendarScreen> {
-  CalendarController _calendarController = CalendarController();
-  // Map<DateTime, List<dynamic>> _events = {};
+  CalendarController _calendarController;
   List<Event> _selectedEvents = [];
-
   DateTime _selectedDay = DateTime.now();
+
+  @override
+  void initState() {
+    _calendarController = CalendarController();
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -83,7 +87,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
                           margin: EdgeInsets.all(5),
                           child: ListTile(
                             title: Text(event.time.format(context) ?? 'NO'),
-                            onTap: () => showEvent(context, event),
+                            onTap: () => showImageDialog(
+                                context,
+                                event.outfit.items
+                                    .map((e) => e.image)
+                                    .toList()),
                           ),
                         );
                       }).toList(),
