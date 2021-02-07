@@ -135,7 +135,7 @@ class SelectAppBar extends StatelessWidget implements PreferredSizeWidget {
     return CustomAppBar(
       title: Text(selectionHandler.selectedList.length.toString() +
           ' ' +
-          AppLocalizations.of(context).select),
+          AppLocalizations.of(context).selected),
       leading: IconButton(
         icon: const Icon(Icons.close),
         onPressed: selectionHandler.reset,

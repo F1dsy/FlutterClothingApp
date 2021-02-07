@@ -125,6 +125,9 @@ abstract class AppLocalizations {
   // No description provided in @select
   String get select;
 
+  // No description provided in @selected
+  String get selected;
+
   // No description provided in @selectLang
   String get selectLang;
 

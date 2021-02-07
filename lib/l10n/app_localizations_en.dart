@@ -34,7 +34,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get newCategory => 'New Category';
 
   @override
-  String get select => 'Selected';
+  String get select => 'Select';
+
+  @override
+  String get selected => 'Selected';
 
   @override
   String get selectLang => 'Select Language';

@@ -70,7 +70,7 @@ class _ItemsScreenState extends State<ItemsScreen> {
   Widget _buildSelectAppBar() => CustomAppBar(
         title: Text(selectionHandler.selectedList.length.toString() +
             ' ' +
-            AppLocalizations.of(context).select),
+            AppLocalizations.of(context).selected),
         leading: IconButton(
           icon: Icon(Icons.close),
           onPressed: () {
