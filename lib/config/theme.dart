@@ -20,7 +20,7 @@ final themeLight = ThemeData(
   primaryColor: Color(0xFF342D7E),
   visualDensity: VisualDensity.adaptivePlatformDensity,
   // accentColor: Color(0xFF4239A5),
-  accentColor: Colors.lightBlue,
+  accentColor: Colors.blue[800],
   canvasColor: Color(0xFFF2F2F2),
   // bottomNavigationBarTheme: BottomNavigationBarThemeData(
   //   selectedIconTheme: IconThemeData(color: Colors.white),

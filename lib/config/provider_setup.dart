@@ -18,11 +18,9 @@ class ProviderSetup extends StatelessWidget {
     return MultiProvider(providers: [
       ChangeNotifierProvider(
         create: (context) => ItemCategories()..fetchAndSetCategories(),
-        // lazy: false,
       ),
       ChangeNotifierProvider(
         create: (context) => OutfitCategories()..fetchAndSetCategories(),
-        // lazy: false,
       ),
       ChangeNotifierProxyProvider<ItemCategories, Items>(
         create: (context) => Items(),
@@ -33,12 +31,11 @@ class ProviderSetup extends StatelessWidget {
         create: (context) => Outfits(),
         update: (context, items, categories, outfits) => outfits
           ..fetchAndSetOutfits(items.itemAsList, categories.categories),
-        // lazy: false,
       ),
       ChangeNotifierProxyProvider<Outfits, Events>(
         create: (context) => Events(),
-        update: (context, outfits, events) => events..update = outfits.outfits,
-        // lazy: false,
+        update: (context, outfits, events) =>
+            events..fetchAndSetEvents(outfits.outfits),
       ),
     ], builder: (context, _) => child);
   }

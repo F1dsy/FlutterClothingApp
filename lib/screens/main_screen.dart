@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../l10n/app_localizations.dart';
 // import '../widgets/navigation/bottom_navigation.dart';
-import './wash/wash_basket_screen.dart';
+// import './wash/wash_basket_screen.dart';
 import './settings/settings_screen.dart';
 
 import '../config/routes.dart';
@@ -56,10 +56,6 @@ class _MainScreenState extends State<MainScreen> {
               label: AppLocalizations.of(context).calendar,
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_basket),
-              label: 'Wash',
-            ),
-            BottomNavigationBarItem(
               icon: Icon(Icons.settings),
               label: AppLocalizations.of(context).settings,
             ),
@@ -68,8 +64,6 @@ class _MainScreenState extends State<MainScreen> {
           onTap: (i) {
             setState(() {
               if (i == 3) {
-                Navigator.of(context).pushNamed(WashBasketScreen.routeName);
-              } else if (i == 4) {
                 Navigator.of(context).pushNamed(SettingsScreen.routeName);
               } else {
                 _selectedIndex = i;

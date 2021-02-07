@@ -2,14 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../helpers/db_helper.dart' as DBHelper;
 import '../models/outfit.dart';
+
 import '../models/event.dart';
 
 class Events with ChangeNotifier {
-  set update(List<Outfit> value) {
-    if (value.isEmpty) return;
-    fetchAndSetEvents(value);
-  }
-
   Map<DateTime, List<Event>> _events = {};
 
   Map<DateTime, List<Event>> get events {
@@ -17,21 +13,25 @@ class Events with ChangeNotifier {
   }
 
   void fetchAndSetEvents(List<Outfit> outfits) async {
+    if (outfits.isEmpty) return;
+
     final List<Map<String, dynamic>> result =
         await DBHelper.query(DBHelper.Tables.Events);
 
-    for (var event in result) {
+    for (var eventData in result) {
       final outfit = outfits.firstWhere(
-        (element) => element.id == event['outfit_id'],
+        (element) => element.id == eventData['outfit_id'],
       );
 
-      _events[DateTime.parse(event['date'])] = [
-        Event(
-          id: event['event_id'],
-          date: DateTime.parse(event['date']),
-          outfit: outfit,
-        )
-      ];
+      DateTime dateTime = DateTime.parse(eventData['date']);
+
+      Event event = Event(
+        id: eventData['event_id'],
+        date: dateTime,
+        outfit: outfit,
+      );
+
+      _events[dateTime] = [event];
     }
     notifyListeners();
   }
