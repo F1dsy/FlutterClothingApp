@@ -225,7 +225,7 @@ class _Confirm extends StatelessWidget {
               child: image == null
                   ? FractionallySizedBox(
                       widthFactor: 0.6,
-                      child: FlatButton.icon(
+                      child: TextButton.icon(
                           onPressed: setImage,
                           icon: Icon(Icons.camera_alt),
                           label: Text('Add Feature Image')),

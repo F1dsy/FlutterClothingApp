@@ -37,7 +37,7 @@ class _OutfitsScreenState extends State<OutfitsScreen> {
                 title: Text('No Items'),
                 content: Text('You need to add Items first'),
                 actions: [
-                  FlatButton(
+                  TextButton(
                       onPressed: () => Navigator.of(context).pop(),
                       child: Text('OK'))
                 ],
