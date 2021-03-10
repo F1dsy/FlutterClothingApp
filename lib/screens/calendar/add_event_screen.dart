@@ -180,11 +180,11 @@ class _Confirm extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            RaisedButton(
+            ElevatedButton(
               onPressed: selectDate,
               child: Text(DateFormat.yMd().format(date)),
             ),
-            RaisedButton(
+            ElevatedButton(
               onPressed: selectTime,
               child: Text(time.format(context)),
             ),

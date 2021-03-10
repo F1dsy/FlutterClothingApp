@@ -35,7 +35,7 @@ class _OutfitsCategoriesScreenState extends State<OutfitsCategoriesScreen> {
         (value) {
           selectionHandler.reset();
           if (value) {
-            Scaffold.of(context).showSnackBar(SnackBar(
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               behavior: SnackBarBehavior.floating,
               elevation: 2,
               margin: EdgeInsets.all(5),

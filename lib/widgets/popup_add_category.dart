@@ -52,12 +52,12 @@ Future _newCategory(BuildContext context, Function _addNewCategory) {
               },
             ),
             actions: [
-              FlatButton(
+              TextButton(
                   onPressed: () {
                     Navigator.of(context, rootNavigator: true).pop();
                   },
                   child: Text('Cancel')),
-              FlatButton(
+              TextButton(
                   onPressed: isEnabled
                       ? () => _addNewCategory(context, controller.text)
                       : null,

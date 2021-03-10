@@ -18,7 +18,7 @@ class SettingsScreen extends StatelessWidget {
         .then((e) => Locale(e))
         .then((language) => showDialog(
               context: context,
-              child: StatefulBuilder(
+              builder: (context) => StatefulBuilder(
                 builder: (context, setState) => SimpleDialog(
                   title: Text(AppLocalizations.of(context).selectLang),
                   children: [
@@ -121,7 +121,7 @@ class _SettingTile extends StatelessWidget {
         style: TextStyle(fontSize: 20),
       ),
       subtitle: Text(subtitle),
-      trailing: RaisedButton(
+      trailing: ElevatedButton(
         onPressed: onButtonTap,
         child: Text(AppLocalizations.of(context).select),
       ),

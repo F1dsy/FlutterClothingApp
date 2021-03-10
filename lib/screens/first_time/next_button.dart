@@ -40,8 +40,9 @@ class NextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(bottom: 70),
-      child: FlatButton(
-        color: Colors.black12,
+      child: TextButton(
+        // color: Colors.black12,
+
         onPressed: () => _next(context),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
