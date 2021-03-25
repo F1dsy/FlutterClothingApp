@@ -18,7 +18,7 @@ class Items with ChangeNotifier {
     return {..._items};
   }
 
-  List<Item?> get itemAsList {
+  List<Item> get itemAsList {
     return _items.values.expand((list) => list).toList();
   }
 

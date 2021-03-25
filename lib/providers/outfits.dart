@@ -19,7 +19,7 @@ class Outfits with ChangeNotifier {
   }
 
   Future<void> fetchAndSetOutfits(
-      List<Item?> items, List<OutfitCategory> categories) async {
+      List<Item> items, List<OutfitCategory> categories) async {
     if (items.isEmpty || categories.isEmpty) return;
     final outfits = await DBHelper.query(DBHelper.Tables.Outfits);
     final itemsOfOutfit = await DBHelper.query(DBHelper.Tables.OutfitItems);
@@ -28,10 +28,7 @@ class Outfits with ChangeNotifier {
       for (var item in itemsOfOutfit) {
         if (item['outfit_id'] == outfit['id']) {
           itemList.add(items.firstWhere(
-            (e) => e!.id == item['item_id'],
-            orElse: () {
-              return null;
-            },
+            (e) => e.id == item['item_id'],
           ));
         }
       }

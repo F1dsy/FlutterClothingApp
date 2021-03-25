@@ -33,7 +33,7 @@ class _MyAppState extends State<MyApp> {
   Locale? locale;
   Future? initFuture;
   ThemeData? theme;
-  late bool isFirstTime;
+  bool isFirstTime = false;
 
   void _setLocale(Locale local) {
     setState(() {

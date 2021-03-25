@@ -22,17 +22,17 @@ class ProviderSetup extends StatelessWidget {
       ChangeNotifierProvider(
         create: (context) => OutfitCategories()..fetchAndSetCategories(),
       ),
-      ChangeNotifierProxyProvider<ItemCategories, Items?>(
+      ChangeNotifierProxyProvider<ItemCategories, Items>(
         create: (context) => Items(),
         update: (context, categories, items) =>
             items!..update = categories.categories,
       ),
-      ChangeNotifierProxyProvider2<Items, OutfitCategories, Outfits?>(
+      ChangeNotifierProxyProvider2<Items, OutfitCategories, Outfits>(
         create: (context) => Outfits(),
         update: (context, items, categories, outfits) => outfits!
           ..fetchAndSetOutfits(items.itemAsList, categories.categories),
       ),
-      ChangeNotifierProxyProvider<Outfits, Events?>(
+      ChangeNotifierProxyProvider<Outfits, Events>(
         create: (context) => Events(),
         update: (context, outfits, events) =>
             events!..fetchAndSetEvents(outfits.outfits),
