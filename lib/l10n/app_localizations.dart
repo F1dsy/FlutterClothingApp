@@ -38,7 +38,7 @@ import 'app_localizations_en.dart';
 ///   # Internationalization support.
 ///   flutter_localizations:
 ///     sdk: flutter
-///   intl: 0.16.1
+///   intl: any # Use the pinned version from flutter_localizations
 ///
 ///   # rest of dependencies
 /// ```
@@ -63,12 +63,12 @@ import 'app_localizations_en.dart';
 /// be consistent with the languages listed in the AppLocalizations.supportedLocales
 /// property.
 abstract class AppLocalizations {
-  AppLocalizations(String locale) : assert(locale != null), localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  AppLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   // ignore: unused_field
   final String localeName;
 
-  static AppLocalizations of(BuildContext context) {
+  static AppLocalizations? of(BuildContext context) {
     return Localizations.of<AppLocalizations>(context, AppLocalizations);
   }
 
@@ -98,79 +98,154 @@ abstract class AppLocalizations {
     Locale('en')
   ];
 
-  // No description provided in @home
+  /// No description provided for @home.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
   String get home;
 
-  // No description provided in @calendar
+  /// No description provided for @calendar.
+  ///
+  /// In en, this message translates to:
+  /// **'Calendar'**
   String get calendar;
 
-  // No description provided in @itemsTab
+  /// No description provided for @itemsTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Clothes'**
   String get itemsTab;
 
-  // No description provided in @outfitsTab
+  /// No description provided for @outfitsTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Outfits'**
   String get outfitsTab;
 
-  // No description provided in @settings
+  /// No description provided for @settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
   String get settings;
 
-  // No description provided in @statistics
+  /// No description provided for @statistics.
+  ///
+  /// In en, this message translates to:
+  /// **'Statistics'**
   String get statistics;
 
-  // No description provided in @washBasket
+  /// No description provided for @washBasket.
+  ///
+  /// In en, this message translates to:
+  /// **'Wash Basket'**
   String get washBasket;
 
-  // No description provided in @newCategory
+  /// No description provided for @newCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'New Category'**
   String get newCategory;
 
-  // No description provided in @select
+  /// No description provided for @select.
+  ///
+  /// In en, this message translates to:
+  /// **'Select'**
   String get select;
 
-  // No description provided in @selected
+  /// No description provided for @selected.
+  ///
+  /// In en, this message translates to:
+  /// **'Selected'**
   String get selected;
 
-  // No description provided in @selectLang
+  /// No description provided for @selectLang.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Language'**
   String get selectLang;
 
-  // No description provided in @language
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
   String get language;
 
-  // No description provided in @languageSubtitle
+  /// No description provided for @languageSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set the language you want'**
   String get languageSubtitle;
 
-  // No description provided in @washTitle
+  /// No description provided for @washTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Wash time'**
   String get washTitle;
 
-  // No description provided in @washSubtitle
+  /// No description provided for @washSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How long is your clothing in wash'**
   String get washSubtitle;
 
-  // No description provided in @washDialogTitle
+  /// No description provided for @washDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select time in wash'**
   String get washDialogTitle;
 
-  // Select washThreshold in Settings Screen
+  /// Select washThreshold in Settings Screen
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 Day} other{{count} Days}}'**
   String day(int count);
 
-  // Select ColorTheme Title in Settings Screen
+  /// Select ColorTheme Title in Settings Screen
+  ///
+  /// In en, this message translates to:
+  /// **'Color Theme'**
   String get colorThemeTitle;
 
-  // No description provided in @colorThemeSubtitle
+  /// No description provided for @colorThemeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you like it light or dark'**
   String get colorThemeSubtitle;
 
-  // No description provided in @light
+  /// No description provided for @light.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
   String get light;
 
-  // No description provided in @dark
+  /// No description provided for @dark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
   String get dark;
 
-  // No description provided in @colorThemeDialogTitle
+  /// No description provided for @colorThemeDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Color Theme'**
   String get colorThemeDialogTitle;
 
-  // No description provided in @delete
+  /// No description provided for @delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
   String get delete;
 
-  // No description provided in @moveToCategory
+  /// No description provided for @moveToCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Move to Category'**
   String get moveToCategory;
 
-  // No description provided in @addEvent
+  /// No description provided for @addEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Event'**
   String get addEvent;
 }
 
@@ -191,15 +266,20 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
 
 AppLocalizations _lookupAppLocalizations(Locale locale) {
   
-  
-  
-  // Lookup logic when only language code is specified.
-  switch (locale.languageCode) {
-    case 'da': return AppLocalizationsDa();
+
+
+// Lookup logic when only language code is specified.
+switch (locale.languageCode) {
+  case 'da': return AppLocalizationsDa();
     case 'de': return AppLocalizationsDe();
     case 'en': return AppLocalizationsEn();
-  }
+}
 
-  assert(false, 'AppLocalizations.delegate failed to load unsupported locale "$locale"');
-  return null;
+
+  throw FlutterError(
+    'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+    'an issue with the localizations generation tool. Please file an issue '
+    'on GitHub with a reproducible sample app and the gen-l10n configuration '
+    'that was used.'
+  );
 }
