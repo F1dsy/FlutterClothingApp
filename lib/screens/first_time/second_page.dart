@@ -1,4 +1,4 @@
-import '../first_time/Box_outline.dart';
+import '../first_time/box_outline.dart';
 import 'package:flutter/material.dart';
 
 import 'title_widget.dart';

@@ -17,19 +17,19 @@ class CalendarScreen extends StatefulWidget {
 }
 
 class _CalendarScreenState extends State<CalendarScreen> {
-  CalendarController _calendarController;
+  // CalendarController _calendarController;
   List<Event> _selectedEvents = [];
   DateTime _selectedDay = DateTime.now();
 
   @override
   void initState() {
-    _calendarController = CalendarController();
+    // _calendarController = CalendarController();
     super.initState();
   }
 
   @override
   void dispose() {
-    _calendarController.dispose();
+    // _calendarController.dispose();
     super.dispose();
   }
 
@@ -55,29 +55,33 @@ class _CalendarScreenState extends State<CalendarScreen> {
           builder: (context, data, child) => Column(
             children: [
               TableCalendar(
-                initialSelectedDay: _selectedDay,
-                calendarController: _calendarController,
+                // initialSelectedDay: _selectedDay,
+                firstDay: DateTime.now(),
+                lastDay: DateTime.now(),
+                focusedDay: _selectedDay,
+                // calendarController: _calendarController,
                 startingDayOfWeek: StartingDayOfWeek.monday,
                 locale: AppLocalizations.of(context).localeName,
                 weekendDays: [],
-                events: data.events,
-                initialCalendarFormat: CalendarFormat.month,
+                // events: data.events,
+                // initialCalendarFormat: CalendarFormat.month,
                 headerStyle: HeaderStyle(
-                  centerHeaderTitle: true,
+                  // centerHeaderTitle: true,
                   formatButtonVisible: false,
                 ),
-                onDaySelected: (day, events, holidays) {
-                  setState(() {
-                    _selectedDay = day;
-                    _selectedEvents = (events is List<Event>) ? events : null;
-                  });
-                },
+                // onDaySelected: (day, events, holidays) {
+                // setState(() {
+                //   _selectedDay = day;
+                //   _selectedEvents = (events is List<Event>) ? events : null;
+                // });
+                // },
                 availableGestures: AvailableGestures.horizontalSwipe,
                 calendarStyle: CalendarStyle(
-                  selectedColor: Theme.of(context).primaryColor,
-                  todayColor: Theme.of(context).primaryColor.withOpacity(0.6),
-                  markersColor: Theme.of(context).accentColor,
-                ),
+
+                    // selectedColor: Theme.of(context).primaryColor,
+                    // todayColor: Theme.of(context).primaryColor.withOpacity(0.6),
+                    // markersColor: Theme.of(context).accentColor,
+                    ),
               ),
               Column(
                 children: _selectedEvents == null
