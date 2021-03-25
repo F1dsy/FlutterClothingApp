@@ -61,7 +61,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 focusedDay: _selectedDay,
                 // calendarController: _calendarController,
                 startingDayOfWeek: StartingDayOfWeek.monday,
-                locale: AppLocalizations.of(context).localeName,
+                locale: AppLocalizations.of(context)!.localeName,
                 weekendDays: [],
                 // events: data.events,
                 // initialCalendarFormat: CalendarFormat.month,
@@ -84,17 +84,17 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     ),
               ),
               Column(
-                children: _selectedEvents == null
+                children: _selectedEvents.isEmpty
                     ? []
                     : _selectedEvents.map((event) {
                         return Card(
                           margin: EdgeInsets.all(5),
                           child: ListTile(
-                            title: Text(event.time.format(context) ?? 'NO'),
+                            title: Text(event.time.format(context)),
                             onTap: () => showImageDialog(
                                 context,
-                                event.outfit.items
-                                    .map((e) => e.image)
+                                event.outfit!.items
+                                    .map((e) => e!.image)
                                     .toList()),
                           ),
                         );

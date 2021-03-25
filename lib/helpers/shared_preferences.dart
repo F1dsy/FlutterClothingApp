@@ -2,7 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 Future<T> getSetting<T>(String setting) async {
   return await SharedPreferences.getInstance()
-      .then((preferences) => preferences.get(setting));
+      .then((preferences) => preferences.get(setting) as Future<T>);
 }
 
 void setSetting<T>(String setting, T value) {

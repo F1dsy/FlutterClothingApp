@@ -29,9 +29,9 @@ class AddEventScreen extends StatefulWidget {
 class _AddEventScreenState extends State<AddEventScreen> {
   _SelectStep _selectStep = _SelectStep.Category;
 
-  Outfit _selectedOutfit;
-  DateTime _selectedDay;
-  TimeOfDay _selectedTimeOfDay = TimeOfDay.now();
+  Outfit? _selectedOutfit;
+  DateTime? _selectedDay;
+  TimeOfDay? _selectedTimeOfDay = TimeOfDay.now();
 
   void _selectCategory(OutfitCategory category) {
     setState(() {
@@ -49,7 +49,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
   void _selectDate() async {
     _selectedDay = await showDatePicker(
           context: context,
-          initialDate: _selectedDay,
+          initialDate: _selectedDay!,
           firstDate: DateTime.now().subtract(Duration(days: 365)),
           lastDate: DateTime.now().add(Duration(days: 365)),
         ) ??
@@ -79,10 +79,11 @@ class _AddEventScreenState extends State<AddEventScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _selectedDay = _selectedDay ?? ModalRoute.of(context).settings.arguments;
+    _selectedDay =
+        _selectedDay ?? ModalRoute.of(context)!.settings.arguments as DateTime?;
     return Scaffold(
       appBar: CustomAppBar(
-        title: Text(AppLocalizations.of(context).addEvent),
+        title: Text(AppLocalizations.of(context)!.addEvent),
         actions: [
           IconButton(
             icon: Icon(Icons.check),
@@ -94,19 +95,19 @@ class _AddEventScreenState extends State<AddEventScreen> {
         switch (_selectStep) {
           case _SelectStep.Category:
             return _SelectCategory(_selectCategory);
-            break;
+
           case _SelectStep.Outfit:
             return _SelectOutfit(_selectOutfit);
-            break;
+
           case _SelectStep.Confirm:
             return _Confirm(
-              _selectedOutfit,
+              _selectedOutfit!,
               _selectedDay,
-              _selectedTimeOfDay,
+              _selectedTimeOfDay!,
               _selectDate,
               _selectTime,
             );
-            break;
+
           default:
         }
       }(),
@@ -125,7 +126,7 @@ class _SelectCategory extends StatelessWidget {
         itemBuilder: (context, i) => Card(
           child: ListTile(
             onTap: () => select(data.categories[i]),
-            title: Text(data.categories[i].title),
+            title: Text(data.categories[i].title!),
           ),
         ),
       ),
@@ -134,7 +135,7 @@ class _SelectCategory extends StatelessWidget {
 }
 
 class _SelectOutfit extends StatelessWidget {
-  final Function select;
+  final Function(Outfit) select;
   _SelectOutfit(this.select);
   @override
   Widget build(BuildContext context) {
@@ -151,7 +152,7 @@ class _SelectOutfit extends StatelessWidget {
 
 class _Confirm extends StatelessWidget {
   final Outfit outfit;
-  final DateTime date;
+  final DateTime? date;
   final TimeOfDay time;
   final Function selectDate;
   final Function selectTime;
@@ -181,11 +182,11 @@ class _Confirm extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             ElevatedButton(
-              onPressed: selectDate,
-              child: Text(DateFormat.yMd().format(date)),
+              onPressed: selectDate as void Function()?,
+              child: Text(DateFormat.yMd().format(date!)),
             ),
             ElevatedButton(
-              onPressed: selectTime,
+              onPressed: selectTime as void Function()?,
               child: Text(time.format(context)),
             ),
           ],

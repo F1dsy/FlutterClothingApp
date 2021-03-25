@@ -1,4 +1,4 @@
-// @dart=2.11
+
 import 'dart:async';
 
 // ignore: unused_import
@@ -69,7 +69,7 @@ abstract class AppLocalizations {
   // ignore: unused_field
   final String localeName;
 
-  static AppLocalizations of(BuildContext context) {
+  static AppLocalizations? of(BuildContext context) {
     return Localizations.of<AppLocalizations>(context, AppLocalizations);
   }
 

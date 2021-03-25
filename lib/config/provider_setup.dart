@@ -8,7 +8,7 @@ import '../providers/outfit_categories.dart';
 import '../providers/events.dart';
 
 class ProviderSetup extends StatelessWidget {
-  final Widget child;
+  final Widget? child;
 
   ProviderSetup({
     this.child,
@@ -22,21 +22,21 @@ class ProviderSetup extends StatelessWidget {
       ChangeNotifierProvider(
         create: (context) => OutfitCategories()..fetchAndSetCategories(),
       ),
-      ChangeNotifierProxyProvider<ItemCategories, Items>(
+      ChangeNotifierProxyProvider<ItemCategories, Items?>(
         create: (context) => Items(),
         update: (context, categories, items) =>
-            items..update = categories.categories,
+            items!..update = categories.categories,
       ),
-      ChangeNotifierProxyProvider2<Items, OutfitCategories, Outfits>(
+      ChangeNotifierProxyProvider2<Items, OutfitCategories, Outfits?>(
         create: (context) => Outfits(),
-        update: (context, items, categories, outfits) => outfits
+        update: (context, items, categories, outfits) => outfits!
           ..fetchAndSetOutfits(items.itemAsList, categories.categories),
       ),
-      ChangeNotifierProxyProvider<Outfits, Events>(
+      ChangeNotifierProxyProvider<Outfits, Events?>(
         create: (context) => Events(),
         update: (context, outfits, events) =>
-            events..fetchAndSetEvents(outfits.outfits),
+            events!..fetchAndSetEvents(outfits.outfits),
       ),
-    ], builder: (context, _) => child);
+    ], builder: (context, _) => child!);
   }
 }

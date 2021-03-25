@@ -7,7 +7,7 @@ import 'background.dart';
 class FourthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Animation animation = ModalRoute.of(context).animation;
+    Animation animation = ModalRoute.of(context)!.animation!;
 
     return Background(
       child: AnimatedBuilder(
@@ -41,25 +41,25 @@ class FourthScreen extends StatelessWidget {
 }
 
 class OutfitBox extends StatelessWidget {
-  final Animation animation;
+  final Animation? animation;
   OutfitBox({this.animation});
 
   @override
   Widget build(BuildContext context) {
     Animation height = Tween<double>(begin: 220, end: 380)
         .chain(CurveTween(curve: Interval(0, 0.4, curve: Curves.ease)))
-        .animate(animation);
+        .animate(animation as Animation<double>);
     Animation clumpItems = Tween<double>(begin: 0, end: 1)
         .chain(CurveTween(curve: Interval(0.4, 0.7, curve: Curves.ease)))
-        .animate(animation);
+        .animate(animation as Animation<double>);
     Animation arrow = Tween<double>(begin: 0, end: 1)
         .chain(CurveTween(curve: Interval(0.6, 0.9, curve: Curves.ease)))
-        .animate(animation);
+        .animate(animation as Animation<double>);
     Animation outfit = Tween<double>(begin: 0, end: 1)
         .chain(CurveTween(curve: Interval(0.7, 1, curve: Curves.ease)))
-        .animate(animation);
+        .animate(animation as Animation<double>);
     Animation text = CurveTween(curve: Interval(0, 0.4, curve: Curves.ease))
-        .animate(animation);
+        .animate(animation as Animation<double>);
 
     return Column(
       children: [
@@ -124,31 +124,31 @@ class OutfitBox extends StatelessWidget {
 }
 
 class Clump extends StatelessWidget {
-  final double clumpItems;
-  final Animation fadeOutAnimation;
+  final double? clumpItems;
+  final Animation? fadeOutAnimation;
   Clump({this.clumpItems = 1, this.fadeOutAnimation});
   @override
   Widget build(BuildContext context) {
-    double firstOpacity;
-    double secondOpacity;
-    double thirdOpacity;
-    double fourthOpacity;
+    double? firstOpacity;
+    double? secondOpacity;
+    double? thirdOpacity;
+    double? fourthOpacity;
     if (fadeOutAnimation != null) {
       firstOpacity = 1 -
           CurveTween(curve: Interval(0, 0.55, curve: Curves.ease))
-              .animate(fadeOutAnimation)
+              .animate(fadeOutAnimation as Animation<double>)
               .value;
       secondOpacity = 1 -
           CurveTween(curve: Interval(0.15, 0.70, curve: Curves.ease))
-              .animate(fadeOutAnimation)
+              .animate(fadeOutAnimation as Animation<double>)
               .value;
       thirdOpacity = 1 -
           CurveTween(curve: Interval(0.30, 0.85, curve: Curves.ease))
-              .animate(fadeOutAnimation)
+              .animate(fadeOutAnimation as Animation<double>)
               .value;
       fourthOpacity = 1 -
           CurveTween(curve: Interval(0.45, 1, curve: Curves.ease))
-              .animate(fadeOutAnimation)
+              .animate(fadeOutAnimation as Animation<double>)
               .value;
     }
 

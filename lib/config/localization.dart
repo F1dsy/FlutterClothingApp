@@ -26,7 +26,7 @@ Locale getLocale() {
 Future<Locale> initLocale() async {
   // initialize locale shared preferences. If first time, set standart values
   SharedPreferences preferences = await SharedPreferences.getInstance();
-  String string = preferences.getString('language');
+  String? string = preferences.getString('language');
 
   if (string == null) {
     Locale locale = getLocale();

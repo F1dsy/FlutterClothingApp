@@ -23,9 +23,9 @@ class OutfitBuilder extends StatefulWidget {
 class _OutfitBuilderState extends State<OutfitBuilder> {
   Offset frontCardOffset = Offset(0, 0);
   int _currentIndex = 0;
-  ItemCategory _currentCategory;
-  List<ItemCategory> _categories;
-  Map<ItemCategory, List<Item>> _items;
+  ItemCategory? _currentCategory;
+  late List<ItemCategory?> _categories;
+  late Map<ItemCategory?, List<Item>> _items;
   List<Item> _selectedItems = [];
   _SelectStep _selectStep = _SelectStep.Builder;
   ImageInput _imageInput = ImageInput();
@@ -46,7 +46,7 @@ class _OutfitBuilderState extends State<OutfitBuilder> {
   }
 
   void _saveOutfit() {
-    OutfitCategory category = ModalRoute.of(context).settings.arguments;
+    OutfitCategory category = ModalRoute.of(context)!.settings.arguments as OutfitCategory;
     Provider.of<Outfits>(context, listen: false)
         .insertOutfit(category, _selectedItems, _imageInput.image)
         .then(Navigator.of(context).pop);
@@ -61,9 +61,9 @@ class _OutfitBuilderState extends State<OutfitBuilder> {
   void _selectionHandler() {
     setState(() {
       if (frontCardOffset.dx > 150) {
-        _selectedItems.add(_items[_currentCategory][_currentIndex]);
-        _items[_currentCategory]
-            .remove(_items[_currentCategory][_currentIndex]);
+        _selectedItems.add(_items[_currentCategory]![_currentIndex]);
+        _items[_currentCategory]!
+            .remove(_items[_currentCategory]![_currentIndex]);
         _setCurrentCategory();
       } else if (frontCardOffset.dx < -150) {
         _currentIndex++;
@@ -74,7 +74,7 @@ class _OutfitBuilderState extends State<OutfitBuilder> {
   }
 
   void _setCurrentCategory() {
-    if (_currentIndex >= _items[_currentCategory].length) {
+    if (_currentIndex >= _items[_currentCategory]!.length) {
       try {
         _currentCategory =
             _categories[_categories.indexOf(_currentCategory) + 1];
@@ -118,7 +118,7 @@ class _OutfitBuilderState extends State<OutfitBuilder> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(4),
                             child: Image.file(
-                              _selectedItems[i].image,
+                              _selectedItems[i].image!,
                             ),
                           ),
                         ),
@@ -135,7 +135,7 @@ class _OutfitBuilderState extends State<OutfitBuilder> {
                         underline: Container(),
                         isExpanded: true,
                         value: _currentCategory,
-                        onChanged: (ItemCategory category) {
+                        onChanged: (ItemCategory? category) {
                           setState(() {
                             _currentCategory = category;
                             _currentIndex = 0;
@@ -147,7 +147,7 @@ class _OutfitBuilderState extends State<OutfitBuilder> {
                               (category) => DropdownMenuItem(
                                 child: Container(
                                   margin: const EdgeInsets.only(left: 8.0),
-                                  child: Text(category.title),
+                                  child: Text(category!.title!),
                                 ),
                                 value: category,
                               ),
@@ -157,7 +157,7 @@ class _OutfitBuilderState extends State<OutfitBuilder> {
                     ),
                   ),
                   Expanded(
-                      child: _items[_currentCategory].length == 0
+                      child: _items[_currentCategory]!.length == 0
                           ? Center(
                               child: Text('No Items'),
                             )
@@ -176,9 +176,9 @@ class _OutfitBuilderState extends State<OutfitBuilder> {
                                           borderRadius:
                                               BorderRadius.circular(4),
                                           child: Image.file(
-                                            _items[_currentCategory]
+                                            _items[_currentCategory]!
                                                     [_currentIndex]
-                                                .image,
+                                                .image!,
                                           ),
                                         ),
                                       ),
@@ -211,7 +211,7 @@ class _OutfitBuilderState extends State<OutfitBuilder> {
 
 class _Confirm extends StatelessWidget {
   final Function setImage;
-  final File image;
+  final File? image;
   _Confirm(this.setImage, this.image);
 
   @override
@@ -226,13 +226,13 @@ class _Confirm extends StatelessWidget {
                   ? FractionallySizedBox(
                       widthFactor: 0.6,
                       child: TextButton.icon(
-                          onPressed: setImage,
+                          onPressed: setImage as void Function()?,
                           icon: Icon(Icons.camera_alt),
                           label: Text('Add Feature Image')),
                     )
                   : ClipRRect(
                       borderRadius: BorderRadius.circular(4),
-                      child: Image.file(image),
+                      child: Image.file(image!),
                     ),
             ),
           ),

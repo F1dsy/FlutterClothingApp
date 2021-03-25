@@ -8,7 +8,7 @@ import 'background.dart';
 class SecondScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Animation animation = ModalRoute.of(context).animation;
+    Animation animation = ModalRoute.of(context)!.animation!;
 
     return Background(
       child: AnimatedBuilder(

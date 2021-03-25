@@ -7,13 +7,13 @@ class ItemWidget extends StatelessWidget {
   final Item item;
   final bool selectable;
   final Function(Item) toggleSelected;
-  final List list;
+  final List? list;
   ItemWidget(this.item, this.toggleSelected,
       [this.selectable = false, this.list]);
 
   @override
   Widget build(BuildContext context) {
-    bool isSelected = list == null ? false : list.contains(item);
+    bool isSelected = list == null ? false : list!.contains(item);
 
     return Container(
         child: Card(
@@ -21,7 +21,7 @@ class ItemWidget extends StatelessWidget {
         children: [
           ClipRRect(
             child: Image.file(
-              item.image,
+              item.image!,
               cacheWidth: 360,
             ),
             borderRadius: BorderRadius.circular(4),

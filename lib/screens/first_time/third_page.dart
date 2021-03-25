@@ -10,7 +10,7 @@ import 'background.dart';
 class ThirdScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Animation animation = ModalRoute.of(context).animation;
+    Animation animation = ModalRoute.of(context)!.animation!;
 
     return Background(
       child: AnimatedBuilder(
@@ -26,7 +26,7 @@ class ThirdScreen extends StatelessWidget {
                   child: Stack(
                     children: [
                       Opacity(
-                        opacity: 1 - animation.value,
+                        opacity: 1 - animation.value as double,
                         child: CategoryBox(),
                       ),
                       Opacity(
@@ -50,7 +50,7 @@ class ThirdScreen extends StatelessWidget {
 }
 
 class ItemBox extends StatelessWidget {
-  final Animation animation;
+  final Animation? animation;
   ItemBox({this.animation});
   @override
   Widget build(BuildContext context) {
@@ -60,7 +60,7 @@ class ItemBox extends StatelessWidget {
             child: Transform(
           transform: Matrix4.translationValues(
               0,
-              CurvedAnimation(curve: Curves.ease, parent: animation)
+              CurvedAnimation(curve: Curves.ease, parent: animation as Animation<double>)
                   .drive(Tween<double>(begin: 200, end: 0))
                   .value,
               0),
@@ -129,7 +129,7 @@ class ItemBox extends StatelessWidget {
             'Add items by taking pictures of your clothes',
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: Colors.white.withOpacity(animation.value * 0.7),
+              color: Colors.white.withOpacity(animation!.value * 0.7),
               fontSize: 16,
             ),
           ),

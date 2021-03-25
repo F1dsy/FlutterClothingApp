@@ -21,14 +21,14 @@ class ItemsScreen extends StatefulWidget {
 }
 
 class _ItemsScreenState extends State<ItemsScreen> {
-  SelectionHandler<Item> selectionHandler;
+  late SelectionHandler<Item> selectionHandler;
   @override
   initState() {
     selectionHandler = SelectionHandler<Item>(setState);
     super.initState();
   }
 
-  void _addNewItem(BuildContext context, ItemCategory category) {
+  void _addNewItem(BuildContext context, ItemCategory? category) {
     Navigator.of(context, rootNavigator: true)
         .pushNamed(AddItemScreen.routeName, arguments: category);
   }
@@ -44,14 +44,14 @@ class _ItemsScreenState extends State<ItemsScreen> {
     Navigator.of(context).pushNamed(MoveItem.routeName).then((value) {
       if (value == null) return;
       Provider.of<Items>(context, listen: false)
-          .moveToCategory(selectionHandler.selectedList, value);
+          .moveToCategory(selectionHandler.selectedList, value as ItemCategory);
 
       selectionHandler.reset();
     });
   }
 
   Widget _buildNormalAppBar(ItemCategory category) => CustomAppBar(
-        title: Text(category.title),
+        title: Text(category.title!),
         actions: [
           IconButton(
             icon: Icon(Icons.add),
@@ -63,7 +63,7 @@ class _ItemsScreenState extends State<ItemsScreen> {
   Widget _buildSelectAppBar() => CustomAppBar(
         title: Text(selectionHandler.selectedList.length.toString() +
             ' ' +
-            AppLocalizations.of(context).selected),
+            AppLocalizations.of(context)!.selected),
         leading: IconButton(
           icon: Icon(Icons.close),
           onPressed: () {
@@ -80,15 +80,15 @@ class _ItemsScreenState extends State<ItemsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final ItemCategory category = ModalRoute.of(context).settings.arguments;
+    final ItemCategory? category = ModalRoute.of(context)!.settings.arguments as ItemCategory?;
 
     return Scaffold(
       appBar: selectionHandler.isSelectable
-          ? _buildSelectAppBar()
-          : _buildNormalAppBar(category),
+          ? _buildSelectAppBar() as PreferredSizeWidget?
+          : _buildNormalAppBar(category!) as PreferredSizeWidget?,
       body: Consumer<Items>(
         builder: (context, data, child) {
-          var items = data.items[category];
+          var items = data.items[category]!;
           return items.isEmpty
               ? Center(
                   child: Text('No Items'),

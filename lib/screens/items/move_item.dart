@@ -33,7 +33,7 @@ class MoveItem extends StatelessWidget {
                       Navigator.of(context).pop(data.categories[i]);
                     },
                     title: Text(
-                      data.categories[i].title,
+                      data.categories[i]!.title!,
                     ),
                   ),
                 ),

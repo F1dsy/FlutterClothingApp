@@ -7,36 +7,36 @@ import '../models/item.dart';
 import '../models/categories.dart';
 
 class Items with ChangeNotifier {
-  set update(List<ItemCategory> value) {
+  set update(List<ItemCategory?> value) {
     if (value.isEmpty) return;
     fetchAndSetItems(value);
   }
 
-  Map<ItemCategory, List<Item>> _items = {};
+  Map<ItemCategory?, List<Item>> _items = {};
 
-  Map<ItemCategory, List<Item>> get items {
+  Map<ItemCategory?, List<Item>> get items {
     return {..._items};
   }
 
-  List<Item> get itemAsList {
+  List<Item?> get itemAsList {
     return _items.values.expand((list) => list).toList();
   }
 
-  Future<void> fetchAndSetItems(List<ItemCategory> categories) async {
+  Future<void> fetchAndSetItems(List<ItemCategory?> categories) async {
     List<Map<String, dynamic>> result =
         await DBHelper.query(DBHelper.Tables.Items);
 
     categories.forEach((category) => _items[category] = []);
 
     result.forEach((e) {
-      ItemCategory category =
-          categories.firstWhere((category) => category.id == e['category_id']);
+      ItemCategory? category =
+          categories.firstWhere((category) => category!.id == e['category_id']);
       Item item = Item(
         id: e['id'],
         category: category,
         image: File(e['imageURL']),
       );
-      _items[category].add(item);
+      _items[category]!.add(item);
     });
     notifyListeners();
   }
@@ -44,7 +44,7 @@ class Items with ChangeNotifier {
   Future<void> insertItem(ItemCategory category, File image) async {
     final id = await DBHelper.insert(DBHelper.Tables.Items,
         {'category_id': category.id, 'imageURL': image.path});
-    _items[category].add(Item(id: id, category: category, image: image));
+    _items[category]!.add(Item(id: id, category: category, image: image));
     notifyListeners();
   }
 
@@ -55,8 +55,8 @@ class Items with ChangeNotifier {
       item.id,
       whereString: 'item_id = ?',
     );
-    _items[item.category].remove(item);
-    item.image.deleteSync();
+    _items[item.category]!.remove(item);
+    item.image!.deleteSync();
     notifyListeners();
   }
 
@@ -66,9 +66,9 @@ class Items with ChangeNotifier {
         'id': item.id,
         'category_id': newCategory.id,
       });
-      _items[item.category].remove(item);
+      _items[item.category]!.remove(item);
       item.category = newCategory;
-      _items[newCategory].add(item);
+      _items[newCategory]!.add(item);
     }
     notifyListeners();
   }

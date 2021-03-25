@@ -56,7 +56,7 @@ class BuildNavigator extends StatelessWidget {
       key: _key,
       initialRoute: '/',
       onGenerateRoute: (settings) => MaterialPageRoute(
-          builder: _routes[settings.name], settings: settings),
+          builder: _routes[settings.name!]!, settings: settings),
     );
   }
 }

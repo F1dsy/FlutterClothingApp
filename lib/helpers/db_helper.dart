@@ -20,7 +20,7 @@ String returnTable(Tables e) {
   return e.toString().split('.').last;
 }
 
-Database _db;
+late Database _db;
 
 Future<void> databaseInit() async {
   final String dbDirectory = await getDatabasesPath();
@@ -55,8 +55,8 @@ Future<int> insert(Tables e, Map<String, dynamic> values) async {
 
 Future<List<Map<String, dynamic>>> query(
   Tables e, {
-  String whereString,
-  List whereArgs,
+  String? whereString,
+  List? whereArgs,
 }) {
   final String table = returnTable(e);
   // final Database db = _db;
@@ -64,7 +64,7 @@ Future<List<Map<String, dynamic>>> query(
   return _db.query(table, where: whereString, whereArgs: whereArgs);
 }
 
-void delete(Tables e, int id, {String whereString = 'id = ?'}) {
+void delete(Tables e, int? id, {String whereString = 'id = ?'}) {
   final String table = returnTable(e);
   // final Database db = _db;
   _db.delete(table, where: whereString, whereArgs: [id]);

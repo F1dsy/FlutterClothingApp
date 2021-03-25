@@ -29,7 +29,7 @@ class OutfitCategoryWidget extends StatelessWidget {
 
     return Card(
       child: ListTile(
-        title: Text(category.title),
+        title: Text(category.title!),
         onTap: () {
           selected ? toggle(category) : onTap(context);
         },

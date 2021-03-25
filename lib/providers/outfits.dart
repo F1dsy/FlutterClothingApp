@@ -14,21 +14,21 @@ class Outfits with ChangeNotifier {
     return [..._outfits];
   }
 
-  List<Outfit> outfitsOfCategory(OutfitCategory category) {
+  List<Outfit> outfitsOfCategory(OutfitCategory? category) {
     return _outfits.where((outfit) => outfit.category == category).toList();
   }
 
   Future<void> fetchAndSetOutfits(
-      List<Item> items, List<OutfitCategory> categories) async {
+      List<Item?> items, List<OutfitCategory> categories) async {
     if (items.isEmpty || categories.isEmpty) return;
     final outfits = await DBHelper.query(DBHelper.Tables.Outfits);
     final itemsOfOutfit = await DBHelper.query(DBHelper.Tables.OutfitItems);
     _outfits = outfits.map((outfit) {
-      List<Item> itemList = [];
+      List<Item?> itemList = [];
       for (var item in itemsOfOutfit) {
         if (item['outfit_id'] == outfit['id']) {
           itemList.add(items.firstWhere(
-            (e) => e.id == item['item_id'],
+            (e) => e!.id == item['item_id'],
             orElse: () {
               return null;
             },
@@ -51,7 +51,7 @@ class Outfits with ChangeNotifier {
   }
 
   Future<void> insertOutfit(
-      OutfitCategory category, List<Item> items, File featureImage) async {
+      OutfitCategory category, List<Item> items, File? featureImage) async {
     final id = await DBHelper.insert(DBHelper.Tables.Outfits, {
       'category_id': category.id,
       'feature_imageURL': featureImage == null ? null : featureImage.path,

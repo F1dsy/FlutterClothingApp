@@ -6,9 +6,9 @@ import '../models/outfit.dart';
 import '../models/event.dart';
 
 class Events with ChangeNotifier {
-  Map<DateTime, List<Event>> _events = {};
+  Map<DateTime?, List<Event>> _events = {};
 
-  Map<DateTime, List<Event>> get events {
+  Map<DateTime?, List<Event>> get events {
     return {..._events};
   }
 
@@ -38,8 +38,8 @@ class Events with ChangeNotifier {
 
   void addEvent(Event event) async {
     final int id = await DBHelper.insert(DBHelper.Tables.Events, {
-      'date': event.date.toIso8601String(),
-      'outfit_id': event.outfit.id,
+      'date': event.date!.toIso8601String(),
+      'outfit_id': event.outfit!.id,
     });
     _events[event.date] = [
       Event(

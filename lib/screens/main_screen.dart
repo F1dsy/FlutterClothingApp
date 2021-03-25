@@ -29,7 +29,7 @@ class _MainScreenState extends State<MainScreen> {
 
     return WillPopScope(
       onWillPop: () async {
-        final result = await keys[_selectedIndex].currentState.maybePop();
+        final result = await keys[_selectedIndex].currentState!.maybePop();
         return !result;
       },
       child: Scaffold(
@@ -46,18 +46,18 @@ class _MainScreenState extends State<MainScreen> {
           items: [
             BottomNavigationBarItem(
                 icon: Icon(CustomIcons.outfit),
-                label: AppLocalizations.of(context).outfitsTab),
+                label: AppLocalizations.of(context)!.outfitsTab),
             BottomNavigationBarItem(
               icon: Icon(CustomIcons.shirt),
-              label: AppLocalizations.of(context).itemsTab,
+              label: AppLocalizations.of(context)!.itemsTab,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.calendar_today),
-              label: AppLocalizations.of(context).calendar,
+              label: AppLocalizations.of(context)!.calendar,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.settings),
-              label: AppLocalizations.of(context).settings,
+              label: AppLocalizations.of(context)!.settings,
             ),
           ],
           currentIndex: _selectedIndex,

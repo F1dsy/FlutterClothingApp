@@ -21,7 +21,7 @@ class OutfitsScreen extends StatefulWidget {
 }
 
 class _OutfitsScreenState extends State<OutfitsScreen> {
-  SelectionHandler<Outfit> selectionHandler;
+  SelectionHandler<Outfit>? selectionHandler;
 
   @override
   void initState() {
@@ -29,7 +29,7 @@ class _OutfitsScreenState extends State<OutfitsScreen> {
     super.initState();
   }
 
-  void _addNewOutfit(BuildContext context, OutfitCategory category) {
+  void _addNewOutfit(BuildContext context, OutfitCategory? category) {
     if (Provider.of<Items>(context, listen: false).items.isEmpty) {
       showDialog(
           context: context,
@@ -52,20 +52,21 @@ class _OutfitsScreenState extends State<OutfitsScreen> {
     for (var outfit in outfits) {
       Provider.of<Outfits>(context, listen: false).deleteOutfit(outfit);
     }
-    selectionHandler.reset();
+    selectionHandler!.reset();
   }
 
   @override
   Widget build(BuildContext context) {
-    final OutfitCategory category = ModalRoute.of(context).settings.arguments;
+    final OutfitCategory? category =
+        ModalRoute.of(context)!.settings.arguments as OutfitCategory?;
 
     return Scaffold(
-      appBar: !selectionHandler.isSelectable
+      appBar: (!selectionHandler!.isSelectable
           ? NormalAppBar(category, _addNewOutfit)
           : SelectAppBar(
               selectionHandler,
-              () => _deleteItems(selectionHandler.selectedList),
-            ),
+              () => _deleteItems(selectionHandler!.selectedList),
+            )) as PreferredSizeWidget?,
       body: Consumer<Outfits>(
         builder: (context, data, child) {
           // gets list of outfits in the selected category
@@ -79,9 +80,9 @@ class _OutfitsScreenState extends State<OutfitsScreen> {
                   crossAxisCount: 3,
                   itemBuilder: (context, i) => OutfitWidget(
                     outfits[i],
-                    selectionHandler.toggleSelection,
-                    selectionHandler.isSelectable,
-                    selectionHandler.selectedList,
+                    selectionHandler!.toggleSelection,
+                    selectionHandler!.isSelectable,
+                    selectionHandler!.selectedList,
                   ),
                   itemCount: outfits.length,
                   staggeredTileBuilder: (_) => StaggeredTile.fit(1),
@@ -102,7 +103,7 @@ class _OutfitsScreenState extends State<OutfitsScreen> {
 }
 
 class NormalAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final OutfitCategory category;
+  final OutfitCategory? category;
   final Function addNewOutfit;
   NormalAppBar(this.category, this.addNewOutfit);
 
@@ -111,7 +112,7 @@ class NormalAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return CustomAppBar(
-      title: Text(category.title),
+      title: Text(category!.title!),
       actions: [
         IconButton(
           icon: Icon(Icons.add),
@@ -123,7 +124,7 @@ class NormalAppBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 class SelectAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final SelectionHandler selectionHandler;
+  final SelectionHandler? selectionHandler;
   final Function delete;
   SelectAppBar(this.selectionHandler, this.delete);
 
@@ -133,12 +134,12 @@ class SelectAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return CustomAppBar(
-      title: Text(selectionHandler.selectedList.length.toString() +
+      title: Text(selectionHandler!.selectedList.length.toString() +
           ' ' +
-          AppLocalizations.of(context).selected),
+          AppLocalizations.of(context)!.selected),
       leading: IconButton(
         icon: const Icon(Icons.close),
-        onPressed: selectionHandler.reset,
+        onPressed: selectionHandler!.reset,
       ),
       actions: [
         SelectOutfitPopup(

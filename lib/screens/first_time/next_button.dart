@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'first_time_screen.dart';
 import 'second_page.dart';
 import 'third_page.dart';
 import 'fourth_page.dart';
@@ -8,7 +9,7 @@ import 'fifth_page.dart';
 enum PageName { Home, Second, Third, Fourth, Fifth }
 
 class NextButton extends StatelessWidget {
-  final PageName page;
+  final PageName? page;
   final Duration duration;
   NextButton({this.page, this.duration = const Duration(seconds: 1)});
 
@@ -27,7 +28,7 @@ class NextButton extends StatelessWidget {
                   case PageName.Fifth:
                     return FifthScreen();
                   default:
-                    return null;
+                    return FirstTimeScreen();
                 }
               },
               transitionDuration: duration,

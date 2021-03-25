@@ -8,8 +8,8 @@ enum Popups {
 }
 
 class SelectItemsPopup extends StatelessWidget {
-  final Function delete;
-  final Function move;
+  final Function? delete;
+  final Function? move;
 
   SelectItemsPopup({
     this.delete,
@@ -21,21 +21,21 @@ class SelectItemsPopup extends StatelessWidget {
     return PopupMenuButton(
       itemBuilder: (context) => [
         PopupMenuItem(
-          child: Text(AppLocalizations.of(context).delete),
+          child: Text(AppLocalizations.of(context)!.delete),
           value: Popups.Delete,
         ),
         PopupMenuItem(
-          child: Text(AppLocalizations.of(context).moveToCategory),
+          child: Text(AppLocalizations.of(context)!.moveToCategory),
           value: Popups.Move,
         ),
       ],
-      onSelected: (value) {
+      onSelected: (dynamic value) {
         switch (value) {
           case Popups.Delete:
-            delete();
+            delete!();
             break;
           case Popups.Move:
-            move();
+            move!();
             break;
           default:
         }

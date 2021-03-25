@@ -5,9 +5,9 @@ import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart' as syspath;
 
 class ImageInput {
-  File _image;
+  File? _image;
 
-  File get image {
+  File? get image {
     return _image;
   }
 

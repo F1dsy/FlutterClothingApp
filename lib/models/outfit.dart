@@ -1,20 +1,18 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
-
 import 'item.dart';
 import 'categories.dart';
 
 class Outfit {
-  final int id;
+  final int? id;
   OutfitCategory category;
-  List<Item> items;
-  File featureImage;
+  List<Item?> items;
+  File? featureImage;
 
   Outfit({
-    @required this.id,
-    @required this.category,
-    @required this.items,
+    required this.id,
+    required this.category,
+    required this.items,
     this.featureImage,
   });
 }

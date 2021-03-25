@@ -13,11 +13,11 @@ class PopUpAddCategory extends StatelessWidget {
     return PopupMenuButton(
       itemBuilder: (context) => [
         PopupMenuItem(
-          child: Text(AppLocalizations.of(context).newCategory),
+          child: Text(AppLocalizations.of(context)!.newCategory),
           value: Popup.NewCategory,
         ),
       ],
-      onSelected: (value) {
+      onSelected: (dynamic value) {
         switch (value) {
           case Popup.NewCategory:
             _newCategory(context, _addNewCategory);
@@ -36,7 +36,7 @@ Future _newCategory(BuildContext context, Function _addNewCategory) {
         bool isEnabled = false;
         return StatefulBuilder(
           builder: (context, state) => AlertDialog(
-            title: Text(AppLocalizations.of(context).newCategory),
+            title: Text(AppLocalizations.of(context)!.newCategory),
             content: TextField(
               controller: controller,
               autofocus: true,

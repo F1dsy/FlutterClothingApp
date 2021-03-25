@@ -23,7 +23,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   final imageInput = ImageInput();
 
   void _save() async {
-    _formKey.currentState.save();
+    _formKey.currentState!.save();
 
     Navigator.of(context).pop();
   }
@@ -63,16 +63,16 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     .map((category) => DropdownMenuItem(
                           child: Container(
                             margin: const EdgeInsets.only(left: 8.0),
-                            child: Text(category.title),
+                            child: Text(category!.title!),
                           ),
                           value: category,
                         ))
                     .toList(),
-                value: ModalRoute.of(context).settings.arguments,
-                onChanged: (_) {},
-                onSaved: (category) {
+                value: ModalRoute.of(context)!.settings.arguments,
+                onChanged: (dynamic _) {},
+                onSaved: (dynamic category) {
                   Provider.of<Items>(context, listen: false)
-                      .insertItem(category, imageInput.image);
+                      .insertItem(category, imageInput.image!);
                 },
               ),
             ),
@@ -83,7 +83,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     ? null
                     : ClipRRect(
                         borderRadius: BorderRadius.circular(4),
-                        child: Image.file(imageInput.image),
+                        child: Image.file(imageInput.image!),
                       ),
               ),
             ),

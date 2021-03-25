@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class BoxOutline extends StatelessWidget {
-  final Widget child;
+  final Widget? child;
   final double height;
   final double width;
 

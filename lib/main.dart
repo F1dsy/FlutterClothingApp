@@ -16,12 +16,12 @@ void main() {
 // Setup app
 class MyApp extends StatefulWidget {
   static void setLocale(BuildContext context, Locale newLocale) {
-    _MyAppState state = context.findAncestorStateOfType<_MyAppState>();
+    _MyAppState state = context.findAncestorStateOfType<_MyAppState>()!;
     state._setLocale(newLocale);
   }
 
   static void setColorTheme(BuildContext context) {
-    var state = context.findAncestorStateOfType<_MyAppState>();
+    var state = context.findAncestorStateOfType<_MyAppState>()!;
     state._setTheme();
   }
 
@@ -30,10 +30,10 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Locale locale;
-  Future initFuture;
-  ThemeData theme;
-  bool isFirstTime;
+  Locale? locale;
+  Future? initFuture;
+  ThemeData? theme;
+  late bool isFirstTime;
 
   void _setLocale(Locale local) {
     setState(() {
@@ -51,7 +51,7 @@ class _MyAppState extends State<MyApp> {
     await databaseInit();
     theme = await getThemeData();
     locale = await initLocale();
-    bool firstTime = await getSetting<bool>('firstTime') ?? true;
+    bool firstTime = await getSetting<bool?>('firstTime') ?? true;
     if (firstTime) {
       setSetting<bool>('firstTime', false);
     }

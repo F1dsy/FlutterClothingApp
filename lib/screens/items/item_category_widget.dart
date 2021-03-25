@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../models/categories.dart';
 
 class ItemCategoryWidget extends StatelessWidget {
-  final ItemCategory category;
+  final ItemCategory? category;
   final Function toggle;
   final bool selected;
   final List<ItemCategory> list;
@@ -25,7 +25,7 @@ class ItemCategoryWidget extends StatelessWidget {
 
     return Card(
       child: ListTile(
-        title: Text(category.title),
+        title: Text(category!.title!),
         onTap: () {
           selected ? toggle(category) : onTap(context);
         },

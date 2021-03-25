@@ -19,7 +19,7 @@ class OutfitsCategoriesScreen extends StatefulWidget {
 }
 
 class _OutfitsCategoriesScreenState extends State<OutfitsCategoriesScreen> {
-  SelectionHandler<OutfitCategory> selectionHandler;
+  SelectionHandler<OutfitCategory>? selectionHandler;
 
   @override
   initState() {
@@ -28,12 +28,12 @@ class _OutfitsCategoriesScreenState extends State<OutfitsCategoriesScreen> {
   }
 
   void _deleteCategories() {
-    for (var category in selectionHandler.selectedList) {
+    for (var category in selectionHandler!.selectedList) {
       Provider.of<OutfitCategories>(context, listen: false)
           .deleteCategory(category)
           .then(
         (value) {
-          selectionHandler.reset();
+          selectionHandler!.reset();
           if (value) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               behavior: SnackBarBehavior.floating,
@@ -55,18 +55,18 @@ class _OutfitsCategoriesScreenState extends State<OutfitsCategoriesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: !selectionHandler.isSelectable
+      appBar: (!selectionHandler!.isSelectable
           ? NormalAppBar()
-          : SelectAppBar(selectionHandler, _deleteCategories),
+          : SelectAppBar(selectionHandler, _deleteCategories)) as PreferredSizeWidget?,
       body: Consumer<OutfitCategories>(
         builder: (context, data, child) => data.categories.isEmpty
             ? Center(child: Text('Add Category First'))
             : ListView.builder(
                 itemBuilder: (context, i) => OutfitCategoryWidget(
                   data.categories[i],
-                  selectionHandler.toggleSelection,
-                  selectionHandler.isSelectable,
-                  selectionHandler.selectedList,
+                  selectionHandler!.toggleSelection,
+                  selectionHandler!.isSelectable,
+                  selectionHandler!.selectedList,
                 ),
                 itemCount: data.categories.length,
               ),
@@ -89,7 +89,7 @@ class NormalAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return CustomAppBar(
-      title: Text(AppLocalizations.of(context).outfitsTab),
+      title: Text(AppLocalizations.of(context)!.outfitsTab),
       actions: [
         PopUpAddCategory(_addNewCategory),
       ],
@@ -98,7 +98,7 @@ class NormalAppBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 class SelectAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final SelectionHandler selectionHandler;
+  final SelectionHandler? selectionHandler;
   final Function delete;
   SelectAppBar(this.selectionHandler, this.delete);
 
@@ -108,12 +108,12 @@ class SelectAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return CustomAppBar(
-      title: Text(selectionHandler.selectedList.length.toString() +
+      title: Text(selectionHandler!.selectedList.length.toString() +
           ' ' +
-          AppLocalizations.of(context).selected),
+          AppLocalizations.of(context)!.selected),
       leading: IconButton(
         icon: const Icon(Icons.close),
-        onPressed: selectionHandler.reset,
+        onPressed: selectionHandler!.reset,
       ),
       actions: [
         SelectCategoryPopup(

@@ -20,12 +20,12 @@ class SettingsScreen extends StatelessWidget {
               context: context,
               builder: (context) => StatefulBuilder(
                 builder: (context, setState) => SimpleDialog(
-                  title: Text(AppLocalizations.of(context).selectLang),
+                  title: Text(AppLocalizations.of(context)!.selectLang),
                   children: [
                     RadioListTile(
                       value: Locale('en'),
                       groupValue: language,
-                      onChanged: (value) => setState(() {
+                      onChanged: (dynamic value) => setState(() {
                         _select(value);
                       }),
                       title: Text('English'),
@@ -33,7 +33,7 @@ class SettingsScreen extends StatelessWidget {
                     RadioListTile(
                       value: Locale('de'),
                       groupValue: language,
-                      onChanged: (value) => setState(() {
+                      onChanged: (dynamic value) => setState(() {
                         _select(value);
                       }),
                       title: Text('Deutsch'),
@@ -41,7 +41,7 @@ class SettingsScreen extends StatelessWidget {
                     RadioListTile(
                       value: Locale('da'),
                       groupValue: language,
-                      onChanged: (value) => setState(() {
+                      onChanged: (dynamic value) => setState(() {
                         _select(value);
                       }),
                       title: Text('Dansk'),
@@ -53,7 +53,7 @@ class SettingsScreen extends StatelessWidget {
   }
 
   void _selectColorThemeDialog(BuildContext context) {
-    _setColorTheme(String value) {
+    _setColorTheme(String? value) {
       setSetting('colorTheme', value);
       MyApp.setColorTheme(context);
       Navigator.of(context).pop();
@@ -62,19 +62,19 @@ class SettingsScreen extends StatelessWidget {
     getSetting<String>('colorTheme').then((theme) => showDialog(
           context: context,
           builder: (context) => SimpleDialog(
-            title: Text(AppLocalizations.of(context).colorThemeDialogTitle),
+            title: Text(AppLocalizations.of(context)!.colorThemeDialogTitle),
             children: [
               RadioListTile(
                 value: 'light',
                 groupValue: theme,
-                onChanged: (String value) => _setColorTheme(value),
-                title: Text(AppLocalizations.of(context).light),
+                onChanged: (String? value) => _setColorTheme(value),
+                title: Text(AppLocalizations.of(context)!.light),
               ),
               RadioListTile(
                 value: 'dark',
                 groupValue: theme,
-                onChanged: (String value) => _setColorTheme(value),
-                title: Text(AppLocalizations.of(context).dark),
+                onChanged: (String? value) => _setColorTheme(value),
+                title: Text(AppLocalizations.of(context)!.dark),
               )
             ],
           ),
@@ -85,19 +85,19 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: Text(AppLocalizations.of(context).settings),
+        title: Text(AppLocalizations.of(context)!.settings),
       ),
       body: Column(
         children: [
           _SettingTile(
-            title: AppLocalizations.of(context).language,
-            subtitle: AppLocalizations.of(context).languageSubtitle,
+            title: AppLocalizations.of(context)!.language,
+            subtitle: AppLocalizations.of(context)!.languageSubtitle,
             onButtonTap: () => _selectLanguageDialog(context),
           ),
           Divider(),
           _SettingTile(
-            title: AppLocalizations.of(context).colorThemeTitle,
-            subtitle: AppLocalizations.of(context).colorThemeSubtitle,
+            title: AppLocalizations.of(context)!.colorThemeTitle,
+            subtitle: AppLocalizations.of(context)!.colorThemeSubtitle,
             onButtonTap: () => _selectColorThemeDialog(context),
           ),
         ],
@@ -107,23 +107,23 @@ class SettingsScreen extends StatelessWidget {
 }
 
 class _SettingTile extends StatelessWidget {
-  final String title;
-  final String subtitle;
+  final String? title;
+  final String? subtitle;
 
-  final Function onButtonTap;
+  final Function? onButtonTap;
   _SettingTile({this.title, this.onButtonTap, this.subtitle});
   @override
   Widget build(BuildContext context) {
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: 35, vertical: 10),
       title: Text(
-        title,
+        title!,
         style: TextStyle(fontSize: 20),
       ),
-      subtitle: Text(subtitle),
+      subtitle: Text(subtitle!),
       trailing: ElevatedButton(
-        onPressed: onButtonTap,
-        child: Text(AppLocalizations.of(context).select),
+        onPressed: onButtonTap as void Function()?,
+        child: Text(AppLocalizations.of(context)!.select),
       ),
     );
   }

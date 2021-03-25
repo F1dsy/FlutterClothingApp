@@ -9,7 +9,7 @@ import 'fourth_page.dart';
 class FifthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Animation animation = ModalRoute.of(context).animation;
+    Animation animation = ModalRoute.of(context)!.animation!;
 
     return Background(
       child: AnimatedBuilder(
@@ -30,20 +30,20 @@ class FifthScreen extends StatelessWidget {
 }
 
 class CalendarItem extends StatelessWidget {
-  final Animation animation;
+  final Animation? animation;
   CalendarItem({this.animation});
 
   @override
   Widget build(BuildContext context) {
     Animation plus = CurveTween(curve: Interval(0.6, 0.9, curve: Curves.ease))
-        .animate(animation);
+        .animate(animation as Animation<double>);
     Animation calendar = CurveTween(curve: Interval(0.7, 1, curve: Curves.ease))
-        .animate(animation);
+        .animate(animation as Animation<double>);
     Animation text = CurveTween(curve: Interval(0, 0.4, curve: Curves.ease))
-        .animate(animation);
+        .animate(animation as Animation<double>);
     Animation arrow =
         CurveTween(curve: Interval(0.20, 0.30, curve: Curves.ease))
-            .animate(animation);
+            .animate(animation as Animation<double>);
     return Column(
       children: [
         BoxOutline(
@@ -54,13 +54,13 @@ class CalendarItem extends StatelessWidget {
                 children: [
                   Clump(
                     fadeOutAnimation: CurvedAnimation(
-                      parent: animation,
+                      parent: animation as Animation<double>,
                       curve: Interval(0, 0.25),
                     ),
                   ),
                   Expanded(
                     child: Opacity(
-                      opacity: 1 - arrow.value,
+                      opacity: 1 - arrow.value as double,
                       child: Icon(
                         Icons.arrow_downward_rounded,
                         color: Colors.white54,
@@ -82,7 +82,7 @@ class CalendarItem extends StatelessWidget {
                     child: Transform(
                       transform: Matrix4.translationValues(
                           0,
-                          animation
+                          animation!
                               .drive(Tween<double>(begin: 203, end: 0).chain(
                                   CurveTween(
                                       curve: Interval(0.15, 0.7,
