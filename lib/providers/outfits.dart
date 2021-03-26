@@ -24,7 +24,7 @@ class Outfits with ChangeNotifier {
     final outfits = await DBHelper.query(DBHelper.Tables.Outfits);
     final itemsOfOutfit = await DBHelper.query(DBHelper.Tables.OutfitItems);
     _outfits = outfits.map((outfit) {
-      List<Item?> itemList = [];
+      List<Item> itemList = [];
       for (var item in itemsOfOutfit) {
         if (item['outfit_id'] == outfit['id']) {
           itemList.add(items.firstWhere(

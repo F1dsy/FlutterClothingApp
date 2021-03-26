@@ -126,7 +126,7 @@ class _SelectCategory extends StatelessWidget {
         itemBuilder: (context, i) => Card(
           child: ListTile(
             onTap: () => select(data.categories[i]),
-            title: Text(data.categories[i].title!),
+            title: Text(data.categories[i].title),
           ),
         ),
       ),

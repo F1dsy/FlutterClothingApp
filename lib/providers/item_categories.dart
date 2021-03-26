@@ -4,9 +4,9 @@ import '../models/categories.dart';
 import '../helpers/db_helper.dart' as DBHelper;
 
 class ItemCategories with ChangeNotifier {
-  List<ItemCategory?> _categories = [];
+  List<ItemCategory> _categories = [];
 
-  List<ItemCategory?> get categories {
+  List<ItemCategory> get categories {
     return [..._categories];
   }
 

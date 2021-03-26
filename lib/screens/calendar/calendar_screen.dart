@@ -94,7 +94,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                             onTap: () => showImageDialog(
                                 context,
                                 event.outfit!.items
-                                    .map((e) => e!.image)
+                                    .map((e) => e.image)
                                     .toList()),
                           ),
                         );

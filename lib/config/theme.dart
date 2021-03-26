@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../helpers/shared_preferences.dart';
 
 Future<ThemeData> getThemeData() {
-  return getSetting<String>('colorTheme').then((String? theme) {
+  return getSetting<String?>('colorTheme')!.then((theme) {
     if (theme == null) {
       setSetting<String>('colorTheme', 'light');
     }

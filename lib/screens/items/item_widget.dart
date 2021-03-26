@@ -21,7 +21,7 @@ class ItemWidget extends StatelessWidget {
         children: [
           ClipRRect(
             child: Image.file(
-              item.image!,
+              item.image,
               cacheWidth: 360,
             ),
             borderRadius: BorderRadius.circular(4),

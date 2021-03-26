@@ -7,14 +7,14 @@ import '../models/item.dart';
 import '../models/categories.dart';
 
 class Items with ChangeNotifier {
-  set update(List<ItemCategory?> value) {
+  set update(List<ItemCategory> value) {
     if (value.isEmpty) return;
     fetchAndSetItems(value);
   }
 
-  Map<ItemCategory?, List<Item>> _items = {};
+  Map<ItemCategory, List<Item>> _items = {};
 
-  Map<ItemCategory?, List<Item>> get items {
+  Map<ItemCategory, List<Item>> get items {
     return {..._items};
   }
 
@@ -22,15 +22,15 @@ class Items with ChangeNotifier {
     return _items.values.expand((list) => list).toList();
   }
 
-  Future<void> fetchAndSetItems(List<ItemCategory?> categories) async {
+  Future<void> fetchAndSetItems(List<ItemCategory> categories) async {
     List<Map<String, dynamic>> result =
         await DBHelper.query(DBHelper.Tables.Items);
 
     categories.forEach((category) => _items[category] = []);
 
     result.forEach((e) {
-      ItemCategory? category =
-          categories.firstWhere((category) => category!.id == e['category_id']);
+      ItemCategory category =
+          categories.firstWhere((category) => category.id == e['category_id']);
       Item item = Item(
         id: e['id'],
         category: category,
@@ -56,7 +56,7 @@ class Items with ChangeNotifier {
       whereString: 'item_id = ?',
     );
     _items[item.category]!.remove(item);
-    item.image!.deleteSync();
+    item.image.deleteSync();
     notifyListeners();
   }
 

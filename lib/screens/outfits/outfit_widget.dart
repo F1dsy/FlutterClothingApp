@@ -24,20 +24,20 @@ class OutfitWidget extends StatelessWidget {
         children: [
           Row(
             children: [
-              Expanded(child: Image.file(outfit.items[0]!.image!)),
-              Expanded(child: Image.file(outfit.items[1]!.image!)),
+              Expanded(child: Image.file(outfit.items[0].image)),
+              Expanded(child: Image.file(outfit.items[1].image)),
             ],
           ),
           Row(
             children: [
-              Expanded(child: Image.file(outfit.items[2]!.image!)),
-              Expanded(child: Image.file(outfit.items[3]!.image!)),
+              Expanded(child: Image.file(outfit.items[2].image)),
+              Expanded(child: Image.file(outfit.items[3].image)),
             ],
           )
         ],
       );
     } else {
-      return Image.file(outfit.items[0]!.image!);
+      return Image.file(outfit.items[0].image);
     }
   }
 
@@ -59,7 +59,7 @@ class OutfitWidget extends StatelessWidget {
                     onTap: () {
                       !selectable
                           ? showImageDialog(context,
-                              outfit.items.map((e) => e!.image).toList())
+                              outfit.items.map((e) => e.image).toList())
                           : toggleSelected(outfit);
                     },
                     onLongPress: () => toggleSelected(outfit),

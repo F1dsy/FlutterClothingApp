@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import '../../providers/item_categories.dart';
 import '../../providers/items.dart';
 import '../../helpers/image_input.dart';
+import '../../widgets/slider.dart';
+import '../../helpers/slider_labels.dart';
 
 class AddItemScreen extends StatefulWidget {
   static const routeName = 'addItem';
@@ -21,6 +23,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
   final _formKey = GlobalKey<FormState>();
 
   final imageInput = ImageInput();
+
+  double temperateValue = 1;
 
   void _save() async {
     _formKey.currentState!.save();
@@ -53,8 +57,17 @@ class _AddItemScreenState extends State<AddItemScreen> {
       ),
       body: Form(
         key: _formKey,
-        child: Column(
+        child: ListView(
           children: [
+            Card(
+              margin: const EdgeInsets.all(8.0),
+              child: imageInput.image == null
+                  ? null
+                  : ClipRRect(
+                      borderRadius: BorderRadius.circular(4),
+                      child: Image.file(imageInput.image!),
+                    ),
+            ),
             Card(
               margin: const EdgeInsets.all(8.0),
               child: DropdownButtonFormField(
@@ -63,7 +76,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     .map((category) => DropdownMenuItem(
                           child: Container(
                             margin: const EdgeInsets.only(left: 8.0),
-                            child: Text(category!.title!),
+                            child: Text(category.title),
                           ),
                           value: category,
                         ))
@@ -76,16 +89,17 @@ class _AddItemScreenState extends State<AddItemScreen> {
                 },
               ),
             ),
-            Expanded(
-              child: Card(
-                margin: const EdgeInsets.all(8.0),
-                child: imageInput.image == null
-                    ? null
-                    : ClipRRect(
-                        borderRadius: BorderRadius.circular(4),
-                        child: Image.file(imageInput.image!),
-                      ),
-              ),
+            CustomSlider(
+              value: temperateValue,
+              onChanged: (val) {
+                setState(() {
+                  temperateValue = val;
+                });
+              },
+              label: getSliderLabel(temperateValue),
+              min: 0.0,
+              max: 4.0,
+              divisions: 4,
             ),
           ],
         ),

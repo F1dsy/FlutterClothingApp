@@ -51,7 +51,7 @@ class _ItemsScreenState extends State<ItemsScreen> {
   }
 
   Widget _buildNormalAppBar(ItemCategory category) => CustomAppBar(
-        title: Text(category.title!),
+        title: Text(category.title),
         actions: [
           IconButton(
             icon: Icon(Icons.add),
@@ -80,7 +80,8 @@ class _ItemsScreenState extends State<ItemsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final ItemCategory? category = ModalRoute.of(context)!.settings.arguments as ItemCategory?;
+    final ItemCategory? category =
+        ModalRoute.of(context)!.settings.arguments as ItemCategory?;
 
     return Scaffold(
       appBar: selectionHandler.isSelectable

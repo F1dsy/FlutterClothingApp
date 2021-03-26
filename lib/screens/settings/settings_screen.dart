@@ -14,7 +14,7 @@ class SettingsScreen extends StatelessWidget {
       Navigator.of(context).pop();
     }
 
-    getSetting<String>('language')
+    getSetting<String>('language')!
         .then((e) => Locale(e))
         .then((language) => showDialog(
               context: context,
@@ -59,7 +59,7 @@ class SettingsScreen extends StatelessWidget {
       Navigator.of(context).pop();
     }
 
-    getSetting<String>('colorTheme').then((theme) => showDialog(
+    getSetting<String>('colorTheme')!.then((theme) => showDialog(
           context: context,
           builder: (context) => SimpleDialog(
             title: Text(AppLocalizations.of(context)!.colorThemeDialogTitle),

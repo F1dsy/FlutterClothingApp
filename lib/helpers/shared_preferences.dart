@@ -1,8 +1,9 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:async';
 
-Future<T> getSetting<T>(String setting) async {
+Future<T>? getSetting<T>(String setting) async {
   return await SharedPreferences.getInstance()
-      .then((preferences) => preferences.get(setting) as Future<T>);
+      .then((preferences) => preferences.get(setting) as FutureOr<T>);
 }
 
 void setSetting<T>(String setting, T value) {

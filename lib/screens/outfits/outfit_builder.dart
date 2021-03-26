@@ -46,7 +46,8 @@ class _OutfitBuilderState extends State<OutfitBuilder> {
   }
 
   void _saveOutfit() {
-    OutfitCategory category = ModalRoute.of(context)!.settings.arguments as OutfitCategory;
+    OutfitCategory category =
+        ModalRoute.of(context)!.settings.arguments as OutfitCategory;
     Provider.of<Outfits>(context, listen: false)
         .insertOutfit(category, _selectedItems, _imageInput.image)
         .then(Navigator.of(context).pop);
@@ -118,7 +119,7 @@ class _OutfitBuilderState extends State<OutfitBuilder> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(4),
                             child: Image.file(
-                              _selectedItems[i].image!,
+                              _selectedItems[i].image,
                             ),
                           ),
                         ),
@@ -147,7 +148,7 @@ class _OutfitBuilderState extends State<OutfitBuilder> {
                               (category) => DropdownMenuItem(
                                 child: Container(
                                   margin: const EdgeInsets.only(left: 8.0),
-                                  child: Text(category!.title!),
+                                  child: Text(category.title),
                                 ),
                                 value: category,
                               ),
@@ -176,9 +177,9 @@ class _OutfitBuilderState extends State<OutfitBuilder> {
                                           borderRadius:
                                               BorderRadius.circular(4),
                                           child: Image.file(
-                                            _items[_currentCategory]!
-                                                    [_currentIndex]
-                                                .image!,
+                                            _items[_currentCategory]![
+                                                    _currentIndex]
+                                                .image,
                                           ),
                                         ),
                                       ),

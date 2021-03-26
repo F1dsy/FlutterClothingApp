@@ -112,7 +112,7 @@ class NormalAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return CustomAppBar(
-      title: Text(category!.title!),
+      title: Text(category!.title),
       actions: [
         IconButton(
           icon: Icon(Icons.add),

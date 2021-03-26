@@ -10,6 +10,7 @@ import '../config/localization.dart' show getLocale;
 enum Tables {
   ItemCategories,
   Items,
+  ItemData,
   OutfitCategories,
   Outfits,
   OutfitItems,
