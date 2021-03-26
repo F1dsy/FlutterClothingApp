@@ -55,5 +55,15 @@
   "moveToCategory": "Move to Category",
   "@moveToCategory": {},
   "addEvent": "Add Event",
-  "@addEvent": {}
+  "@addEvent": {},
+  "iceCold": "Ice Cold ❄",
+  "@iceCold": {},
+  "cold": "Cold 🌨",
+  "@cold": {},
+  "normal": "Temperate ☁",
+  "@normal": {},
+  "warm": "Warm ☀",
+  "@warm": {},
+  "hot": "Hot 🔥",
+  "@hot": {}
 }

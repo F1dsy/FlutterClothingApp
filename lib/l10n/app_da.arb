@@ -23,5 +23,10 @@
   "colorThemeDialogTitle": "Vælg farvetema",
   "delete": "Slet",
   "moveToCategory": "Flyt kategori",
-  "addEvent": "Ny Event"
+  "addEvent": "Ny Event",
+  "iceCold": "Iskold ❄",
+  "cold": "Kold 🌨",
+  "normal": "Normal ☁",
+  "warm": "Varm ☀",
+  "hot": "Hed 🔥"
 }

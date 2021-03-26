@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+
+import '../l10n/app_localizations.dart';
 import '../models/item_data.dart';
 
 Temperature sliderValueToTemperatureEnum(double value) {
@@ -10,9 +13,19 @@ Formality sliderValueToFormalityEnum(double value) {
   return Formality.values[intValue];
 }
 
-String? getSliderLabel(double value) {
-  int intValue = value.toInt();
-  return Temperature.values[intValue]
-      .toString()
-      .replaceFirst('Temperature.', '');
+String? getSliderLabel(BuildContext context, Temperature temperature) {
+  switch (temperature) {
+    case Temperature.IceCold:
+      return AppLocalizations.of(context)!.iceCold;
+    case Temperature.Cold:
+      return AppLocalizations.of(context)!.cold;
+    case Temperature.Normal:
+      return AppLocalizations.of(context)!.normal;
+    case Temperature.Warm:
+      return AppLocalizations.of(context)!.warm;
+    case Temperature.Hot:
+      return AppLocalizations.of(context)!.hot;
+
+    default:
+  }
 }

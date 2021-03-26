@@ -247,6 +247,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add Event'**
   String get addEvent;
+
+  /// No description provided for @iceCold.
+  ///
+  /// In en, this message translates to:
+  /// **'Ice Cold ❄'**
+  String get iceCold;
+
+  /// No description provided for @cold.
+  ///
+  /// In en, this message translates to:
+  /// **'Cold 🌨'**
+  String get cold;
+
+  /// No description provided for @normal.
+  ///
+  /// In en, this message translates to:
+  /// **'Temperate ☁'**
+  String get normal;
+
+  /// No description provided for @warm.
+  ///
+  /// In en, this message translates to:
+  /// **'Warm ☀'**
+  String get warm;
+
+  /// No description provided for @hot.
+  ///
+  /// In en, this message translates to:
+  /// **'Hot 🔥'**
+  String get hot;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -101,7 +101,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   temperateValue = val;
                 });
               },
-              label: getSliderLabel(temperateValue),
+              label: getSliderLabel(
+                  context, sliderValueToTemperatureEnum(temperateValue)),
               min: 0.0,
               max: 4.0,
               divisions: 4,

@@ -89,4 +89,19 @@ class AppLocalizationsDa extends AppLocalizations {
 
   @override
   String get addEvent => 'Ny Event';
+
+  @override
+  String get iceCold => 'Iskold ❄';
+
+  @override
+  String get cold => 'Kold 🌨';
+
+  @override
+  String get normal => 'Normal ☁';
+
+  @override
+  String get warm => 'Varm ☀';
+
+  @override
+  String get hot => 'Hed 🔥';
 }

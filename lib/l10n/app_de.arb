@@ -23,5 +23,10 @@
   "colorThemeDialogTitle": "Farbthema auswählen",
   "delete": "Löschen",
   "moveToCategory": "Kategorie verschieben",
-  "addEvent": "Neues Event"
+  "addEvent": "Neues Event",
+  "iceCold": "Eiskalt ❄",
+  "cold": "Kalt 🌨",
+  "normal": "Normal ☁",
+  "warm": "Warm ☀",
+  "hot": "Heiß 🔥"
 }
