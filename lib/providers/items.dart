@@ -1,9 +1,13 @@
 import 'dart:io';
 
+import 'package:fabrics/models/item_data.dart';
 import 'package:flutter/foundation.dart';
 
 import '../helpers/db_helper.dart' as DBHelper;
+import '../helpers/slider_labels.dart';
+
 import '../models/item.dart';
+// import '../models/item_data.dart';
 import '../models/categories.dart';
 
 class Items with ChangeNotifier {
@@ -23,28 +27,37 @@ class Items with ChangeNotifier {
   }
 
   Future<void> fetchAndSetItems(List<ItemCategory> categories) async {
-    List<Map<String, dynamic>> result =
-        await DBHelper.query(DBHelper.Tables.Items);
-
+    List<Map<String, dynamic>> items = await DBHelper.rawQuery(
+        'SELECT * FROM Items LEFT JOIN ItemData ON Items.id = ItemData.item_id;');
     categories.forEach((category) => _items[category] = []);
 
-    result.forEach((e) {
+    items.forEach((e) {
       ItemCategory category =
           categories.firstWhere((category) => category.id == e['category_id']);
       Item item = Item(
         id: e['id'],
         category: category,
         image: File(e['imageURL']),
+        temperature: Temperature.values[e['temperature']],
       );
       _items[category]!.add(item);
     });
     notifyListeners();
   }
 
-  Future<void> insertItem(ItemCategory category, File image) async {
+  Future<void> insertItem(
+      ItemCategory category, File image, double temperature) async {
     final id = await DBHelper.insert(DBHelper.Tables.Items,
         {'category_id': category.id, 'imageURL': image.path});
-    _items[category]!.add(Item(id: id, category: category, image: image));
+    _items[category]!.add(Item(
+        id: id,
+        category: category,
+        image: image,
+        temperature: sliderValueToTemperatureEnum(temperature)));
+    DBHelper.insert(DBHelper.Tables.ItemData, {
+      'item_id': id,
+      'temperature': temperature.toInt(),
+    });
     notifyListeners();
   }
 

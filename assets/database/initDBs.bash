@@ -1,3 +1,7 @@
+rm app_en.db
+rm app_de.db
+rm app_da.db
+
 touch app_en.db
 touch app_de.db
 touch app_da.db

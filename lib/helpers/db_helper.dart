@@ -65,6 +65,10 @@ Future<List<Map<String, dynamic>>> query(
   return _db.query(table, where: whereString, whereArgs: whereArgs);
 }
 
+Future<List<Map<String, dynamic>>> rawQuery(String sql) {
+  return _db.rawQuery(sql);
+}
+
 void delete(Tables e, int? id, {String whereString = 'id = ?'}) {
   final String table = returnTable(e);
   // final Database db = _db;

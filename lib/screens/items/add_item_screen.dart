@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../models/categories.dart';
 import '../../providers/item_categories.dart';
 import '../../providers/items.dart';
 import '../../helpers/image_input.dart';
@@ -24,7 +25,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
   final imageInput = ImageInput();
 
-  double temperateValue = 1;
+  double temperateValue = 2;
 
   void _save() async {
     _formKey.currentState!.save();
@@ -70,7 +71,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
             ),
             Card(
               margin: const EdgeInsets.all(8.0),
-              child: DropdownButtonFormField(
+              child: DropdownButtonFormField<ItemCategory>(
                 items: Provider.of<ItemCategories>(context)
                     .categories
                     .map((category) => DropdownMenuItem(
@@ -81,11 +82,15 @@ class _AddItemScreenState extends State<AddItemScreen> {
                           value: category,
                         ))
                     .toList(),
-                value: ModalRoute.of(context)!.settings.arguments,
-                onChanged: (dynamic _) {},
-                onSaved: (dynamic category) {
-                  Provider.of<Items>(context, listen: false)
-                      .insertItem(category, imageInput.image!);
+                value:
+                    ModalRoute.of(context)!.settings.arguments as ItemCategory,
+                onChanged: (_) {},
+                onSaved: (ItemCategory? category) {
+                  Provider.of<Items>(context, listen: false).insertItem(
+                    category!,
+                    imageInput.image!,
+                    temperateValue,
+                  );
                 },
               ),
             ),
