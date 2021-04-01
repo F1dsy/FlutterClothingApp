@@ -56,6 +56,10 @@ class _MainScreenState extends State<MainScreen> {
               label: AppLocalizations.of(context)!.calendar,
             ),
             BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
               icon: Icon(Icons.settings),
               label: AppLocalizations.of(context)!.settings,
             ),
@@ -63,7 +67,7 @@ class _MainScreenState extends State<MainScreen> {
           currentIndex: _selectedIndex,
           onTap: (i) {
             setState(() {
-              if (i == 3) {
+              if (i == 4) {
                 Navigator.of(context).pushNamed(SettingsScreen.routeName);
               } else {
                 _selectedIndex = i;

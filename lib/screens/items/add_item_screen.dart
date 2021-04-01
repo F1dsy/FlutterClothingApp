@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/categories.dart';
+import '../../models/item_data.dart';
 import '../../providers/item_categories.dart';
 import '../../providers/items.dart';
 import '../../helpers/image_input.dart';
@@ -25,7 +26,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
   final imageInput = ImageInput();
 
-  double temperateValue = 2;
+  double temperatureValue = 2;
 
   void _save() async {
     _formKey.currentState!.save();
@@ -89,20 +90,20 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   Provider.of<Items>(context, listen: false).insertItem(
                     category!,
                     imageInput.image!,
-                    temperateValue,
+                    temperatureValue,
                   );
                 },
               ),
             ),
             CustomSlider(
-              value: temperateValue,
+              value: temperatureValue,
               onChanged: (val) {
                 setState(() {
-                  temperateValue = val;
+                  temperatureValue = val;
                 });
               },
               label: getSliderLabel(
-                  context, sliderValueToTemperatureEnum(temperateValue)),
+                  context, Temperature.values[temperatureValue.toInt()]),
               min: 0.0,
               max: 4.0,
               divisions: 4,

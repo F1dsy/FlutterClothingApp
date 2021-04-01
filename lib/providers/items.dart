@@ -4,7 +4,7 @@ import 'package:fabrics/models/item_data.dart';
 import 'package:flutter/foundation.dart';
 
 import '../helpers/db_helper.dart' as DBHelper;
-import '../helpers/slider_labels.dart';
+// import '../helpers/slider_labels.dart';
 
 import '../models/item.dart';
 // import '../models/item_data.dart';
@@ -53,7 +53,7 @@ class Items with ChangeNotifier {
         id: id,
         category: category,
         image: image,
-        temperature: sliderValueToTemperatureEnum(temperature)));
+        temperature: Temperature.values[temperature.toInt()]));
     DBHelper.insert(DBHelper.Tables.ItemData, {
       'item_id': id,
       'temperature': temperature.toInt(),

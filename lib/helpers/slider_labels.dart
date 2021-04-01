@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
 import '../models/item_data.dart';
 
-Temperature sliderValueToTemperatureEnum(double value) {
-  int intValue = value.toInt();
-  return Temperature.values[intValue];
-}
+// Temperature sliderValueToTemperatureEnum(double value) {
+//   int intValue = value.toInt();
+//   return Temperature.values[intValue];
+// }
 
-Formality sliderValueToFormalityEnum(double value) {
-  int intValue = value.toInt();
-  return Formality.values[intValue];
-}
+// Formality sliderValueToFormalityEnum(double value) {
+//   int intValue = value.toInt();
+//   return Formality.values[intValue];
+// }
 
 String? getSliderLabel(BuildContext context, Temperature temperature) {
   switch (temperature) {

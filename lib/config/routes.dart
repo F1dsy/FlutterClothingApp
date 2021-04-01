@@ -12,6 +12,8 @@ import '../screens/calendar/calendar_screen.dart';
 import '../screens/calendar/add_event_screen.dart';
 import '../screens/first_time/first_time_screen.dart';
 
+import '../screens/home/home_screen.dart';
+
 final Map<String, WidgetBuilder> rootRoutes = {
   OutfitBuilder.routeName: (context) => OutfitBuilder(),
   AddItemScreen.routeName: (context) => AddItemScreen(),
@@ -24,7 +26,7 @@ List<GlobalKey<NavigatorState>> keys = [
   GlobalKey<NavigatorState>(),
   GlobalKey<NavigatorState>(),
   GlobalKey<NavigatorState>(),
-  // GlobalKey<NavigatorState>(),
+  GlobalKey<NavigatorState>(),
 ];
 
 List<Widget> routeNavigators = [
@@ -40,9 +42,9 @@ List<Widget> routeNavigators = [
   BuildNavigator({
     CalendarScreen.routeName: (context) => CalendarScreen(),
   }, keys[2]),
-  // BuildNavigator({
-  //   CalendarScreen.routeName: (context) => CalendarScreen(),
-  // }, keys[3])
+  BuildNavigator({
+    HomeScreen.routeName: (context) => HomeScreen(),
+  }, keys[3])
 ];
 
 class BuildNavigator extends StatelessWidget {
