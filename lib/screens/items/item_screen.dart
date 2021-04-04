@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/categories.dart';
-// import '../../models/item_data.dart';
 import '../../models/item.dart';
 import '../../providers/item_categories.dart';
 import '../../providers/items.dart';
-// import '../../helpers/image_input.dart';
+import '../../helpers/image_input.dart';
 import '../../widgets/slider.dart';
 // import '../../helpers/slider_labels.dart';
 
 class ItemScreen extends StatefulWidget {
   static const routeName = '/item';
+  static const routeNameAddItem = '/add-item';
 
   @override
   _ItemScreenState createState() => _ItemScreenState();
@@ -20,13 +20,37 @@ class ItemScreen extends StatefulWidget {
 
 class _ItemScreenState extends State<ItemScreen> {
   ItemCategory? category;
-  late Item item;
-  late double sliderValue;
+  Item? item;
+  double sliderValue = 2;
+  bool isAddItem = false;
+  ImageInput _imageInput = ImageInput();
+
+  void _takePicture() async {
+    _imageInput.takePicture().then((value) {
+      if (!value) {
+        Navigator.of(context).pop();
+      } else {
+        setState(() {});
+      }
+    });
+  }
+
+  void addItem() {
+    Provider.of<Items>(context, listen: false)
+        .insertItem(category!, _imageInput.image!, sliderValue);
+    Navigator.of(context).pop();
+  }
 
   @override
   void didChangeDependencies() {
-    item = ModalRoute.of(context)!.settings.arguments as Item;
-    sliderValue = item.temperature.index.toDouble();
+    isAddItem = ModalRoute.of(context)!.settings.name == '/add-item';
+    if (isAddItem) {
+      _takePicture();
+      category = ModalRoute.of(context)!.settings.arguments as ItemCategory;
+    } else {
+      item = ModalRoute.of(context)!.settings.arguments as Item;
+      sliderValue = item!.temperature.index.toDouble();
+    }
     super.didChangeDependencies();
   }
 
@@ -42,7 +66,17 @@ class _ItemScreenState extends State<ItemScreen> {
           child: SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(4.0),
-              child: BackButton(),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: isAddItem
+                    ? [
+                        CloseButton(),
+                        IconButton(icon: Icon(Icons.done), onPressed: addItem),
+                      ]
+                    : [
+                        BackButton(),
+                      ],
+              ),
             ),
           ),
         ),
@@ -53,19 +87,25 @@ class _ItemScreenState extends State<ItemScreen> {
             margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(4),
-              child: Image.file(item.image),
+              child: isAddItem
+                  ? (_imageInput.image != null
+                      ? Image.file(_imageInput.image!)
+                      : null)
+                  : Image.file(item!.image),
             ),
           ),
           Card(
             margin: const EdgeInsets.all(8),
             child: DropdownButtonHideUnderline(
               child: DropdownButton<ItemCategory>(
-                value: category ?? item.category,
+                value: category ?? item!.category,
                 onChanged: (value) {
-                  Provider.of<Items>(context, listen: false)
-                      .updateItem(item: item, itemCategory: value);
                   setState(() {
                     category = value;
+                    if (!isAddItem) {
+                      Provider.of<Items>(context, listen: false)
+                          .updateItem(item: item!, itemCategory: value);
+                    }
                   });
                 },
                 isExpanded: true,
@@ -98,10 +138,12 @@ class _ItemScreenState extends State<ItemScreen> {
                     value: sliderValue,
                     onChanged: (val) {
                       setState(() {
-                        Provider.of<Items>(context, listen: false).updateItem(
-                            item: item,
-                            temperature: Temperature.values[val.toInt()]);
                         sliderValue = val;
+                        if (!isAddItem) {
+                          Provider.of<Items>(context, listen: false).updateItem(
+                              item: item!,
+                              temperature: Temperature.values[val.toInt()]);
+                        }
                       });
                     },
                     divisions: 4,

@@ -1,3 +1,5 @@
+import 'package:fabrics/screens/items/item_screen.dart';
+
 import '../../models/categories.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -6,7 +8,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import '../../l10n/app_localizations.dart';
 import 'item_widget.dart';
 import '../../providers/items.dart';
-import 'add_item_screen.dart';
+// import 'add_item_screen.dart';
 import '../../models/item.dart';
 import '../../screens/items/move_item.dart';
 import './select_items_popup.dart';
@@ -30,7 +32,7 @@ class _ItemsScreenState extends State<ItemsScreen> {
 
   void _addNewItem(BuildContext context, ItemCategory? category) {
     Navigator.of(context, rootNavigator: true)
-        .pushNamed(AddItemScreen.routeName, arguments: category);
+        .pushNamed(ItemScreen.routeNameAddItem, arguments: category);
   }
 
   void _deleteItems(List<Item> items) {
