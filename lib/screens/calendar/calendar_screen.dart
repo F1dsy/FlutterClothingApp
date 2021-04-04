@@ -92,10 +92,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
                           child: ListTile(
                             title: Text(event.time.format(context)),
                             onTap: () => showImageDialog(
-                                context,
-                                event.outfit!.items
-                                    .map((e) => e.image)
-                                    .toList()),
+                              context,
+                              event.outfit!.items.map((e) => e.image).toList(),
+                              event.outfit!.temperature!,
+                            ),
                           ),
                         );
                       }).toList(),

@@ -28,7 +28,7 @@ class Items with ChangeNotifier {
 
   Future<void> fetchAndSetItems(List<ItemCategory> categories) async {
     List<Map<String, dynamic>> items = await DBHelper.rawQuery(
-        'SELECT * FROM Items LEFT JOIN ItemData ON Items.id = ItemData.item_id;');
+        'SELECT * FROM Items LEFT JOIN ItemData ON Items.id = ItemData.id;');
     categories.forEach((category) => _items[category] = []);
 
     items.forEach((e) {
@@ -55,7 +55,7 @@ class Items with ChangeNotifier {
         image: image,
         temperature: Temperature.values[temperature.toInt()]));
     DBHelper.insert(DBHelper.Tables.ItemData, {
-      'item_id': id,
+      'id': id,
       'temperature': temperature.toInt(),
     });
     notifyListeners();
@@ -66,22 +66,28 @@ class Items with ChangeNotifier {
     DBHelper.delete(
       DBHelper.Tables.OutfitItems,
       item.id,
-      whereString: 'item_id = ?',
     );
     _items[item.category]!.remove(item);
     item.image.deleteSync();
     notifyListeners();
   }
 
-  void moveToCategory(List<Item> items, ItemCategory newCategory) {
-    for (var item in items) {
-      DBHelper.update(DBHelper.Tables.Items, {
-        'id': item.id,
-        'category_id': newCategory.id,
-      });
+  void updateItem({
+    required Item item,
+    ItemCategory? itemCategory,
+    Temperature? temperature,
+  }) {
+    if (itemCategory != null) {
+      DBHelper.update(
+          DBHelper.Tables.Items, {'category_id': itemCategory.id}, item.id);
       _items[item.category]!.remove(item);
-      item.category = newCategory;
-      _items[newCategory]!.add(item);
+      item.category = itemCategory;
+      _items[itemCategory]!.add(item);
+    }
+    if (temperature != null) {
+      DBHelper.update(DBHelper.Tables.ItemData,
+          {'temperature': temperature.index}, item.id);
+      item.temperature = temperature;
     }
     notifyListeners();
   }

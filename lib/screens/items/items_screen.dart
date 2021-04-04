@@ -43,8 +43,12 @@ class _ItemsScreenState extends State<ItemsScreen> {
   void _moveToCategory() {
     Navigator.of(context).pushNamed(MoveItem.routeName).then((value) {
       if (value == null) return;
-      Provider.of<Items>(context, listen: false)
-          .moveToCategory(selectionHandler.selectedList, value as ItemCategory);
+      selectionHandler.selectedList.forEach((item) {
+        Provider.of<Items>(context, listen: false).updateItem(
+          item: item,
+          itemCategory: value as ItemCategory,
+        );
+      });
 
       selectionHandler.reset();
     });
@@ -80,13 +84,13 @@ class _ItemsScreenState extends State<ItemsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final ItemCategory? category =
-        ModalRoute.of(context)!.settings.arguments as ItemCategory?;
+    final ItemCategory category =
+        ModalRoute.of(context)!.settings.arguments as ItemCategory;
 
     return Scaffold(
       appBar: selectionHandler.isSelectable
           ? _buildSelectAppBar() as PreferredSizeWidget?
-          : _buildNormalAppBar(category!) as PreferredSizeWidget?,
+          : _buildNormalAppBar(category) as PreferredSizeWidget?,
       body: Consumer<Items>(
         builder: (context, data, child) {
           var items = data.items[category]!;

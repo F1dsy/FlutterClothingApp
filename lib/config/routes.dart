@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// import 'package:path/path.dart';
 
 import '../screens/settings/settings_screen.dart';
 import '../screens/outfits/outfit_builder.dart';
@@ -11,6 +12,7 @@ import '../screens/items/move_item.dart';
 import '../screens/calendar/calendar_screen.dart';
 import '../screens/calendar/add_event_screen.dart';
 import '../screens/first_time/first_time_screen.dart';
+import '../screens/items/item_screen.dart';
 
 import '../screens/home/home_screen.dart';
 
@@ -20,6 +22,7 @@ final Map<String, WidgetBuilder> rootRoutes = {
   SettingsScreen.routeName: (context) => SettingsScreen(),
   AddEventScreen.routeName: (context) => AddEventScreen(),
   FirstTimeScreen.routeName: (context) => FirstTimeScreen(),
+  ItemScreen.routeName: (context) => ItemScreen(),
 };
 
 List<GlobalKey<NavigatorState>> keys = [

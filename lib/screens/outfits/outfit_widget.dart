@@ -58,8 +58,10 @@ class OutfitWidget extends StatelessWidget {
                   child: InkWell(
                     onTap: () {
                       !selectable
-                          ? showImageDialog(context,
-                              outfit.items.map((e) => e.image).toList())
+                          ? showImageDialog(
+                              context,
+                              outfit.items.map((e) => e.image).toList(),
+                              outfit.temperature!)
                           : toggleSelected(outfit);
                     },
                     onLongPress: () => toggleSelected(outfit),

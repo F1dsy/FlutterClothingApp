@@ -69,14 +69,14 @@ Future<List<Map<String, dynamic>>> rawQuery(String sql) {
   return _db.rawQuery(sql);
 }
 
-void delete(Tables e, int? id, {String whereString = 'id = ?'}) {
+void delete(Tables e, int id) {
   final String table = returnTable(e);
   // final Database db = _db;
-  _db.delete(table, where: whereString, whereArgs: [id]);
+  _db.delete(table, where: 'id = ?', whereArgs: [id]);
 }
 
-void update(Tables e, Map<String, dynamic> values) {
+void update(Tables e, Map<String, dynamic> values, int id) {
   final String table = returnTable(e);
   // final Database db = _db;
-  _db.update(table, values, where: 'id = ?', whereArgs: [values['id']]);
+  _db.update(table, values, where: 'id = ?', whereArgs: [id]);
 }

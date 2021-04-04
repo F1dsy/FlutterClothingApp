@@ -16,6 +16,14 @@ class Outfit {
     required this.category,
     required this.items,
     this.featureImage,
-    this.temperature,
-  });
+  }) {
+    List<int> sumlist = [];
+    items.forEach((e) {
+      sumlist.add(e.temperature.index);
+    });
+    temperature = Temperature.values[
+        (sumlist.reduce((value, element) => value += element) / sumlist.length)
+            .round()];
+    print(temperature);
+  }
 }

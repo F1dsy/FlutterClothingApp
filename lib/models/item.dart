@@ -6,14 +6,14 @@ class Item {
   final int id;
   ItemCategory category;
   File image;
-  Temperature? temperature;
+  Temperature temperature;
   Formality? formality;
 
   Item({
     required this.id,
     required this.category,
     required this.image,
-    this.temperature,
+    required this.temperature,
     this.formality,
   });
 }

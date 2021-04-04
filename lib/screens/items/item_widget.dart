@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../models/item.dart';
-import '../../widgets/show_image_dialog.dart';
+// import '../../widgets/show_image_dialog.dart';
+import 'item_screen.dart';
 
 class ItemWidget extends StatelessWidget {
   final Item item;
@@ -32,7 +33,8 @@ class ItemWidget extends StatelessWidget {
                 child: InkWell(
                   onTap: () {
                     !selectable
-                        ? showImageDialog(context, [item.image])
+                        ? Navigator.of(context, rootNavigator: true)
+                            .pushNamed(ItemScreen.routeName, arguments: item)
                         : toggleSelected(item);
                   },
                   onLongPress: () => toggleSelected(item),
