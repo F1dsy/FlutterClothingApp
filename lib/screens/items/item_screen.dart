@@ -91,7 +91,10 @@ class _ItemScreenState extends State<ItemScreen> {
                   ? (_imageInput.image != null
                       ? Image.file(_imageInput.image!)
                       : null)
-                  : Image.file(item!.image),
+                  : Hero(
+                      tag: item!,
+                      child: Image.file(item!.image),
+                    ),
             ),
           ),
           Card(
